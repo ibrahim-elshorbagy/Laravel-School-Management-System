@@ -61,11 +61,15 @@ export default function Create({ auth ,levels}) {
                                     className="mt-2"
                                 />
                             </div>
+                            
 
                             <div className="mt-4">
+                                <InputLabel
+                                    htmlFor="level_id"
+                                    value="Level Name"
+                                />
                                 <SelectInput
                                     name="level_id"
-
                                     className="block w-full mt-1"
                                     onChange={(e) =>
                                         setData("level_id", e.target.value)

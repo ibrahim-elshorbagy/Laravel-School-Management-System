@@ -16,4 +16,11 @@ class Level extends Model
     {
         return $this->hasMany(Grade::class);
     }
+
+    protected $with =['classrooms'];
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class,'level_id');
+    }
+
 }

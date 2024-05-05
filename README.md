@@ -1,4 +1,4 @@
-# School-Management-App
+# School-Management-System
 
  
  

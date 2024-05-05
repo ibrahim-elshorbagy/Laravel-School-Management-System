@@ -21,7 +21,7 @@ class GradeResource extends JsonResource
             'name' => $this->name,
             'level_id'=>$this->level_id,
             'level' => $this->whenLoaded('level', function () {
-                return $this->level->name; 
+                return $this->level->name;
             }),
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'),

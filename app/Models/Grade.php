@@ -14,7 +14,7 @@ class Grade extends Model
         'level_id'
     ];
 
-    protected $with =['level'];
+    // protected $with =['level'];
     public function level()
     {
         return $this->belongsTo(Level::class,'level_id','id');

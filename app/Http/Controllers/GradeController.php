@@ -18,7 +18,7 @@ class GradeController extends Controller
 
     public function index()
     {
-        $query = Grade::query();
+        $query = Grade::query()->with('level');
         $sortFileds = request('sort_field','id');
         $sortDirection = request('sort_direction','desc');
 
@@ -100,7 +100,7 @@ class GradeController extends Controller
      */
     public function destroy(Grade $grade)
     {
-        
+
         $grade->delete();
         return to_route('grade.index')->with('success','Project deleted successfully');
     }

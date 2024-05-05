@@ -45,6 +45,12 @@ export default function Authenticated({ user, header, children }) {
                                 >
                                     Grades
                                 </NavLink>
+                                <NavLink
+                                    href={route("classroom.index")}
+                                    active={route().current("classroom.index")}
+                                >
+                                    Classrooms
+                                </NavLink>
                                 {/* <NavLink
                                     href={route("user.index")}
                                     active={route().current("user.index")}
