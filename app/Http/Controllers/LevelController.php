@@ -79,7 +79,7 @@ class LevelController extends Controller
         $data = $request->validated();
 
 
-        $level ->update($data);
+        $level->update($data);
         return to_route('level.index')
         ->with('success',"Grade Updated Successfully");
     }

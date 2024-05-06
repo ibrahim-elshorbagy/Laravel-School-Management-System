@@ -17,22 +17,22 @@ return new class extends Migration
             $table->string('password');
 
             //father information
-            $table->string('name_father');
-            $table->string('phone_father');
-            $table->string('job_father');
-            $table->string('passport_id_father');
-            $table->unsignedBigInteger('national_id_father');
-            $table->foreign('national_id_father')->references('id')->on('nationalities');
-            $table->string('address_father');
+            $table->string('name_father')->nullable();
+            $table->string('phone_father')->nullable();
+            $table->string('job_father')->nullable();
+            $table->string('passport_id_father')->nullable();
+            $table->unsignedBigInteger('national_id_father')->nullable();
+            $table->foreign('national_id_father')->references('id')->on('nationalities')->nullable();
+            $table->string('address_father')->nullable();
 
             //mother information
-            $table->string('name_mother');
-            $table->string('phone_mother');
-            $table->string('job_mother');
-            $table->string('passport_id_mother');
-            $table->unsignedBigInteger('national_id_mother');
-            $table->foreign('national_id_mother')->references('id')->on('nationalities');
-            $table->string('address_mother');
+            $table->string('name_mother')->nullable();
+            $table->string('phone_mother')->nullable();
+            $table->string('job_mother')->nullable();
+            $table->string('passport_id_mother')->nullable();
+            $table->unsignedBigInteger('national_id_mother')->nullable();
+            $table->foreign('national_id_mother')->references('id')->on('nationalities')->nullable();
+            $table->string('address_mother')->nullable();
 
             $table->timestamps();
 

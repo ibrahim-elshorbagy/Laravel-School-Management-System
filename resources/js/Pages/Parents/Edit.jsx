@@ -9,30 +9,29 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import FormWizard from "react-form-wizard-component";
 import "react-form-wizard-component/dist/style.css";
 
-export default function Create({ auth, nationalities }) {
+export default function Create({ auth, nationalities, parents }) {
     const { data, setData, post, errors, reset } = useForm({
-        email: "",
-        password: "",
+        email: parents.email || "",
+        password: parents.password || "",
 
-        name_father: "",
-        passport_id_father: "",
-        phone_father: "",
-        job_father: "",
-        national_id_father: "",
-        address_father: "",
+        name_father: parents.name_father || "",
+        passport_id_father: parents.passport_id_father || "",
+        phone_father: parents.phone_father || "",
+        job_father: parents.job_father || "",
+        national_id_father: parents.national_id_father || "",
+        address_father: parents.address_father || "",
 
-        name_mother: "",
-        passport_id_mother: "",
-        phone_mother: "",
-        job_mother: "",
-        national_id_mother: "",
-        address_mother: "",
+        name_mother: parents.name_mother || "",
+        passport_id_mother: parents.passport_id_mother || "",
+        phone_mother: parents.phone_mother || "",
+        job_mother: parents.job_mother || "",
+        national_id_mother: parents.national_id_mother || "",
+        address_mother: parents.address_mother || "",
+        _method: "PUT",
     });
 
     const onSubmit = (e) => {
-
-
-        post(route("parents.store"));
+        post(route("parents.update", parents.id));
     };
 
     return (
@@ -47,7 +46,7 @@ export default function Create({ auth, nationalities }) {
             }
         >
             <Head title="Parentss" />
-
+            {JSON.stringify(parents)}
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
@@ -56,7 +55,6 @@ export default function Create({ auth, nationalities }) {
                                 shape="circle"
                                 color="#07e29e"
                                 onComplete={onSubmit}
-
                             >
                                 <FormWizard.TabContent
                                     title="Father's Info"

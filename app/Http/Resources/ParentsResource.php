@@ -8,6 +8,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ParentsResource extends JsonResource
 {
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *
@@ -34,8 +36,8 @@ class ParentsResource extends JsonResource
             'nationality_mother_id' => $this->nationality_mother_id,
             'address_mother' => $this->address_mother,
 
-            'created_at' => (new Carbon($this->created_at))->format('Y-m-d H:i:s'),
-            'updated_at' => (new Carbon($this->created_at))->format('Y-m-d H:i:s'),
+            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
+            'updated_at' => (new Carbon($this->created_at))->format('Y-m-d'),
 
         ];
     }
