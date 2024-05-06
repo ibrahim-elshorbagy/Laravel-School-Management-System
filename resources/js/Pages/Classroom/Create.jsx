@@ -17,7 +17,7 @@ export default function Create({ auth, levels, grades }) {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        post(route("classroom.update"));
+        post(route("classroom.store"));
     };
 
     return (
