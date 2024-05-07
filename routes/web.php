@@ -4,7 +4,6 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\LevelController;
-use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -29,7 +28,6 @@ Route::resource('user',UserController::class);
 Route::resource('grade', GradeController::class);
 Route::resource('level', LevelController::class);
 Route::resource('classroom', ClassroomController::class);
-Route::resource('parents', ParentsController::class);
 
 });
 

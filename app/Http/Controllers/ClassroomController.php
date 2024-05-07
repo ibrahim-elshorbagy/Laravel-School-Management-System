@@ -88,8 +88,6 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        $classroom->delete();
-        return to_route('classroom.index')->with('success','Project deleted successfully');
-
+        //
     }
 }

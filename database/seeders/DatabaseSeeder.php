@@ -5,10 +5,8 @@ namespace Database\Seeders;
 use App\Models\Grade;
 use App\Models\Project;
 use App\Models\User;
-use Database\Seeders\NationalitiesSeeder as SeedersNationalitiesSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use NationalitiesSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,9 +38,5 @@ class DatabaseSeeder extends Seeder
 
 
 
-
-            $this->call(SeedersNationalitiesSeeder::class);
     }
-
-
 }
