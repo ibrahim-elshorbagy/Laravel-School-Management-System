@@ -4,7 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-export default function Index({ auth, parents, queryParams = null, success }) {
+export default function Index({ auth, guardians, queryParams = null, success }) {
 
     queryParams = queryParams || {};
     const searchFieldChanged = (name, value) => {
@@ -14,7 +14,7 @@ export default function Index({ auth, parents, queryParams = null, success }) {
             delete queryParams[name];
         }
 
-        router.get(route("parents.index"), queryParams);
+        router.get(route("guardian.index"), queryParams);
     };
 
     const onKeyPress = (name, e) => {
@@ -34,14 +34,14 @@ export default function Index({ auth, parents, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("parents.index"), queryParams);
+        router.get(route("guardian.index"), queryParams);
     };
 
-    const deleteParents = (parents) => {
-        if (!window.confirm("Are you sure you want to delete the parents?")) {
+    const deleteParents = (guardian) => {
+        if (!window.confirm("Are you sure you want to delete the guardian?")) {
             return;
         }
-        router.delete(route("parents.destroy", parents.id));
+        router.delete(route("guardian.destroy", guardian.id));
     };
 
     return (
@@ -53,7 +53,7 @@ export default function Index({ auth, parents, queryParams = null, success }) {
                         Parents
                     </h2>
                     <Link
-                        href={route("parents.create")}
+                        href={route("guardian.create")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add new
@@ -176,45 +176,44 @@ export default function Index({ auth, parents, queryParams = null, success }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {parents.data.map((parents) => (
-                                            <>
-                                                {/* First Row - Father's Information */}
+                                        {guardians.data.map((guardian) => (
+
                                                 <tr
                                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                    key={parents.id}
+                                                    key={guardian.id}
                                                 >
                                                     <td className="px-3 py-2">
-                                                        {parents.id}
+                                                        {guardian.id}
                                                     </td>
                                                     <th className="px-3 py-2 text-gray-100 text-nowrap">
-                                                        {parents.name_father}
+                                                        {guardian.name}
                                                     </th>
                                                     <td className="px-3 py-2">
-                                                        {parents.email}
+                                                        {guardian.email}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {
-                                                            parents.passport_id_father
+                                                            guardian.passport_id
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {parents.phone_father}
+                                                        {guardian.phone}
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {parents.job_father}
+                                                        {guardian.job}
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {parents.address_father}
+                                                        {guardian.address}
                                                     </td>
                                                     {/* Edit/Delete Buttons */}
                                                     <td
                                                         className="px-3 py-2 text-nowrap"
-                                                        rowSpan="2"
+                                                        
                                                     >
                                                         <Link
                                                             href={route(
-                                                                "parents.edit",
-                                                                parents.id
+                                                                "guardian.edit",
+                                                                guardian.id
                                                             )}
                                                             className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                         >
@@ -223,7 +222,7 @@ export default function Index({ auth, parents, queryParams = null, success }) {
                                                         <button
                                                             onClick={(e) =>
                                                                 deleteParents(
-                                                                    parents
+                                                                    guardian
                                                                 )
                                                             }
                                                             className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -233,38 +232,11 @@ export default function Index({ auth, parents, queryParams = null, success }) {
                                                     </td>
                                                 </tr>
 
-                                                {/* Second Row - Mother's Information */}
-                                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <td className="px-3 py-2">
-                                                        {parents.id}
-                                                    </td>
-                                                    <th className="px-3 py-2 text-gray-100 text-nowrap">
-                                                        {parents.name_mother}
-                                                    </th>
-                                                    <td className="px-3 py-2">
-                                                        {parents.email}
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {
-                                                            parents.passport_id_mother
-                                                        }
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {parents.phone_mother}
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {parents.job_mother}
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {parents.address_mother}
-                                                    </td>
-                                                </tr>
-                                            </>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={parents.meta.links} />
+                            <Pagination links={guardians.meta.links} />
                         </div>
                     </div>
                 </div>
