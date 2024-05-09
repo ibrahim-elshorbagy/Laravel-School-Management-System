@@ -37,7 +37,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
         router.get(route("guardian.index"), queryParams);
     };
 
-    const deleteParents = (guardian) => {
+    const deleteGuardian = (guardian) => {
         if (!window.confirm("Are you sure you want to delete the guardian?")) {
             return;
         }
@@ -50,7 +50,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Parents
+                    Guardian
                     </h2>
                     <Link
                         href={route("guardian.create")}
@@ -61,7 +61,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                 </div>
             }
         >
-            <Head title="Parents" />
+            <Head title="Guardian" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -124,7 +124,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                                             <th className="px-3 py-3 ">
                                                 Address
                                             </th>
-                                            <th className="px-3 py-3 text-right">
+                                            <th className="px-3 py-3 text-center">
                                                 Actions
                                             </th>
                                         </tr>
@@ -138,7 +138,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                                                     defaultValue={
                                                         queryParams.name
                                                     }
-                                                    placeholder="Parents Name"
+                                                    placeholder="Guardian Name"
                                                     onBlur={(e) =>
                                                         searchFieldChanged(
                                                             "name",
@@ -156,7 +156,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                                                     defaultValue={
                                                         queryParams.email
                                                     }
-                                                    placeholder="Parents Email"
+                                                    placeholder="Guardian Email"
                                                     onBlur={(e) =>
                                                         searchFieldChanged(
                                                             "email",
@@ -207,8 +207,8 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                                                     </td>
                                                     {/* Edit/Delete Buttons */}
                                                     <td
-                                                        className="px-3 py-2 text-nowrap"
-                                                        
+                                                        className="px-3 py-2 text-nowrap text-center"
+
                                                     >
                                                         <Link
                                                             href={route(
@@ -221,7 +221,7 @@ export default function Index({ auth, guardians, queryParams = null, success }) 
                                                         </Link>
                                                         <button
                                                             onClick={(e) =>
-                                                                deleteParents(
+                                                                deleteGuardian(
                                                                     guardian
                                                                 )
                                                             }

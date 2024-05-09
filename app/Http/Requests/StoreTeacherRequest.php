@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGuardianRequest extends FormRequest
+class StoreTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,12 @@ class UpdateGuardianRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-                'email' => ['email'.'unique:guardians,email'],
-                'password' => ['string', 'min:8'],
-                'name' => ['string'],
-                'passport_id' => ['numeric'],
-                'phone' => ['numeric'],
-                'job' => ['string', 'max:255'],
-                'national_id' => ['numeric'],
-                'address' => ['string', 'max:255'],
-
+        'email' => ['email','unique:teachers,email'],
+        'password' => ['string', 'min:8'],
+        'name' => ['string'],
+        'address' => ['string', 'max:255'],
+        'gender'=>['string'],
+        'specialization_id'=>['numeric'],
         ];
     }
 }

@@ -22,7 +22,7 @@ class StoreGuardianRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'email' => ['email'],
+        'email' => ['email','unique:guardians,email'],
         'password' => ['string', 'min:8'],
         'name' => ['string'],
         'passport_id' => ['numeric'],

@@ -8,8 +8,8 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
-
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +30,7 @@ Route::resource('grade', GradeController::class);
 Route::resource('level', LevelController::class);
 Route::resource('classroom', ClassroomController::class);
 Route::resource('guardian', GuardianController::class);
+Route::resource('teacher',TeacherController::class);
 
 });
 

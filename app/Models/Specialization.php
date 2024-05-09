@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guardian extends Model
+class Specialization extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
-    protected $hidden = [
-        'password',
-    ];
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
 }

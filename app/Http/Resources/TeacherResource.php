@@ -6,9 +6,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GuardianResource extends JsonResource
+class TeacherResource extends JsonResource
 {
     public static $wrap = false;
+
+    protected $hidden = [
+        'password',
+    ];
 
     /**
      * Transform the resource into an array.
@@ -17,18 +21,18 @@ class GuardianResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        return ([
             'id' => $this->id,
             'email' => $this->email,
             'name' => $this->name,
+            'specialization_id' => $this->specialization_id,
+            'specialization' => $this->whenLoaded('specialization', function () {
+                return $this->specialization->Name;
+            }),
             'gender' => $this->gender,
             'address' => $this->address,
-            'phone' => $this->phone,
-            'job' => $this->job,
-            'passport_id' => $this->passport_id,
-            'national_id' => $this->national_id,
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'),
-        ];
+        ]);
     }
 }

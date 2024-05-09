@@ -7,8 +7,10 @@ use App\Http\Requests\StoreClassroomRequest;
 use App\Http\Requests\UpdateClassroomRequest;
 use App\Http\Resources\ClassroomResource;
 use App\Http\Resources\LevelResource;
+use App\Http\Resources\TeacherResource;
 use App\Models\Grade;
 use App\Models\Level;
+use App\Models\Teacher;
 
 class ClassroomController extends Controller
 {
@@ -29,12 +31,14 @@ class ClassroomController extends Controller
      */
     public function create()
     {
+
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-
+        $teachers = Teacher::with('specialization')->orderBy('name','asc')->get(['id','name']);
         return inertia("Classroom/Create", [
             'levels' => LevelResource::collection($levels),
-            'grades'=> $grades
+            'grades'=> $grades,
+            'teachers' => $teachers
         ]);
     }
 
@@ -43,8 +47,11 @@ class ClassroomController extends Controller
      */
     public function store(StoreClassroomRequest $request)
     {
+
         $data = $request->validated();
-        Classroom::create($data);
+
+        $classroom = Classroom::create($data);
+        $classroom->teachers()->attach($data['teacher_id']);
         return to_route('classroom.index')
         ->with('success',"Classroom created successfully");
     }
@@ -64,11 +71,14 @@ class ClassroomController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
+        $teachers = $classroom->teachers()->select('id','name')->get();
+        dd($teachers);
 
         return inertia("Classroom/Edit", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
-            'classroom'=> $classroom
+            'classroom'=> $classroom,
+            'teachers' => $teachers
         ]);
     }
 
@@ -79,6 +89,7 @@ class ClassroomController extends Controller
     {
         $data = $request->validated();
         $classroom->update($data);
+        $classroom->teachers()->attach($data['teacher_id']);
         return to_route('classroom.index')
         ->with('success',"Classroom created successfully");
     }
