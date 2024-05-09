@@ -34,7 +34,14 @@ class ClassroomController extends Controller
 
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        $teachers = Teacher::with('specialization')->orderBy('name','asc')->get(['id','name']);
+        $teachers = Teacher::with('specialization')->get(['id', 'name', 'specialization_id'])
+        ->map(function ($teacher) {
+            return [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'specialization' => $teacher->specialization->Name
+            ];
+        });
         return inertia("Classroom/Create", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
@@ -71,14 +78,23 @@ class ClassroomController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        $teachers = $classroom->teachers()->select('id','name')->get();
-        dd($teachers);
 
+        $teachers = Teacher::with('specialization')->get(['id', 'name', 'specialization_id']) //get all teachers
+        ->map(function ($teacher) {
+            return [
+                'id' => $teacher->id,
+                'name' => $teacher->name,
+                'specialization' => $teacher->specialization->Name
+            ];
+        });
+
+        $SelectedTeachers = $classroom->teachers->pluck('id')->toArray();
         return inertia("Classroom/Edit", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
             'classroom'=> $classroom,
-            'teachers' => $teachers
+            'teachers' =>$teachers,
+            'SelectedTeachers'=>$SelectedTeachers
         ]);
     }
 
@@ -89,7 +105,7 @@ class ClassroomController extends Controller
     {
         $data = $request->validated();
         $classroom->update($data);
-        $classroom->teachers()->attach($data['teacher_id']);
+        $classroom->teachers()->sync($data['teacher_id']);
         return to_route('classroom.index')
         ->with('success',"Classroom created successfully");
     }

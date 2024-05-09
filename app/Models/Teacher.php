@@ -9,20 +9,8 @@ class Teacher extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $hidden = [
-        'password',
-    ];
 
-    protected $visible = [
-        'id',
-        'name',
-        'email',
-        'specialization_id',
-        'gender',
-        'address',
-        'created_at',
-        'updated_at',
-    ];
+    
     public function specialization()
     {
         return $this->belongsTo(Specialization::class);

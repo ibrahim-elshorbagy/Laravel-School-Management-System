@@ -1,17 +1,18 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
+import MultiSelectInput from "@/Components/MultiSelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, classroom, levels, grades }) {
+export default function Create({ auth, classroom, levels, grades, teachers ,SelectedTeachers}) {
     const { data, setData, post, errors, reset } = useForm({
         name: classroom.name || "",
-        level_id:classroom.level_id|| "",
+        level_id: classroom.level_id || "",
         grade_id: classroom.grade_id || "",
         status: classroom.status || "",
+        teacher_id: SelectedTeachers || [],
         _method: "PUT",
     });
 
@@ -160,6 +161,41 @@ export default function Create({ auth, classroom, levels, grades }) {
 
                                 <InputError
                                     message={errors.task_status}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            <div className="mt-4">
+                                <InputLabel
+                                    htmlFor="teacher_id"
+                                    value="Select Teachers"
+                                />
+                                <MultiSelectInput
+                                    name="teacher_id"
+                                    className="block w-full mt-1"
+                                    value={data.teacher_id}
+                                    onChange={(e) =>
+                                        setData(
+                                            "teacher_id",
+                                            Array.from(
+                                                e.target.selectedOptions,
+                                                (option) => option.value
+                                            )
+                                        )
+                                    }
+                                >
+                                    {teachers.map((teacher) => (
+                                        <option
+                                            value={teacher.id}
+                                            key={teacher.id}
+                                        >
+                                            {teacher.name} -{" "}
+                                            {teacher.specialization}
+                                        </option>
+                                    ))}
+                                </MultiSelectInput>
+                                <InputError
+                                    message={errors.teacher_id}
                                     className="mt-2"
                                 />
                             </div>

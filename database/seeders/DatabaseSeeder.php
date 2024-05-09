@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // $this->call(SeedersNationalitiesSeeder::class);
+        $this->call(SeedersNationalitiesSeeder::class);
         $this->call(SpecializationSeeder::class);
 
         // Project::factory()
@@ -26,20 +26,20 @@ class DatabaseSeeder extends Seeder
         //     ->hasTasks(30)
         //     ->create();
 
-    // User::factory()->create([
-    //         'id' => 1,
-    //         'name' => 'a',
-    //         'email' => 'a@a.a',
-    //         'password' => bcrypt('a'),
-    //         'email_verified_at' => time()
-    //     ]);
-    //     User::factory()->create([
-    //         'id' => 2,
-    //         'name' => 'testo',
-    //         'email' => 'testo@example.com',
-    //         'password' => bcrypt('asd'),
-    //         'email_verified_at' => time()
-    //     ]);
+    User::factory()->create([
+            'id' => 1,
+            'name' => 'a',
+            'email' => 'a@a.a',
+            'password' => bcrypt('a'),
+            'email_verified_at' => time()
+        ]);
+        User::factory()->create([
+            'id' => 2,
+            'name' => 'testo',
+            'email' => 'testo@example.com',
+            'password' => bcrypt('asd'),
+            'email_verified_at' => time()
+        ]);
 
 
 

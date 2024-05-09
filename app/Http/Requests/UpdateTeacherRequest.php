@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTeacherRequest extends FormRequest
@@ -21,8 +22,9 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function rules(): array
     {
+        $teacher = $this->route("teacher");
         return [
-            'email' => ['email','unique:teachers,email'],
+            'email' => ['email',Rule::unique('teachers')->ignore($teacher->id),],
             'password' => ['string', 'min:8'],
             'name' => ['string'],
             'address' => ['string', 'max:255'],
@@ -30,4 +32,9 @@ class UpdateTeacherRequest extends FormRequest
             'specialization'=>['string']
             ];
     }
+
+
+
+
+
 }

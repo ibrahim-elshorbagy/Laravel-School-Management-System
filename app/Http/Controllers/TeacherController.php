@@ -53,6 +53,7 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
+
         Teacher::create($data);
 
         return to_route('teacher.index')

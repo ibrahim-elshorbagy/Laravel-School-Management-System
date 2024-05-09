@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateGuardianRequest extends FormRequest
 {
@@ -21,9 +23,10 @@ class UpdateGuardianRequest extends FormRequest
      */
     public function rules(): array
     {
+         $guardian = $this->route("guardian");
         return [
 
-                'email' => ['email'.'unique:guardians,email'],
+                'email' => ['email',Rule::unique('guardians')->ignore($guardian->id),],
                 'password' => ['string', 'min:8'],
                 'name' => ['string'],
                 'passport_id' => ['numeric'],

@@ -27,6 +27,7 @@ class UpdateClassroomRequest extends FormRequest
             'status' => ['required', Rule::in(['active', 'inactive', 'under_maintenance'])],
             'grade_id' => ['required', 'numeric'],
             'level_id' => ['required', 'numeric'],
+            'teacher_id'=>['required', 'array'],
         ];
     }
 }
