@@ -29,7 +29,7 @@ class UpdateTeacherRequest extends FormRequest
             'name' => ['string'],
             'address' => ['string', 'max:255'],
             'gender'=>['string'],
-            'specialization'=>['string']
+            'specialization_id'=>['numeric'],
             ];
     }
 

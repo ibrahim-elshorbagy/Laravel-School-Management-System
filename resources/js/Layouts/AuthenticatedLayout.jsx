@@ -21,18 +21,18 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
+                                {/* <NavLink
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
                                     Dashboard
-                                </NavLink>
-                                <NavLink
+                                </NavLink> */}
+                                {/* <NavLink
                                     href={route("project.index")}
                                     active={route().current("project.index")}
                                 >
                                     Projects
-                                </NavLink>
+                                </NavLink> */}
                                 <NavLink
                                     href={route("level.index")}
                                     active={route().current("level.index")}
@@ -45,6 +45,7 @@ export default function Authenticated({ user, header, children }) {
                                 >
                                     Grades
                                 </NavLink>
+
                                 <NavLink
                                     href={route("classroom.index")}
                                     active={route().current("classroom.index")}
@@ -52,17 +53,24 @@ export default function Authenticated({ user, header, children }) {
                                     Classrooms
                                 </NavLink>
                                 <NavLink
-                                    href={route("guardian.index")}
-                                    active={route().current("guardian.index")}
-                                >
-                                    Guardian
-                                </NavLink>
-                                <NavLink
                                     href={route("teacher.index")}
                                     active={route().current("teacher.index")}
                                 >
                                     Teachers
                                 </NavLink>
+                                <NavLink
+                                    href={route("student.index")}
+                                    active={route().current("student.index")}
+                                >
+                                    Student
+                                </NavLink>
+                                <NavLink
+                                    href={route("guardian.index")}
+                                    active={route().current("guardian.index")}
+                                >
+                                    Guardian
+                                </NavLink>
+
                                 {/* <NavLink
                                     href={route("user.index")}
                                     active={route().current("user.index")}

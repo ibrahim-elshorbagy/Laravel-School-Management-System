@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('name');
+            $table->text('name');
             $table->bigInteger('specialization_id')->unsigned();
             $table->foreign('specialization_id')->references('id')->on('specializations')->onDelete('cascade');
             $table->string('gender');

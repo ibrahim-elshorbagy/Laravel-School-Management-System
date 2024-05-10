@@ -90,20 +90,11 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                                         .map((grade) => (
                                             <option
                                                 value={grade.id}
-                                                key={grade.id}
+                                                key={"grade" + grade.id} 
                                             >
                                                 {grade.name}
                                             </option>
                                         ))}
-                                    {grades.filter(
-                                        (grade) =>
-                                            grade.level_id === data.level_id
-                                    ).length === 0 && (
-                                        <option value="" disabled>
-                                            No grades available for the selected
-                                            level
-                                        </option>
-                                    )}
                                 </SelectInput>
 
                                 <InputError

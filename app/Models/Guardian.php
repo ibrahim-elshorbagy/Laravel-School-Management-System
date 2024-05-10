@@ -10,7 +10,9 @@ class Guardian extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $hidden = [
-        'password',
-    ];
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

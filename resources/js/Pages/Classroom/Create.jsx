@@ -93,15 +93,6 @@ export default function Create({ auth, levels, grades,teachers }) {
                                                 {grade.name}
                                             </option>
                                         ))}
-                                    {grades.filter(
-                                        (grade) =>
-                                            grade.level_id === data.level_id
-                                    ).length === 0 && (
-                                        <option value="" disabled>
-                                            No grades available for the selected
-                                            level
-                                        </option>
-                                    )}
                                 </SelectInput>
 
                                 <InputError
@@ -185,7 +176,7 @@ export default function Create({ auth, levels, grades,teachers }) {
                                             value={teacher.id}
                                             key={teacher.id}
                                         >
-                                            {teacher.name} - {" "}
+                                            {teacher.name} -{" "}
                                             {teacher.specialization}
                                         </option>
                                     ))}
