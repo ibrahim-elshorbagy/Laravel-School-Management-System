@@ -42,7 +42,7 @@ class StoreStudentRequest extends FormRequest
             'grade_id' => ['required', 'numeric'],
             'classroom_id' => ['required', 'numeric'],
             'academic_year' => ['required', 'numeric'],
-            'image_path' => ['nullable', 'string'],
+            'image' => ['nullable', 'image'],
             'created_at' => ['nullable', 'date'],
             'updated_at' => ['nullable', 'date'],
         ];

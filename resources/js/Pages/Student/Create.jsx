@@ -17,6 +17,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
         guardian_national_id: "",
         guardian_address: "",
         guardian_id: "",
+
         //Student
         email: "",
         password: "",
@@ -28,7 +29,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
         grade_id: "",
         classroom_id: "",
         academic_year: "",
-        //image
+        image:"",
     });
 
     // Years
@@ -43,9 +44,11 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
     //SubmitForm
     const onSubmit = (e) => {
         e.preventDefault();
+
         post(route("student.store"));
     };
 
+    //-------------------------------------------------------- Adding guardian -------------------------------------------
     // Adding New Parents
     const [guardianType, setGuardianType] = useState("existing"); // 'existing' or 'new'
 
@@ -53,7 +56,6 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
         setGuardianType(e.target.value);
     };
 
-    //-------------------------------------------------------- Adding guardian -------------------------------------------
     const renderGuardianSection = () => {
         if (guardianType === "new") {
             return (
@@ -315,7 +317,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-4 p-10 md:grid-cols-2">
-                                    <div >
+                                    <div>
                                         <InputLabel
                                             htmlFor="email"
                                             value="Email"
@@ -338,7 +340,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                     </div>
 
                                     {/* Password */}
-                                    <div >
+                                    <div>
                                         <InputLabel
                                             htmlFor="password"
                                             value="Password"
@@ -474,6 +476,72 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                             className="mt-2"
                                         />
                                     </div>
+                                </div>
+                                <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
+                                    <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
+                                    <span className="m-4">Image</span>
+                                    <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
+                                </div>
+                                <div className="max-w-md p-6 mx-auto rounded-lg shadow-md">
+                                    <div className="mt-4 ">
+                                        <div className="relative ">
+                                            <input
+                                                id="image"
+                                                type="file"
+                                                name="image"
+                                                className="hidden"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "image",
+                                                        e.target.files[0]
+                                                    )
+                                                }
+                                            />
+
+                                            <label
+                                                htmlFor="image"
+                                                className="block w-full mt-1 transition duration-300 ease-in-out border border-gray-600 rounded-md shadow-sm cursor-pointer focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 hover:bg-gray-700"
+                                            >
+                                                <div className="flex items-center justify-center p-4">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="w-6 h-6 mr-2 text-gray-400"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                        />
+                                                    </svg>
+                                                    <p className="text-sm text-gray-300">
+                                                        Choose an image
+                                                    </p>
+                                                </div>
+                                            </label>
+                                            <InputError
+                                                message={errors.image}
+                                                className="mt-2 text-sm text-red-400"
+                                            />
+                                        </div>
+                                    </div>
+                                    {console.log(JSON.stringify(data.image))}
+                                    {data.image && (
+                                        <div className="flex items-center justify-center mt-6">
+                                            <div className="flex items-center justify-center overflow-hidden bg-gray-100 rounded-lg shadow-md w-80 h-80">
+                                                <img
+                                                    src={URL.createObjectURL(
+                                                        data.image
+                                                    )}
+                                                    alt="Uploaded"
+                                                    className="object-contain max-w-full max-h-full"
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 {/*-------------------------------------------------------  Level Info ------------------------------------------------------- */}
                                 <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">

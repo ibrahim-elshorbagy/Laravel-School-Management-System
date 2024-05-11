@@ -6,11 +6,15 @@ use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Resources\StudentResource;
+use App\Http\Resources\IndexStudentResource;
+
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Guardian;
 use App\Models\Level;
 use App\Models\Nationality;
+use Illuminate\Support\Str;
+
 
 class StudentController extends Controller
 {
@@ -33,7 +37,7 @@ class StudentController extends Controller
             ->paginate(10)
             ->onEachSide(1);
         return inertia("Student/Index", [
-            "students" => StudentResource::collection($students),
+            "students" => IndexStudentResource::collection($students),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
         ]);
@@ -49,6 +53,7 @@ class StudentController extends Controller
         $guardians = Guardian::orderBy('name', 'asc')->get(['id', 'name']);
 
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
+
 
 
         return inertia("Student/Create",
@@ -68,7 +73,10 @@ class StudentController extends Controller
 
  public function store(StoreStudentRequest $request)
 {
+
     $data = $request->validated();
+
+
 
     // If guardian_id exists, use it directly
     if ($data['guardian_id']) {
@@ -85,6 +93,12 @@ class StudentController extends Controller
             'academic_year' => $data['academic_year'],
             'guardian_id' => $data['guardian_id'],
         ];
+
+        $image = $data['image'] ?? null;
+        if($image)
+        {
+            $studentData['image_path'] = $image->store('project/' . Str::random(),'public');
+        }
 
         // Create the student
         Student::create($studentData);
@@ -141,13 +155,14 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-            $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
+        $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
         $classrooms = Classroom::orderBy('name','asc')->get(['id','name','grade_id']);
         $guardians = Guardian::orderBy('name', 'asc')->get(['id', 'name']);
 
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
 
+        $student = $student->load('level', 'grade', 'classroom','guardian');
 
         return inertia("Student/Edit",
     [
@@ -156,7 +171,8 @@ class StudentController extends Controller
         'grades' => $grades,
         'classrooms' => $classrooms,
         'guardians' => $guardians,
-        'student'=>$student
+        'student' => new StudentResource($student)
+
     ]);
 
     }
@@ -166,7 +182,17 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
+
         $data = $request->validated();
+
+        $image = $data['image'] ?? null;
+        if($image)
+        {
+            $data['image_path'] = $image->store('project/' . Str::random(),'public');
+        }
+        unset($data['image']);
+
+
 
         $student->update($data);
 

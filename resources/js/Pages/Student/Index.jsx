@@ -62,7 +62,6 @@ export default function Index({ auth, students, queryParams = null, success }) {
             }
         >
             <Head title="Student" />
-            
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

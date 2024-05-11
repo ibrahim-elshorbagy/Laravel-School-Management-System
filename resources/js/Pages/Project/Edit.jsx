@@ -15,7 +15,7 @@ export default function Create({ auth,project }) {
         due_date: project.due_date || "",
         _method:"PUT"
     });
-
+ 
     const onSubmit = (e) => {
         e.preventDefault();
 

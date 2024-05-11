@@ -16,23 +16,27 @@ class StudentResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array //متنساش تظبط العلاقات
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'password' => $this->password,
             'email' => $this->email,
             'gender' => $this->gender,
             'national_id' => $this->national_id,
             'date_birth' => $this->date_birth,
-            'level' => $this->whenLoaded('level', function () {
-                return $this->level->name;
+            'level_id' => $this->whenLoaded('level', function () {
+                return $this->level->id;
             }),
-            'grade' => $this->whenLoaded('grade', function () {
-                return $this->grade->name;
+            'grade_id' => $this->whenLoaded('grade', function () {
+                return $this->grade->id;
             }),
-            'classroom' => $this->whenLoaded('classroom', function () {
-                return $this->classroom->name;
+            'classroom_id' => $this->whenLoaded('classroom', function () {
+                return $this->classroom->id;
+            }),
+            'guardian_id' => $this->whenLoaded('guardian', function () {
+                return $this->guardian->id;
             }),
             'academic_year' => $this->academic_year,
             'image_path' => $this->image_path && !(str_starts_with($this->image_path, 'http')) ?
