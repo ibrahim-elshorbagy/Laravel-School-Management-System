@@ -8,6 +8,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\NationalitiesSeeder as SeedersNationalitiesSeeder;
+use Database\Seeders\SchoolSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SeedersNationalitiesSeeder::class);
         $this->call(SpecializationSeeder::class);
+        $this->call(SchoolSeeder::class);
 
         // Project::factory()
         //     ->count(30)
