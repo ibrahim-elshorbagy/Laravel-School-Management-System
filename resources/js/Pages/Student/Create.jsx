@@ -32,17 +32,6 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
         image:"",
     });
 
-    const formatDate = (date) => {
-        const formattedDate = date
-            .toLocaleDateString("en-US", {
-                month: "2-digit",
-                day: "2-digit",
-                year: "numeric",
-            })
-            .replace(/\//g, "/");
-        return formattedDate;
-    };
-    
     // Years
     const currentYear = new Date().getFullYear() - 2;
     const numberOfYears = 5;
@@ -468,24 +457,21 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                             htmlFor="date_birth"
                                             value="Date Of Birth"
                                         />
+
                                         <TextInput
                                             id="date_birth"
                                             type="date"
                                             name="date_birth"
                                             value={data.date_birth}
                                             className="block w-full mt-1"
-                                            onChange={(e) => {
-                                                // Format the date in the required format (m/d/Y)
-                                                const formattedDate =
-                                                    formatDate(
-                                                        new Date(e.target.value)
-                                                    );
+                                            onChange={(e) =>
                                                 setData(
                                                     "date_birth",
-                                                    formattedDate
-                                                );
-                                            }}
+                                                    e.target.value
+                                                )
+                                            }
                                         />
+
                                         <InputError
                                             message={errors.date_birth}
                                             className="mt-2"
