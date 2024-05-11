@@ -7,6 +7,7 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\IndexStudentResource;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Classroom;
 use App\Models\Grade;
@@ -97,7 +98,7 @@ class StudentController extends Controller
         $image = $data['image'] ?? null;
         if($image)
         {
-            $studentData['image_path'] = $image->store('project/' . Str::random(),'public');
+            $studentData['image_path'] = $image->store('student/' . Str::random(),'public');
         }
 
         // Create the student
@@ -188,7 +189,11 @@ class StudentController extends Controller
         $image = $data['image'] ?? null;
         if($image)
         {
-            $data['image_path'] = $image->store('project/' . Str::random(),'public');
+            if($student->image_path)
+            {
+                Storage::disk('public')->deleteDirectory(dirname($student->image_path));
+            }
+            $data['image_path'] = $image->store('student/' . Str::random(),'public');
         }
         unset($data['image']);
 
@@ -206,6 +211,10 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         $student ->delete();
+        if($student->image_path)
+            {
+                Storage::disk('public')->deleteDirectory(dirname($student->image_path));
+            }
         return to_route('student.index')->with('success','Guardian deleted successfully');
 
     }
