@@ -37,7 +37,7 @@ class StoreStudentRequest extends FormRequest
             'name' => ['required', 'string'],
             'national_id' => ['nullable', 'numeric'],
             'gender' => ['required', 'string'],
-            'date_birth' => ['required', 'date'],
+            'date_birth' => ['required', 'date', 'date_format:Y-m-d'],
             'level_id' => ['required', 'numeric'],
             'grade_id' => ['required', 'numeric'],
             'classroom_id' => ['required', 'numeric'],

@@ -34,6 +34,7 @@ class UpdateStudentRequest extends FormRequest
             'level_id' => ['required', 'numeric'],
             'grade_id' => ['required', 'numeric'],
             'classroom_id' => ['required', 'numeric'],
+            'date_birth' => ['required', 'date', 'date_format:Y-m-d'],
             'academic_year' => ['required', 'numeric'],
             'image' => ['nullable', 'image'],
             'created_at' => ['nullable', 'date'],

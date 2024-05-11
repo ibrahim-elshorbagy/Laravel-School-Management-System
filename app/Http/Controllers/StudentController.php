@@ -75,6 +75,7 @@ class StudentController extends Controller
  public function store(StoreStudentRequest $request)
 {
 
+    
     $data = $request->validated();
 
 
@@ -103,6 +104,7 @@ class StudentController extends Controller
 
         // Create the student
         Student::create($studentData);
+
     } else {
         // If guardian_id doesn't exist, create a new guardian and then assign its ID to the student
         $guardianData = [
@@ -133,6 +135,12 @@ class StudentController extends Controller
             'academic_year' => $data['academic_year'],
             'guardian_id' => $guardian->id, // Assign guardian's ID
         ];
+
+        $image = $data['image'] ?? null;
+        if($image)
+        {
+            $studentData['image_path'] = $image->store('student/' . Str::random(),'public');
+        }
 
         // Create the student
         Student::create($studentData);
@@ -215,7 +223,7 @@ class StudentController extends Controller
             {
                 Storage::disk('public')->deleteDirectory(dirname($student->image_path));
             }
-        return to_route('student.index')->with('success','Guardian deleted successfully');
+        return to_route('student.index')->with('success','Student deleted successfully');
 
     }
 }

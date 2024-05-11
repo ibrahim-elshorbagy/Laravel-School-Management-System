@@ -8,30 +8,41 @@ import React, { useState } from "react";
 
 export default function Create({auth,nationalities,levels,grades,classrooms,guardians,}) {
     const { data, setData, post, errors, reset } = useForm({
-        guardian_email: "",
-        guardian_password: "",
-        guardian_name: "",
-        guardian_phone: "",
-        guardian_passport_id: "",
-        guardian_job: "",
-        guardian_national_id: "",
-        guardian_address: "",
-        guardian_id: "",
+        guardian_email: " ",
+        guardian_password: " ",
+        guardian_name: " ",
+        guardian_phone: " ",
+        guardian_passport_id: " ",
+        guardian_job: " ",
+        guardian_national_id: " ",
+        guardian_address: " ",
+        guardian_id: " ",
 
         //Student
         email: "",
-        password: "",
-        name: "",
-        national_id: "",
-        gender: "",
-        date_birth: "",
-        level_id: "",
-        grade_id: "",
-        classroom_id: "",
-        academic_year: "",
+        password: " ",
+        name: " ",
+        national_id: " ",
+        gender: " ",
+        date_birth: " ",
+        level_id: " ",
+        grade_id: " ",
+        classroom_id: " ",
+        academic_year: " ",
         image:"",
     });
 
+    const formatDate = (date) => {
+        const formattedDate = date
+            .toLocaleDateString("en-US", {
+                month: "2-digit",
+                day: "2-digit",
+                year: "numeric",
+            })
+            .replace(/\//g, "/");
+        return formattedDate;
+    };
+    
     // Years
     const currentYear = new Date().getFullYear() - 2;
     const numberOfYears = 5;
@@ -307,6 +318,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
+                                autocomplete="off"
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                             >
@@ -456,21 +468,24 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                             htmlFor="date_birth"
                                             value="Date Of Birth"
                                         />
-
                                         <TextInput
                                             id="date_birth"
                                             type="date"
                                             name="date_birth"
                                             value={data.date_birth}
                                             className="block w-full mt-1"
-                                            onChange={(e) =>
+                                            onChange={(e) => {
+                                                // Format the date in the required format (m/d/Y)
+                                                const formattedDate =
+                                                    formatDate(
+                                                        new Date(e.target.value)
+                                                    );
                                                 setData(
                                                     "date_birth",
-                                                    e.target.value
-                                                )
-                                            }
+                                                    formattedDate
+                                                );
+                                            }}
                                         />
-
                                         <InputError
                                             message={errors.date_birth}
                                             className="mt-2"
