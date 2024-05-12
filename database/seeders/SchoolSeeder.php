@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Level;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,10 @@ class SchoolSeeder extends Seeder
         DB::table('levels')->delete();
         DB::table('grades')->delete();
         DB::table('classrooms')->delete();
+        DB::table('guardians')->delete();
+        DB::table('students')->delete();
 
-        $levels = ['Elementary', 'Middle', 'High'];
+        $levels = ['Elementary', 'Middle School', 'High School'];
         foreach ($levels as $key => $levelName) {
             $level = Level::create(['name' => $levelName]);
 
@@ -43,6 +46,86 @@ class SchoolSeeder extends Seeder
                 }
             }
         }
+
+        DB::table('guardians')->insert([
+            'email' => 'guardian@example.com',
+            'password' => bcrypt('password'),
+            'name' => 'Guardian Name',
+            'phone' => 0501234567,
+            'job' => 'Teacher',
+            'passport_id' => '123123456',
+            'national_id' => 51,
+            'address' => 'Egypt',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('students')->insert([
+            [
+                'name' => 'Student 1',
+                'email' => 'student1@example.com',
+                'password' => bcrypt('password'),
+                'gender' => 'Male',
+                'national_id' => 51,
+                'date_birth' => '2006-05-10',
+                'level_id' => 1,
+                'grade_id' => 1,
+                'classroom_id' => 1,
+                'guardian_id' => 1,
+                'academic_year' => '2022',
+                'image_path' => '',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Student 2',
+                'email' => 'student2@example.com',
+                'password' => bcrypt('password'),
+                'gender' => 'Female',
+                'national_id' => 51,
+                'date_birth' => '2007-08-15',
+                'level_id' => 1,
+                'grade_id' => 1,
+                'classroom_id' => 1,
+                'guardian_id' => 1,
+                'academic_year' => '2022',
+                'image_path' => '',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Student 3',
+                'email' => 'student3@example.com',
+                'password' => bcrypt('password'),
+                'gender' => 'Male',
+                'national_id' => 51,
+                'date_birth' => '2008-11-20',
+                'level_id' => 1,
+                'grade_id' => 1,
+                'classroom_id' => 1,
+                'guardian_id' => 1,
+                'academic_year' => '2022',
+                'image_path' => '',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Student 4',
+                'email' => 'student4@example.com',
+                'password' => bcrypt('password'),
+                'gender' => 'Female',
+                'national_id' => 51,
+                'date_birth' => '2009-03-25',
+                'level_id' => 1,
+                'grade_id' => 1,
+                'classroom_id' => 1,
+                'guardian_id' => 1,
+                'academic_year' => '2022',
+                'image_path' => '',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ]);
     }
 }
 

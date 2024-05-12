@@ -41,6 +41,11 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                             onSubmit={onSubmit}
                             className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                         >
+                            <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
+                                <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
+                                <span className="m-4">Classroom Info</span>
+                                <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
+                            </div>
                             <div className="mt-4">
                                 <InputLabel
                                     htmlFor="level_id"
@@ -90,7 +95,7 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                                         .map((grade) => (
                                             <option
                                                 value={grade.id}
-                                                key={"grade" + grade.id} 
+                                                key={"grade" + grade.id}
                                             >
                                                 {grade.name}
                                             </option>

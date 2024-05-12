@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreign('guardian_id')->references('id')->on('guardians')->onDelete('cascade');
             $table->string('academic_year');
             $table->string('image_path')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

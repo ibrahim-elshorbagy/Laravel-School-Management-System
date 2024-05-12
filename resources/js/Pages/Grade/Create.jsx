@@ -38,6 +38,11 @@ export default function Create({ auth ,levels}) {
                             onSubmit={onSubmit}
                             className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                         >
+                            <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
+                                <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
+                                <span className="m-4">Grade Info</span>
+                                <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
+                            </div>
                             <div className="mt-4">
                                 <InputLabel
                                     htmlFor="grade_name"
@@ -61,7 +66,6 @@ export default function Create({ auth ,levels}) {
                                     className="mt-2"
                                 />
                             </div>
-                            
 
                             <div className="mt-4">
                                 <InputLabel

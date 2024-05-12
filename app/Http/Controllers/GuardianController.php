@@ -75,7 +75,6 @@ class GuardianController extends Controller
     public function edit(Guardian $guardian)
     {
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
-        
         return inertia('Guardian/Edit',[
             'nationalities' => $nationalities,
             'guardian'=>$guardian

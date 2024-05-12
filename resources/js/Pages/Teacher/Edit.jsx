@@ -47,6 +47,11 @@ export default function Create({ auth, specializations, teacher }) {
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                             >
+                                <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
+                                    <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
+                                    <span className="m-4">Teacher Info</span>
+                                    <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
+                                </div>
                                 <div className="grid grid-cols-1 gap-4 p-10 md:grid-cols-2">
                                     <div className="mt-4">
                                         <InputLabel
