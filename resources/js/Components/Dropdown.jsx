@@ -13,7 +13,8 @@ const Dropdown = ({ children }) => {
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className="relative">{children}</div>
+            <div className="">{children}</div>
+            {/* <div className="relative">{children}</div> */}
         </DropDownContext.Provider>
     );
 };
@@ -38,7 +39,7 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
     if (align === 'left') {
         alignmentClasses = 'ltr:origin-top-left rtl:origin-top-right start-0';
     } else if (align === 'right') {
-        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
+        alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left sm:end-0  lg:right-20';
     }
 
     let widthClasses = '';

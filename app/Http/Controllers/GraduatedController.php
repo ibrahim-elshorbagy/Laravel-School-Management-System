@@ -51,7 +51,6 @@ class GraduatedController extends Controller
         'classrooms' => $classrooms,
         'error_graduations'=>session('error_graduations'),
         'success'=>session('success'),
-        'error_graduations'=>session('error_graduations')
     ]);
     }
 

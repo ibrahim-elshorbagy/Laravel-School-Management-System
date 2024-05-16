@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeeController;
+use App\Http\Controllers\FeeInvoiceController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\GuardianController;
@@ -38,6 +40,8 @@ Route::resource('teacher',TeacherController::class);
 Route::resource('student', StudentController::class);
 Route::resource('promotion',PromotionController::class);
 Route::resource('graduated',GraduatedController::class);
+Route::resource('fee',FeeController::class);
+Route::resource('test',FeeInvoiceController::class);
 
 });
 
