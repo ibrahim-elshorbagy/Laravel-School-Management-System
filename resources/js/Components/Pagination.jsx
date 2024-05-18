@@ -5,7 +5,7 @@ export default function Pagination({ links }) {
     const currentUrl = new URL(url, window.location.origin);
 
     return (
-        <nav className="mt-4 text-center">
+        <nav className="mt-12 mb-12 text-center">
             {links.map((link) => {
                 const linkUrl = new URL(link.url, window.location.origin);
                 linkUrl.search = currentUrl.search;

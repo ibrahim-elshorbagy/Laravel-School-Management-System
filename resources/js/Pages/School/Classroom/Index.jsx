@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-import ArrowSection from "@/Pages/Classroom/ArrowSection";
+import ArrowSection from "@/Pages/School/Classroom/ArrowSection";
 
 
 export default function Dashboard({ auth, levels, success }) {

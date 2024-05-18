@@ -25,7 +25,7 @@ class LevelController extends Controller
 
 
         $levels = $query->orderBy($sortFileds,$sortDirection)->paginate(10)->onEachSide(1);
-        return inertia('Level/Index', [
+        return inertia('School/Level/Index', [
             'levels' => LevelResource::collection($levels),
             'queryParams' => request()->query() ?: null,
             'success'=>session('success'),
@@ -39,7 +39,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        return inertia('Level/Create');
+        return inertia('School/Level/Create');
     }
 
     /**
@@ -66,7 +66,7 @@ class LevelController extends Controller
      */
     public function edit(Level $level)
     {
-        return inertia('Level/Edit',[
+        return inertia('School/Level/Edit',[
             'level'=>new LevelResource($level)
         ]);
     }

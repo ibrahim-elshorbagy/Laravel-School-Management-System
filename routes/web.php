@@ -32,6 +32,8 @@ Route::resource('project',ProjectController::class);
 Route::resource('task',TaskController::class);
 Route::resource('user',UserController::class);
 
+Route::resource('fee-invoice',FeeInvoiceController::class);
+
 Route::resource('grade', GradeController::class);
 Route::resource('level', LevelController::class);
 Route::resource('classroom', ClassroomController::class);
@@ -41,7 +43,6 @@ Route::resource('student', StudentController::class);
 Route::resource('promotion',PromotionController::class);
 Route::resource('graduated',GraduatedController::class);
 Route::resource('fee',FeeController::class);
-Route::resource('test',FeeInvoiceController::class);
 
 });
 

@@ -20,7 +20,7 @@ class ClassroomController extends Controller
     public function index()
     {
         $levels = Level::select('id','name')->with('classrooms','classrooms.grade')->get();
-        return inertia('Classroom/Index',
+        return inertia('School/Classroom/Index',
             ['levels'=>$levels,
             'success'=>session('success')
         ]);
@@ -42,7 +42,7 @@ class ClassroomController extends Controller
                 'specialization' => $teacher->specialization->Name
             ];
         });
-        return inertia("Classroom/Create", [
+        return inertia("School/Classroom/Create", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
             'teachers' => $teachers
@@ -89,7 +89,7 @@ class ClassroomController extends Controller
         });
 
         $SelectedTeachers = $classroom->teachers->pluck('id')->toArray();
-        return inertia("Classroom/Edit", [
+        return inertia("School/Classroom/Edit", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
             'classroom'=> $classroom,

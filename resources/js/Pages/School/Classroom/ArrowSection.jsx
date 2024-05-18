@@ -13,9 +13,11 @@ const ArrowSection = ({ level }) => {
         setIsOpen(!isOpen);
     };
 
-        const deleteProject = (classroom) => {
+        const deleteclassroom = (classroom) => {
             if (
-                !window.confirm("Are you sure you want to delete the classrooms?")
+                !window.confirm(
+                    "Are you sure you want to delete the classrooms?"
+                )
             ) {
                 return;
             }
@@ -117,7 +119,7 @@ const ArrowSection = ({ level }) => {
                                             </Link>
                                             <button
                                                 onClick={(e) =>
-                                                    deleteProject(classroom)
+                                                    deleteclassroom(classroom)
                                                 }
                                                 className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
                                             >

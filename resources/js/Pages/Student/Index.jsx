@@ -42,7 +42,6 @@ export default function Index({ auth, students, queryParams = null, success }) {
         if (!window.confirm("Are you sure you want to delete the student?")) {
             return;
         }
-        console.log(student.id);
         router.delete(route("student.destroy", student.id));
     };
 
@@ -72,8 +71,8 @@ export default function Index({ auth, students, queryParams = null, success }) {
                             {success}
                         </div>
                     )}
-                    <div className=" bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                        <div className="overflow-x-auto p-6 text-gray-900 dark:text-gray-100">
+                    <div className="bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                        <div className="p-6 overflow-x-auto text-gray-900 dark:text-gray-100 ">
                             <div className="">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                     <thead className="text-gray-700 border-b-2 border-gray-500 text-l bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -248,7 +247,7 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                 </td>
                                                 {/* Edit/Delete Buttons */}
                                                 <td className="px-3 py-2 text-center text-nowrap">
-                                                    <Dropdown  >
+                                                    <Dropdown>
                                                         <Dropdown.Trigger>
                                                             <span className="inline-flex rounded-md">
                                                                 <button
@@ -256,7 +255,6 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                                     className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
                                                                 >
                                                                     Operations
-
                                                                     <svg
                                                                         className="ms-2 -me-0.5 h-4 w-4"
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -283,33 +281,37 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                             </Dropdown.Link>
 
                                                             <Dropdown.Link
-                                                                href={route('test.show', student.id)}
+                                                                href={route(
+                                                                    "fee-invoice.show",
+                                                                    student.id
+                                                                )}
                                                             >
                                                                 Add Invoice
                                                             </Dropdown.Link>
 
                                                             <Dropdown className="mt-2">
-                                                                        <button
-                                                                            onClick={(e) =>
-                                                                                deleteStudent(
-                                                                                    student
-                                                                                )
-                                                                            }
-                                                                            className=" block w-full px-4 py-2 text-start text-sm leading-5 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-red-800 transition duration-150 ease-in-out"
-                                                                        >
-                                                                            Delete
-                                                                        </button>
+                                                                <button
+                                                                    onClick={(
+                                                                        e
+                                                                    ) =>
+                                                                        deleteStudent(
+                                                                            student
+                                                                        )
+                                                                    }
+                                                                    className="block w-full px-4 py-2 text-sm leading-5 text-red-700 transition duration-150 ease-in-out text-start dark:text-red-300 hover:bg-red-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-red-800"
+                                                                >
+                                                                    Delete
+                                                                </button>
                                                             </Dropdown>
                                                         </Dropdown.Content>
                                                     </Dropdown>
-
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={students.meta.links} />
+                            <Pagination  links={students.meta.links} />
                         </div>
                     </div>
                 </div>

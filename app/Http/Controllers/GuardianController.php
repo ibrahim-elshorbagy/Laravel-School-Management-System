@@ -28,7 +28,7 @@ class GuardianController extends Controller
         $guardians = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
-        return inertia("Guardian/Index", [
+        return inertia("Student/Guardian/Index", [
             "guardians" => GuardianResource::collection($guardians),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
@@ -42,7 +42,7 @@ class GuardianController extends Controller
     {
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
 
-        return inertia("Guardian/Create", [
+        return inertia("Student/Guardian/Create", [
             'nationalities' => $nationalities
         ]);
     }
@@ -75,7 +75,7 @@ class GuardianController extends Controller
     public function edit(Guardian $guardian)
     {
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
-        return inertia('Guardian/Edit',[
+        return inertia('Student/Guardian/Edit',[
             'nationalities' => $nationalities,
             'guardian'=>$guardian
         ]);

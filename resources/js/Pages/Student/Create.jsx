@@ -307,7 +307,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
-                                
+
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                             >
@@ -529,7 +529,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                             />
                                         </div>
                                     </div>
-                                    {console.log(JSON.stringify(data.image))}
+
                                     {data.image && (
                                         <div className="flex items-center justify-center mt-6">
                                             <div className="flex items-center justify-center overflow-hidden bg-gray-100 rounded-lg shadow-md w-80 h-80">

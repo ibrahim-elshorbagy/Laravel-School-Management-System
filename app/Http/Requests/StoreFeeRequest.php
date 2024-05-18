@@ -30,10 +30,15 @@ class StoreFeeRequest extends FormRequest
             Rule::unique('fees')->where(function($query){
             $query->where('year',$this->year)->where('grade_id',$this->grade_id);})
              ],
-
-
             'year' => ['nullable'],
             'type'=>['required','string']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'grade_id.unique' => 'The combination of grade and year already exists.',
         ];
     }
 }

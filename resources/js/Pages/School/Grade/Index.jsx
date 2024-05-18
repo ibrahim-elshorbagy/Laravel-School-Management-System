@@ -6,8 +6,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Index({ auth, levels, queryParams = null, success, danger }) {
+export default function Index({ auth, grades, queryParams = null, success }) {
     queryParams = queryParams || {};
+
 
     const searchFieldChanged = (name, value) => {
         if (value) {
@@ -19,14 +20,14 @@ export default function Index({ auth, levels, queryParams = null, success, dange
             delete queryParams.page;
         }
 
-        router.get(route("level.index"), queryParams);
+        router.get(route("grade.index"), queryParams);
     };
 
-    const onKeyPress = (name, event) => {
-        if (event.key == "Enter") {
-            searchFieldChanged(name, event.target.value);
-        }
-    };
+        const onKeyPress = (name, event) => {
+            if (event.key == "Enter") {
+                searchFieldChanged(name, event.target.value);
+            }
+        };
 
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {
@@ -39,15 +40,16 @@ export default function Index({ auth, levels, queryParams = null, success, dange
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("level.index"), queryParams);
+        router.get(route("grade.index"), queryParams);
     };
 
-    const deleteProject = (level) => {
-        if (!window.confirm("Are you sure you want to delete the levels?")) {
+
+    const deleteGrade = (grade) => {
+        if (!window.confirm("Are you sure you want to delete the grades?")) {
             return;
         }
 
-        router.delete(route("level.destroy", level.id));
+        router.delete(route("grade.destroy", grade.id));
     };
     return (
         <AuthenticatedLayout
@@ -55,10 +57,10 @@ export default function Index({ auth, levels, queryParams = null, success, dange
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Levels
+                        Grades
                     </h2>
                     <Link
-                        href={route("level.create")}
+                        href={route("grade.create")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add new
@@ -66,8 +68,7 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                 </div>
             }
         >
-            <Head title="Levels" />
-
+            <Head title="Grades" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -76,14 +77,6 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                             {success}
                         </div>
                     )}
-
-                    {danger && (
-                        <div className="px-4 py-2 mb-4 text-white bg-red-500 rounded">
-                            {danger}
-                        </div>
-                    )}
-
-                    
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <div className="overflow-auto ">
@@ -116,7 +109,19 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                                                 Name
                                             </TableHeading>
 
-                                            <th className="px-3 py-3">Notes</th>
+                                            <TableHeading
+                                                name="level_id"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Level
+                                            </TableHeading>
+
                                             <TableHeading
                                                 name="created_at"
                                                 sort_field={
@@ -144,7 +149,7 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                                             <th className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full min-w-[350px]"
-                                                    placeholder="Level Name"
+                                                    placeholder="Grade Name"
                                                     onSubmit={(e) =>
                                                         searchFieldChanged(
                                                             "name",
@@ -159,36 +164,37 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3 text-right"></th>
+                                            <th className="px-3 py-3 text-center text-nowrap"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {levels.data.map((level) => (
+                                        {grades.data.map((grade) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={level.id}
+                                                key={grade.id}
                                             >
                                                 <td className="px-3 py-2">
-                                                    {level.id}
+                                                    {grade.id}
                                                 </td>
                                                 <td className="px-3 py-2">
-                                                    {level.name}
+                                                    {grade.name}
                                                 </td>
 
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {level.notes}
+                                                    {grade.level}
+                                                </td>
+
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {grade.created_at}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {level.created_at}
-                                                </td>
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {level.updated_at}
+                                                    {grade.updated_at}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-nowrap">
                                                     <Link
                                                         href={route(
-                                                            "level.edit",
-                                                            level.id
+                                                            "grade.edit",
+                                                            grade.id
                                                         )}
                                                         className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                     >
@@ -196,7 +202,7 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                                                     </Link>
                                                     <button
                                                         onClick={(e) =>
-                                                            deleteProject(level)
+                                                            deleteGrade(grade)
                                                         }
                                                         className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
                                                     >
@@ -209,7 +215,7 @@ export default function Index({ auth, levels, queryParams = null, success, dange
                                 </table>
                             </div>
 
-                            <Pagination links={levels.meta.links} />
+                            <Pagination links={grades.meta.links} />
                         </div>
                     </div>
                 </div>

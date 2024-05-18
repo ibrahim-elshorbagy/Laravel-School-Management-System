@@ -173,6 +173,7 @@ public function store(StoreStudentRequest $request)
 
         $student = $student->load('level', 'grade', 'classroom','guardian');
 
+        
         return inertia("Student/Edit",
     [
         'nationalities' => $nationalities,

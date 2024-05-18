@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateFeeRequest extends FormRequest
+class StoreFeeInvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +21,13 @@ class UpdateFeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $fee = $this->route('fee');
         return [
-            'name' => ['required', 'string'],
+            'level_id' => ['required', 'numeric'],
+            'grade_id' => ['required', 'numeric'],
             'amount' => ['required', 'numeric'],
-            'level_id' => ['nullable', 'numeric'],
-            'grade_id' => ['nullable', 'numeric',Rule::unique('fees')->ignore($fee->id)],
-            'year' => ['nullable'],
-            'type'=>['required','string'],
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'grade_id.unique' => 'The combination of grade and year already exists.',
+            'fee_id' => ['required', 'numeric'],
+            'student_id' => ['required', 'numeric'],
+            'description' => ['nullable','string'],
         ];
     }
 }

@@ -28,7 +28,7 @@ class GradeController extends Controller
 
         $grades = $query->orderBy($sortFileds,$sortDirection)->paginate(10)->onEachSide(1);
 
-        return inertia('Grade/Index', [
+        return inertia('School/Grade/Index', [
             'grades' => GradeResource::collection($grades),
             'queryParams' => request()->query() ?: null,
             'success'=>session('success')
@@ -43,7 +43,7 @@ class GradeController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
 
-        return inertia("Grade/Create", [
+        return inertia("School/Grade/Create", [
             'levels' => LevelResource::collection($levels),
         ]);
     }
@@ -74,7 +74,7 @@ class GradeController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
 
-        return inertia('Grade/Edit',[
+        return inertia('School/Grade/Edit',[
             'grade'=>new GradeResource($grade),
             'levels' => LevelResource::collection($levels),
 
@@ -87,7 +87,7 @@ class GradeController extends Controller
      */
     public function update(UpdateGradeRequest $request, Grade $grade)
     {
-        $data = $request->validated();
+        $data= $request->validated();
 
 
         $grade ->update($data);
