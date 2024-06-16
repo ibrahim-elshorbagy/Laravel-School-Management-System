@@ -6,17 +6,14 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-
-
 export default function Create({ auth, specializations, teacher }) {
     const { data, setData, post, errors, reset } = useForm({
-        email:teacher.email || "",
-        password:teacher.password  || "",
-        name:teacher.name  || "",
-        address:teacher.address  || "",
-        specialization_id:teacher.specialization_id  || "",
-        gender:teacher.gender  || "",
-
+        email: teacher.email || "",
+        password: teacher.password || "",
+        name: teacher.name || "",
+        address: teacher.address || "",
+        specialization_id: teacher.specialization_id || "",
+        gender: teacher.gender || "",
 
         _method: "PUT",
     });
@@ -41,7 +38,7 @@ export default function Create({ auth, specializations, teacher }) {
             <Head title="Gardian" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                    <div className="overflow-hidden bg-white shadow-sm gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
                                 onSubmit={onSubmit}

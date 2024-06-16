@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Index({ auth, feeInvoices, queryParams = null, success }) {
+export default function Index({ auth, receipt_students, queryParams = null, success }) {
     queryParams = queryParams || {};
 
     const searchFieldChanged = (name, value) => {
@@ -15,11 +15,11 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
         } else {
             delete queryParams[name];
         }
-        if (name === "status" || name === "name") {
+        if (name === "name") {
             delete queryParams.page;
         }
 
-        router.get(route("FeeInvoice.index"), queryParams);
+        router.get(route("receipt-student.index"), queryParams);
     };
 
     const onKeyPress = (name, event) => {
@@ -39,17 +39,17 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("FeeInvoice.index"), queryParams);
+        router.get(route("receipt-student.index"), queryParams);
     };
 
-    const deleteFeeInvoice = (feeInvoice) => {
+    const deleteReceiptStudent = (receipt_student) => {
         if (
             !window.confirm("Are you sure you want to delete the Fee Invoice?")
         ) {
             return;
         }
 
-        router.delete(route("fee-invoice.destroy", feeInvoice.id));
+        router.delete(route("receipt-student.destroy", receipt_student.id));
     };
     return (
         <AuthenticatedLayout
@@ -57,13 +57,13 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Fee Invoice
+                        Recevied money
                     </h2>
                     <Link
                         href={route("student.index")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
-                        Make an Invoice
+                        Add Recevied money
                     </Link>
                 </div>
             }
@@ -77,6 +77,7 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                             {success}
                         </div>
                     )}
+
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <div className="overflow-auto ">
@@ -109,7 +110,7 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                                 Name
                                             </TableHeading>
                                             <TableHeading
-                                                name="fee_id"
+                                                name="debit"
                                                 sort_field={
                                                     queryParams.sort_field
                                                 }
@@ -118,23 +119,14 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                                 }
                                                 sortChanged={sortChanged}
                                             >
-                                                Fee
+                                                Received
                                             </TableHeading>
-                                            <TableHeading
-                                                name="amount"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Amount / EGP
-                                            </TableHeading>
+                                            <th className="px-3 py-3">
+                                                description
+                                            </th>
 
                                             <TableHeading
-                                                name="level_id"
+                                                name="created_at"
                                                 sort_field={
                                                     queryParams.sort_field
                                                 }
@@ -143,20 +135,9 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                                 }
                                                 sortChanged={sortChanged}
                                             >
-                                                Level
+                                                Created At
                                             </TableHeading>
-                                            <TableHeading
-                                                name="grade_id"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Grade
-                                            </TableHeading>
+
                                             <TableHeading
                                                 name="updated_at"
                                                 sort_field={
@@ -181,7 +162,7 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                             <th className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full min-w-[350px]"
-                                                    placeholder="Fee Invoice"
+                                                    placeholder="Name"
                                                     onSubmit={(e) =>
                                                         searchFieldChanged(
                                                             "name",
@@ -197,67 +178,72 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3 text-center text-nowrap"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {feeInvoices.data.map((feeInvoice) => (
-                                            <tr
-                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={feeInvoice.id}
-                                            >
-                                                <td className="px-3 py-2">
-                                                    {feeInvoice.id}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {feeInvoice.student}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {feeInvoice.fee}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {feeInvoice.amount}
-                                                </td>
-
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {feeInvoice.level}
-                                                </td>
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {feeInvoice.grade}
-                                                </td>
-
-                                                <td className="px-3 py-2 text-nowrap">
-                                                    {feeInvoice.updated_at}
-                                                </td>
-                                                <td className="px-3 py-2 text-center text-nowrap">
-                                                    <Link
-                                                        href={route(
-                                                            "fee-invoice.edit",
-                                                            feeInvoice.id
-                                                        )}
-                                                        className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                                    >
-                                                        Edit
-                                                    </Link>
-                                                    <button
-                                                        onClick={(e) =>
-                                                            deleteFeeInvoice(
-                                                                feeInvoice
-                                                            )
+                                        {receipt_students.data.map(
+                                            (receipt_student) => (
+                                                <tr
+                                                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                                    key={receipt_student.id}
+                                                >
+                                                    <td className="px-3 py-2">
+                                                        {receipt_student.id}
+                                                    </td>
+                                                    <td className="px-3 py-2">
+                                                        {
+                                                            receipt_student.student
                                                         }
-                                                        className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    </td>
+                                                    <td className="px-3 py-2">
+                                                        {receipt_student.debit}
+                                                    </td>
+                                                    <td className="px-3 py-2">
+                                                        {
+                                                            receipt_student.description
+                                                        }
+                                                    </td>
+
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {
+                                                            receipt_student.created_at
+                                                        }
+                                                    </td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {
+                                                            receipt_student.updated_at
+                                                        }
+                                                    </td>
+                                                    <td className="px-3 py-2 text-center text-nowrap">
+                                                        <Link
+                                                            href={route(
+                                                                "receipt-student.edit",
+                                                                receipt_student.id
+                                                            )}
+                                                            className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                                        >
+                                                            Edit
+                                                        </Link>
+                                                        <button
+                                                            onClick={(e) =>
+                                                                deleteReceiptStudent(
+                                                                    receipt_student
+                                                                )
+                                                            }
+                                                            className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
 
-                            <Pagination links={feeInvoices.meta.links} />
+                            <Pagination links={receipt_students.meta.links} />
                         </div>
                     </div>
                 </div>

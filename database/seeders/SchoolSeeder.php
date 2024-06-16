@@ -48,9 +48,9 @@ class SchoolSeeder extends Seeder
         }
 
         DB::table('guardians')->insert([
-            'email' => 'guardian@example.com',
+            'email' => 'mohamed@example.com',
             'password' => bcrypt('password'),
-            'name' => 'Guardian Name',
+            'name' => 'Mohamed elshorbagy',
             'phone' => 0501234567,
             'job' => 'Teacher',
             'passport_id' => '123123456',
@@ -62,7 +62,7 @@ class SchoolSeeder extends Seeder
 
         DB::table('students')->insert([
             [
-                'name' => 'Student 1',
+                'name' => 'Ahmed mohamed',
                 'email' => 'student1@example.com',
                 'password' => bcrypt('password'),
                 'gender' => 'Male',
@@ -78,7 +78,7 @@ class SchoolSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Student 2',
+                'name' => 'Ibrahim mohamed',
                 'email' => 'student2@example.com',
                 'password' => bcrypt('password'),
                 'gender' => 'Female',
@@ -94,7 +94,7 @@ class SchoolSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Student 3',
+                'name' => 'Khalid mohamed',
                 'email' => 'student3@example.com',
                 'password' => bcrypt('password'),
                 'gender' => 'Male',
@@ -110,7 +110,7 @@ class SchoolSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Student 4',
+                'name' => 'Belal mohamed',
                 'email' => 'student4@example.com',
                 'password' => bcrypt('password'),
                 'gender' => 'Female',

@@ -15,7 +15,7 @@ export default function Index({ auth, levels, queryParams = null, success, dange
         } else {
             delete queryParams[name];
         }
-        if (name === "status" || name === "name") {
+        if (name === "name") {
             delete queryParams.page;
         }
 

@@ -29,4 +29,10 @@ class Student extends Model
     {
         return $this->belongsTo(Guardian::class);
     }
+
+    public function student_fee()
+    {
+        return $this->hasMany(StudentFee::class);
+    }
 }
+

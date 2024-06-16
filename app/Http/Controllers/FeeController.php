@@ -26,7 +26,7 @@ class FeeController extends Controller
 
         $fees = $query->orderBy($sortFileds,$sortDirection)->paginate(10)->onEachSide(1);
 
-        return inertia('Fee/Index', [
+        return inertia('FeesSystem/Fee/Index', [
             'fees' => FeeResource::collection($fees),
             'queryParams' => request()->query() ?: null,
             'success'=>session('success')
@@ -40,7 +40,7 @@ class FeeController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        return inertia('Fee/Create',
+        return inertia('FeesSystem/Fee/Create',
                 [
                     'levels' => $levels,
                     'grades' => $grades,
@@ -80,7 +80,7 @@ class FeeController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        return inertia('Fee/Edit',[
+        return inertia('FeesSystem/Fee/Edit',[
             'fee'=> $fee,
             'levels' => $levels,
             'grades' => $grades,

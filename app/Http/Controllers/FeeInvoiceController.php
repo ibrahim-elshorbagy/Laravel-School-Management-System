@@ -32,7 +32,7 @@ class FeeInvoiceController extends Controller
 
         $feeInvoices = $query->orderBy($sortFileds, $sortDirection)->paginate(10)->onEachSide(1);
 
-        return inertia('FeeInvoice/Index', [
+        return inertia('FeesSystem/FeeInvoice/Index', [
             'feeInvoices' => FeeInvoiceResource::collection($feeInvoices),
             'queryParams' => request()->query() ?: null,
             'success' => session('success')
@@ -61,13 +61,12 @@ class FeeInvoiceController extends Controller
                 ->where('grade_id', $student->grade_id)
                 ->orWhere('type', 'public')
                 ->get();
-        return inertia('FeeInvoice/Add',compact('student','fees'));
+        return inertia('FeesSystem/FeeInvoice/Add',compact('student','fees'));
     }
 
     public function store(StoreFeeInvoiceRequest $request)
     {
         $data=$request->validated();
-
         $feeInvoice = [
             'student_id'=>$data['student_id'],
             'level_id'=>$data['level_id'],
@@ -75,19 +74,22 @@ class FeeInvoiceController extends Controller
             'fee_id'=>$data['fee_id'],
             'amount'=>$data['amount'],
             'description'=>$data['description'] ?? null,
+            'type'=>$data['type'],
         ];
 
         $invoice = FeeInvoice::create($feeInvoice);
 
         $studentFee = [
+            'student_id'=>$data['student_id'],
             'debit'=>$data['amount'],
             'credit'=>0,
             'fee_invoice_id'=>$invoice->id,
+            'type'=>'Invoice',
         ];
 
         StudentFee::create($studentFee);
         return to_route('fee-invoice.index')
-        ->with('success',"Fee   Invoice created successfully");
+        ->with('success',"Fee Invoice created successfully");
 
     }
 
@@ -101,15 +103,11 @@ class FeeInvoiceController extends Controller
             'student' => function ($query) {$query->select('id', 'name');},
             'fee'
             ])->findOrFail($id);
-            //  => function ($query) {$query->select('id', 'name');}
-
                 $fees = Fee::select('id','name', 'amount','level_id','grade_id', 'type',)
                 ->where('grade_id', $feeInvoice->grade_id)
                 ->orWhere('type', 'public')
                 ->get();
-
-        return inertia('FeeInvoice/Edit',compact('feeInvoice','fees'));
-
+        return inertia('FeesSystem/FeeInvoice/Edit',compact('feeInvoice','fees'));
 
     }
 
@@ -126,6 +124,7 @@ class FeeInvoiceController extends Controller
             'fee_id'=>$data['fee_id'],
             'amount'=>$data['amount'],
             'description'=>$data['description'] ?? null,
+            'type'=>$data['type'],
         ];
 
         $feeInvoice ->update($feeInvoiceData);

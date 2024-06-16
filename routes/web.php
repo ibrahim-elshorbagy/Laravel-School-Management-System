@@ -8,11 +8,12 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
-
+use App\Http\Controllers\ReceiptStudentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,6 @@ Route::resource('project',ProjectController::class);
 Route::resource('task',TaskController::class);
 Route::resource('user',UserController::class);
 
-Route::resource('fee-invoice',FeeInvoiceController::class);
 
 Route::resource('grade', GradeController::class);
 Route::resource('level', LevelController::class);
@@ -42,7 +42,11 @@ Route::resource('teacher',TeacherController::class);
 Route::resource('student', StudentController::class);
 Route::resource('promotion',PromotionController::class);
 Route::resource('graduated',GraduatedController::class);
+
 Route::resource('fee',FeeController::class);
+Route::resource('fee-invoice',FeeInvoiceController::class);
+Route::resource('receipt-student',ReceiptStudentController::class);
+Route::resource('processing-fee', ProcessingFeeController::class);
 
 });
 

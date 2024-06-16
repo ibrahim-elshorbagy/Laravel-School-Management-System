@@ -199,7 +199,7 @@ export default function Add({ auth, feeInvoice, fees }) {
                                         type="description"
                                         name="description"
                                         value={data.description}
-                                        className="block w-full p-1 mt-1"
+                                        className="block w-full p-3 mt-1 bg-gray-200 border rounded-md shadow-sm sm:text-sm"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData(

@@ -78,7 +78,7 @@ public function store(StoreStudentRequest $request)
 
     $data = $request->validated();
 
-
+dd($data);
 
     // If guardian_id exists, use it directly
     if ($data['guardian_id']) {
@@ -173,7 +173,7 @@ public function store(StoreStudentRequest $request)
 
         $student = $student->load('level', 'grade', 'classroom','guardian');
 
-        
+
         return inertia("Student/Edit",
     [
         'nationalities' => $nationalities,

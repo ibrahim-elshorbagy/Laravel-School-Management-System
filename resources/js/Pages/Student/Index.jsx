@@ -279,7 +279,6 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                             >
                                                                 Edit
                                                             </Dropdown.Link>
-
                                                             <Dropdown.Link
                                                                 href={route(
                                                                     "fee-invoice.show",
@@ -287,6 +286,23 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                                 )}
                                                             >
                                                                 Add Invoice
+                                                            </Dropdown.Link>
+                                                            <Dropdown.Link
+                                                                href={route(
+                                                                    "receipt-student.show",
+                                                                    student.id
+                                                                )}
+                                                            >
+                                                                Add Received
+                                                                Money
+                                                            </Dropdown.Link>
+                                                            <Dropdown.Link
+                                                                href={route(
+                                                                    "processing-fee.show",
+                                                                    student.id
+                                                                )}
+                                                            >
+                                                                Exclude fees
                                                             </Dropdown.Link>
 
                                                             <Dropdown className="mt-2">
@@ -311,7 +327,7 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination  links={students.meta.links} />
+                            <Pagination links={students.meta.links} />
                         </div>
                     </div>
                 </div>

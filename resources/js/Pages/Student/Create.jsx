@@ -301,13 +301,11 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
             }
         >
             <Head title="Student" />
-
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
-
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                             >
@@ -737,6 +735,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                     </div>
                 </div>
             </div>
+            
         </AuthenticatedLayout>
     );
 }

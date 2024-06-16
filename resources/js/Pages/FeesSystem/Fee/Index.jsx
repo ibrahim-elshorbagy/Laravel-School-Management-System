@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Index({ auth, grades, queryParams = null, success }) {
+export default function Index({ auth, fees, queryParams = null, success }) {
     queryParams = queryParams || {};
 
 
@@ -20,7 +20,7 @@ export default function Index({ auth, grades, queryParams = null, success }) {
             delete queryParams.page;
         }
 
-        router.get(route("grade.index"), queryParams);
+        router.get(route("fee.index"), queryParams);
     };
 
         const onKeyPress = (name, event) => {
@@ -40,16 +40,16 @@ export default function Index({ auth, grades, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("grade.index"), queryParams);
+        router.get(route("fee.index"), queryParams);
     };
 
 
-    const deleteGrade = (grade) => {
-        if (!window.confirm("Are you sure you want to delete the grades?")) {
+    const deleteFee = (fee) => {
+        if (!window.confirm("Are you sure you want to delete the fees?")) {
             return;
         }
 
-        router.delete(route("grade.destroy", grade.id));
+        router.delete(route("fee.destroy", fee.id));
     };
     return (
         <AuthenticatedLayout
@@ -57,18 +57,18 @@ export default function Index({ auth, grades, queryParams = null, success }) {
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Grades
+                        Fees
                     </h2>
                     <Link
-                        href={route("grade.create")}
+                        href={route("fee.create")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
-                        Add new
+                        Make a Fee
                     </Link>
                 </div>
             }
         >
-            <Head title="Grades" />
+            <Head title="Fees" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -108,6 +108,18 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                             >
                                                 Name
                                             </TableHeading>
+                                            <TableHeading
+                                                name="amount"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Amount / EGP
+                                            </TableHeading>
 
                                             <TableHeading
                                                 name="level_id"
@@ -121,9 +133,8 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                             >
                                                 Level
                                             </TableHeading>
-
                                             <TableHeading
-                                                name="created_at"
+                                                name="grade_id"
                                                 sort_field={
                                                     queryParams.sort_field
                                                 }
@@ -132,12 +143,34 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                                 }
                                                 sortChanged={sortChanged}
                                             >
-                                                Create Date
+                                                Grade
+                                            </TableHeading>
+                                            <TableHeading
+                                                name="year"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Academic Year
                                             </TableHeading>
 
-                                            <th className="px-3 py-3">
+                                            <TableHeading
+                                                name="updated_at"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
                                                 Updated At
-                                            </th>
+                                            </TableHeading>
+
                                             <th className="px-3 py-3 text-center">
                                                 Actions
                                             </th>
@@ -149,7 +182,7 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                             <th className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full min-w-[350px]"
-                                                    placeholder="Grade Name"
+                                                    placeholder="Fee Name"
                                                     onSubmit={(e) =>
                                                         searchFieldChanged(
                                                             "name",
@@ -164,37 +197,45 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
+                                            <th className="px-3 py-3"></th>
+                                            <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3 text-center text-nowrap"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {grades.data.map((grade) => (
+                                        {fees.data.map((fee) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={grade.id}
+                                                key={fee.id}
                                             >
                                                 <td className="px-3 py-2">
-                                                    {grade.id}
+                                                    {fee.id}
                                                 </td>
                                                 <td className="px-3 py-2">
-                                                    {grade.name}
+                                                    {fee.name}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {fee.amount}
                                                 </td>
 
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {grade.level}
+                                                    {fee.level}
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {fee.grade}
                                                 </td>
 
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {grade.created_at}
+                                                    {fee.year}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {grade.updated_at}
+                                                    {fee.updated_at}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-nowrap">
                                                     <Link
                                                         href={route(
-                                                            "grade.edit",
-                                                            grade.id
+                                                            "fee.edit",
+                                                            fee.id
                                                         )}
                                                         className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                     >
@@ -202,7 +243,7 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                                     </Link>
                                                     <button
                                                         onClick={(e) =>
-                                                            deleteGrade(grade)
+                                                            deleteFee(fee)
                                                         }
                                                         className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
                                                     >
@@ -215,7 +256,7 @@ export default function Index({ auth, grades, queryParams = null, success }) {
                                 </table>
                             </div>
 
-                            <Pagination links={grades.meta.links} />
+                            <Pagination links={fees.meta.links} />
                         </div>
                     </div>
                 </div>
