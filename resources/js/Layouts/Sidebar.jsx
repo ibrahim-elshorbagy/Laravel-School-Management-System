@@ -15,6 +15,7 @@ import { CiMoneyCheck1 } from "react-icons/ci";
 import { FaFileInvoice } from "react-icons/fa6";
 import { PiInvoiceFill } from "react-icons/pi";
 import { GrTransaction } from "react-icons/gr";
+import { FaTableList } from "react-icons/fa6";
 
 export default function Sidebar() {
 
@@ -312,6 +313,24 @@ export default function Sidebar() {
                             active={route().current("processing-fee.index")}
                         >
                             Processing
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("student-attendances.index")}
+                            active={route().current("student-attendances.index")}
+                        >
+                            <FaTableList />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("student-attendances.index")}
+                            active={route().current("student-attendances.index")}
+                        >
+                            Attendance
                         </SidebarLink>
                     </li>
                     {/* ======== */}

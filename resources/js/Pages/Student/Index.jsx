@@ -302,7 +302,7 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                                     student.id
                                                                 )}
                                                             >
-                                                                Exclude fees
+                                                                Exclude Money
                                                             </Dropdown.Link>
 
                                                             <Dropdown className="mt-2">

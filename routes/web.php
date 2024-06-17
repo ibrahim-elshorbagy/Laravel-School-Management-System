@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeeController;
@@ -47,6 +48,8 @@ Route::resource('fee',FeeController::class);
 Route::resource('fee-invoice',FeeInvoiceController::class);
 Route::resource('receipt-student',ReceiptStudentController::class);
 Route::resource('processing-fee', ProcessingFeeController::class);
+
+Route::resource('student-attendances', AttendanceController::class);
 
 });
 
