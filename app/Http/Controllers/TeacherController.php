@@ -6,6 +6,7 @@ use App\Models\Teacher;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Http\Resources\TeacherResource;
+use App\Models\Level;
 use App\Models\Specialization;
 
 class TeacherController extends Controller
@@ -15,7 +16,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $query = Teacher::query()->with('specialization');
+        $query = Teacher::query()->with('specialization','level');
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
@@ -40,10 +41,12 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $specializations = Specialization::orderBy('name', 'asc')->get(['id', 'name']);
 
         return inertia("Teacher/Create", [
-            'specializations' => $specializations
+            'specializations' => $specializations,
+            'levels' => $levels
         ]);
     }
 
@@ -53,7 +56,6 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
-
         Teacher::create($data);
 
         return to_route('teacher.index')
@@ -73,10 +75,14 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
+        $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
+
         $specializations = Specialization::orderBy('name', 'asc')->get(['id', 'name']);
         return inertia('Teacher/Edit',[
             'specializations' => $specializations,
-            'teacher'=>$teacher
+            'teacher'=>$teacher,
+            'levels' => $levels
+
         ]);
     }
 

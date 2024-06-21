@@ -1,26 +1,31 @@
 import Pagination from "@/Components/Pagination";
 import TextInput from "@/Components/TextInput";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-export default function Index({ auth, teachers, queryParams = null, success }) {
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
+import { Head, Link, router } from "@inertiajs/react";
+
+export default function Index({ auth, subjects, queryParams = null, success }) {
     queryParams = queryParams || {};
+
     const searchFieldChanged = (name, value) => {
         if (value) {
             queryParams[name] = value;
         } else {
             delete queryParams[name];
         }
+        if (name === "name") {
+            delete queryParams.page;
+        }
 
-        router.get(route("teacher.index"), queryParams);
+        router.get(route("subject.index"), queryParams);
     };
 
-    const onKeyPress = (name, e) => {
-        if (e.key !== "Enter") return;
-
-        searchFieldChanged(name, e.target.value);
+    const onKeyPress = (name, event) => {
+        if (event.key == "Enter") {
+            searchFieldChanged(name, event.target.value);
+        }
     };
 
     const sortChanged = (name) => {
@@ -34,26 +39,26 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("teacher.index"), queryParams);
+        router.get(route("subject.index"), queryParams);
     };
 
-    const deleteTeacher = (teacher) => {
-        if (!window.confirm("Are you sure you want to delete the teacher?")) {
+    const deleteSubject = (subject) => {
+        if (!window.confirm("Are you sure you want to delete the subjects?")) {
             return;
         }
-        router.delete(route("teacher.destroy", teacher.id));
-    };
 
+        router.delete(route("subject.destroy", subject.id));
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Teacher
+                        Subjects
                     </h2>
                     <Link
-                        href={route("teacher.create")}
+                        href={route("subject.create")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add new
@@ -61,7 +66,8 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                 </div>
             }
         >
-            <Head title="Teacher" />
+            <Head title="Subjects" />
+
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     {success && (
@@ -71,10 +77,9 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                     )}
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <div className="overflow-auto">
-
+                            <div className="overflow-auto ">
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-                                    <thead className="text-gray-700 border-b-2 border-gray-500 text-l bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr className="text-nowrap">
                                             <TableHeading
                                                 name="id"
@@ -88,6 +93,7 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             >
                                                 ID
                                             </TableHeading>
+
                                             <TableHeading
                                                 name="name"
                                                 sort_field={
@@ -101,7 +107,7 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                                 Name
                                             </TableHeading>
                                             <TableHeading
-                                                name="email"
+                                                name="teacher_id"
                                                 sort_field={
                                                     queryParams.sort_field
                                                 }
@@ -110,10 +116,10 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                                 }
                                                 sortChanged={sortChanged}
                                             >
-                                                Email
+                                                Teacher
                                             </TableHeading>
                                             <TableHeading
-                                                name="Level"
+                                                name="level_id"
                                                 sort_field={
                                                     queryParams.sort_field
                                                 }
@@ -124,18 +130,31 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             >
                                                 Level
                                             </TableHeading>
-                                            <th className="px-3 py-3">
-                                                Specialization
-                                            </th>
-                                            <th className="px-3 py-3">
-                                                Gender
-                                            </th>
-                                            <th className="px-3 py-3">
-                                                Address
-                                            </th>
-                                            <th className="px-3 py-3">
+                                            <TableHeading
+                                                name="grade_id"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Grade
+                                            </TableHeading>
+
+                                            <TableHeading
+                                                name="updated_at"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
                                                 Updated At
-                                            </th>
+                                            </TableHeading>
                                             <th className="px-3 py-3 text-center">
                                                 Actions
                                             </th>
@@ -146,12 +165,9 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3">
                                                 <TextInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.name
-                                                    }
-                                                    placeholder="Name"
-                                                    onBlur={(e) =>
+                                                    className="w-full min-w-[350px]"
+                                                    placeholder="Subject Name"
+                                                    onSubmit={(e) =>
                                                         searchFieldChanged(
                                                             "name",
                                                             e.target.value
@@ -160,71 +176,45 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                                     onKeyPress={(e) =>
                                                         onKeyPress("name", e)
                                                     }
-                                                />
-                                            </th>
-                                            <th className="px-3 py-3">
-                                                <TextInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.email
-                                                    }
-                                                    placeholder="Email"
-                                                    onBlur={(e) =>
-                                                        searchFieldChanged(
-                                                            "email",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("email", e)
-                                                    }
-                                                />
+                                                ></TextInput>
                                             </th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
+                                            <th className="px-3 py-3 text-right"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {teachers.data.map((teacher) => (
+                                        {subjects.data.map((subject) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={teacher.id}
+                                                key={subject.id}
                                             >
                                                 <td className="px-3 py-2">
-                                                    {teacher.id}
+                                                    {subject.id}
                                                 </td>
-                                                <th className="px-3 py-2 text-gray-100 text-nowrap">
-                                                    {teacher.name}
-                                                </th>
+                                                <td className="px-3 py-2">
+                                                    {subject.name}
+                                                </td>
 
-                                                <td className="px-3 py-2">
-                                                    {teacher.email}
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {subject.teacher}
                                                 </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.level}
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {subject.level}
                                                 </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.specialization}
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {subject.grade}
                                                 </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.gender}
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {subject.updated_at}
                                                 </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.address}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.updated_at}
-                                                </td>
-                                                {/* Edit/Delete Buttons */}
                                                 <td className="px-3 py-2 text-center text-nowrap">
                                                     <Link
                                                         href={route(
-                                                            "teacher.edit",
-                                                            teacher.id
+                                                            "subject.edit",
+                                                            subject.id
                                                         )}
                                                         className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                     >
@@ -232,8 +222,8 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                                     </Link>
                                                     <button
                                                         onClick={(e) =>
-                                                            deleteTeacher(
-                                                                teacher
+                                                            deleteSubject(
+                                                                subject
                                                             )
                                                         }
                                                         className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -246,7 +236,8 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={teachers.meta.links} />
+
+                            <Pagination links={subjects.meta.links} />
                         </div>
                     </div>
                 </div>

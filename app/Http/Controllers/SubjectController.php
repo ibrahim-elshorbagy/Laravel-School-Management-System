@@ -2,27 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classroom;
-use App\Http\Requests\StoreClassroomRequest;
-use App\Http\Requests\UpdateClassroomRequest;
-use App\Http\Resources\ClassroomResource;
+use App\Models\Subject;
+use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Resources\LevelResource;
-use App\Http\Resources\TeacherResource;
+use App\Http\Resources\SubjectResource;
 use App\Models\Grade;
 use App\Models\Level;
 use App\Models\Teacher;
 
-class ClassroomController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $levels = Level::select('id','name')->with('classrooms','classrooms.grade')->get();
-        return inertia('School/Classroom/Index',
-            ['levels'=>$levels,
-            'success'=>session('success')
+        $query = Subject::query()->with('level','grade','teacher');
+        $sortField = request("sort_field", 'created_at');
+        $sortDirection = request("sort_direction", "desc");
+
+        if (request("name")) {
+            $query->where("name", "like", "%" . request("name") . "%");
+        }
+
+        $subjects = $query->orderBy($sortField, $sortDirection)
+            ->paginate(10)
+            ->onEachSide(1);
+        return inertia("LearnProcess/Subjects/Index", [
+            "subjects" => SubjectResource::collection($subjects),
+            'queryParams' => request()->query() ?: null,
+            'success' => session('success'),
         ]);
     }
 
@@ -31,7 +41,6 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
         $teachers = Teacher::with('specialization','level')->get()
@@ -46,7 +55,8 @@ class ClassroomController extends Controller
 
             ];
         });
-        return inertia("School/Classroom/Create", [
+
+        return inertia("LearnProcess/Subjects/Create", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
             'teachers' => $teachers
@@ -56,21 +66,18 @@ class ClassroomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClassroomRequest $request)
+    public function store(StoreSubjectRequest $request)
     {
-
         $data = $request->validated();
-
-        $classroom = Classroom::create($data);
-        $classroom->teachers()->attach($data['teacher_id']);
-        return to_route('classroom.index')
-        ->with('success',"Classroom created successfully");
+        Subject::create($data);
+        return to_route('subject.index')
+        ->with('success',"Subject created successfully");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Classroom $classroom)
+    public function show(Subject $subject)
     {
         //
     }
@@ -78,10 +85,11 @@ class ClassroomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Classroom $classroom)
+    public function edit(Subject $subject)
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
+
 
         $teachers = Teacher::with('specialization','level')->get() //get all teachers
         ->map(function ($teacher) {
@@ -95,34 +103,32 @@ class ClassroomController extends Controller
             ];
         });
 
-        $SelectedTeachers = $classroom->teachers->pluck('id')->toArray();
-        return inertia("School/Classroom/Edit", [
+        return inertia("LearnProcess/Subjects/Edit", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
-            'classroom'=> $classroom,
             'teachers' =>$teachers,
-            'SelectedTeachers'=>$SelectedTeachers
+            'subject' => $subject,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClassroomRequest $request, Classroom $classroom)
+    public function update(UpdateSubjectRequest $request, Subject $subject)
     {
         $data = $request->validated();
-        $classroom->update($data);
-        $classroom->teachers()->sync($data['teacher_id']);
-        return to_route('classroom.index')
-        ->with('success',"Classroom updated successfully");
+        $subject->update($data);
+        return to_route('subject.index')
+        ->with('success',"Subject updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classroom $classroom)
+    public function destroy(Subject $subject)
     {
-        $classroom->delete();
-        return to_route('classroom.index')->with('success','Classroom deleted successfully');
+        $subject->delete();
+        return to_route('subject.index')->with('success','Subject deleted successfully');
+
     }
 }

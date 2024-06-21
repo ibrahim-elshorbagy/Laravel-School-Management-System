@@ -5,6 +5,7 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Create({ auth, levels, grades,teachers }) {
     const { data, setData, post, errors, reset } = useForm({
@@ -21,6 +22,19 @@ export default function Create({ auth, levels, grades,teachers }) {
         post(route("classroom.store"));
     };
 
+    const [filteredTeachers, setFilteredTeachers] = useState([]);
+
+    const handleLevelChange = (e) => {
+        setData("level_id", e.target.value);
+
+        const filtered = teachers.filter(
+            (teacher) => teacher.level_id == e.target.value
+        );
+        setFilteredTeachers(filtered);
+    };
+
+
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -36,6 +50,7 @@ export default function Create({ auth, levels, grades,teachers }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {JSON.stringify(teachers)}
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <form
                             onSubmit={onSubmit}
@@ -54,8 +69,8 @@ export default function Create({ auth, levels, grades,teachers }) {
                                 <SelectInput
                                     name="level_id"
                                     className="block w-full mt-1"
-                                    onChange={(e) =>
-                                        setData("level_id", e.target.value)
+                                    onChange={
+                                        handleLevelChange
                                     }
                                 >
                                     <option value="">Select Level</option>
@@ -153,7 +168,7 @@ export default function Create({ auth, levels, grades,teachers }) {
                                 </SelectInput>
 
                                 <InputError
-                                    message={errors.task_status}
+                                    message={errors.status}
                                     className="mt-2"
                                 />
                             </div>
@@ -176,7 +191,7 @@ export default function Create({ auth, levels, grades,teachers }) {
                                         )
                                     }
                                 >
-                                    {teachers.map((teacher) => (
+                                    {filteredTeachers.map((teacher) => (
                                         <option
                                             value={teacher.id}
                                             key={teacher.id}
@@ -194,7 +209,7 @@ export default function Create({ auth, levels, grades,teachers }) {
 
                             <div className="mt-4 text-right">
                                 <Link
-                                    href={route("grade.index")}
+                                    href={route("classroom.index")}
                                     className="px-3 py-1 mr-2 text-gray-800 transition-all bg-gray-100 rounded shadow hover:bg-gray-200"
                                 >
                                     Cancel

@@ -10,7 +10,7 @@ class Teacher extends Model
     use HasFactory;
     protected $guarded = [];
 
-    
+
     public function specialization()
     {
         return $this->belongsTo(Specialization::class);
@@ -22,4 +22,8 @@ class Teacher extends Model
 
     }
 
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
 }

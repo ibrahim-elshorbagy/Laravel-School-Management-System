@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth, specializations, teacher }) {
+export default function Create({ auth, specializations, teacher, levels }) {
     const { data, setData, post, errors, reset } = useForm({
         email: teacher.email || "",
         password: teacher.password || "",
@@ -14,6 +14,7 @@ export default function Create({ auth, specializations, teacher }) {
         address: teacher.address || "",
         specialization_id: teacher.specialization_id || "",
         gender: teacher.gender || "",
+        level_id: teacher.level_id || "",
 
         _method: "PUT",
     });
@@ -188,31 +189,61 @@ export default function Create({ auth, specializations, teacher }) {
                                             className="mt-2"
                                         />
                                     </div>
-
-                                    {/* Address */}
+                                    {/* Level */}
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="address"
-                                            value="Address"
+                                            htmlFor="level"
+                                            value="Level"
                                         />
-                                        <TextInput
-                                            id="address"
-                                            type="text"
-                                            name="address"
-                                            value={data.address}
+                                        <SelectInput
+                                            name="level"
                                             className="block w-full mt-1"
+                                            value={data.level_id} 
                                             onChange={(e) =>
                                                 setData(
-                                                    "address",
+                                                    "level_id",
                                                     e.target.value
                                                 )
                                             }
-                                        />
+                                        >
+                                            <option value="">
+                                                Select Level
+                                            </option>
+                                            {levels.map((level) => (
+                                                <option
+                                                    value={level.id}
+                                                    key={level.id}
+                                                >
+                                                    {level.name}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
                                         <InputError
-                                            message={errors.address}
+                                            message={errors.level}
                                             className="mt-2"
                                         />
                                     </div>
+                                </div>
+                                {/* Address */}
+                                <div className="p-10 pt-0 mt-4">
+                                    <InputLabel
+                                        htmlFor="address"
+                                        value="Address"
+                                    />
+                                    <TextInput
+                                        id="address"
+                                        type="text"
+                                        name="address"
+                                        value={data.address}
+                                        className="block w-full mt-1"
+                                        onChange={(e) =>
+                                            setData("address", e.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        message={errors.address}
+                                        className="mt-2"
+                                    />
                                 </div>
                                 <div className="mt-4 text-right">
                                     <Link

@@ -15,6 +15,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReceiptStudentController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -51,6 +52,7 @@ Route::resource('processing-fee', ProcessingFeeController::class);
 
 Route::resource('student-attendances', AttendanceController::class);
 
+Route::resource('subject',SubjectController::class);
 });
 
 Route::middleware('auth')->group(function () {

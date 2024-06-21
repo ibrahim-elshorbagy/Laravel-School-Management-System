@@ -5,6 +5,7 @@ import MultiSelectInput from "@/Components/MultiSelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Create({ auth, classroom, levels, grades, teachers ,SelectedTeachers}) {
     const { data, setData, post, errors, reset } = useForm({
@@ -22,6 +23,21 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
         post(route("classroom.update", classroom.id));
     };
 
+        const [filteredTeachers, setFilteredTeachers] = useState(() => {
+            return teachers.filter((teacher) =>
+                SelectedTeachers.includes(teacher.id)
+            );
+        });
+
+        const handleLevelChange = (e) => {
+            setData("level_id", e.target.value);
+
+            const filtered = teachers.filter(
+                (teacher) => teacher.level_id == e.target.value
+            );
+            setFilteredTeachers(filtered);
+        };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -37,6 +53,8 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                        {JSON.stringify(SelectedTeachers)}
+
                         <form
                             onSubmit={onSubmit}
                             className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
@@ -55,9 +73,7 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                                     name="level_id"
                                     className="block w-full mt-1"
                                     value={data.level_id}
-                                    onChange={(e) =>
-                                        setData("level_id", e.target.value)
-                                    }
+                                    onChange={handleLevelChange}
                                 >
                                     <option value="">Select Level</option>
                                     {levels.data.map((level) => (
@@ -156,7 +172,7 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                                 </SelectInput>
 
                                 <InputError
-                                    message={errors.task_status}
+                                    message={errors.status}
                                     className="mt-2"
                                 />
                             </div>
@@ -180,7 +196,7 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
                                         )
                                     }
                                 >
-                                    {teachers.map((teacher) => (
+                                    {filteredTeachers.map((teacher) => (
                                         <option
                                             value={teacher.id}
                                             key={teacher.id}

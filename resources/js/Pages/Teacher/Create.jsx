@@ -7,7 +7,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 
 
-export default function Create({ auth, specializations  }) {
+export default function Create({ auth, specializations ,levels }) {
     const { data, setData, post, errors, reset } = useForm({
         email: "",
         password: "",
@@ -189,33 +189,59 @@ export default function Create({ auth, specializations  }) {
                                             className="mt-2"
                                         />
                                     </div>
-
-                                    {/* Address */}
+                                    {/* Level */}
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="address"
-                                            value="Address"
+                                            htmlFor="level"
+                                            value="Level"
                                         />
-                                        <TextInput
-                                            id="address"
-                                            type="text"
-                                            name="address"
-                                            value={data.address}
+                                        <SelectInput
+                                            name="level"
                                             className="block w-full mt-1"
                                             onChange={(e) =>
-                                                setData(
-                                                    "address",
-                                                    e.target.value
-                                                )
+                                                setData("level_id", e.target.value)
                                             }
-                                        />
+                                        >
+                                            <option value="">
+                                                Select Level
+                                            </option>
+                                            {levels.map((level) => (
+                                                <option
+                                                    value={level.id}
+                                                    key={level.id}
+                                                >
+                                                    {level.name}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
                                         <InputError
-                                            message={errors.address}
+                                            message={errors.level}
                                             className="mt-2"
                                         />
                                     </div>
-                                </div>
 
+                                    {/* Address */}
+                                </div>
+                                <div className="p-10 pt-0 mt-4">
+                                    <InputLabel
+                                        htmlFor="address"
+                                        value="Address"
+                                    />
+                                    <TextInput
+                                        id="address"
+                                        type="text"
+                                        name="address"
+                                        value={data.address}
+                                        className="block w-full mt-1"
+                                        onChange={(e) =>
+                                            setData("address", e.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        message={errors.address}
+                                        className="mt-2"
+                                    />
+                                </div>
                                 <div className="mt-4 text-right">
                                     <Link
                                         href={route("teacher.index")}
