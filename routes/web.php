@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\FeeInvoiceController;
 use App\Http\Controllers\GradeController;
@@ -53,6 +54,8 @@ Route::resource('processing-fee', ProcessingFeeController::class);
 Route::resource('student-attendances', AttendanceController::class);
 
 Route::resource('subject',SubjectController::class);
+
+Route::resource('exam',ExamController::class);
 });
 
 Route::middleware('auth')->group(function () {

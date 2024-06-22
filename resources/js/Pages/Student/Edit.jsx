@@ -398,7 +398,7 @@ export default function Edit({
 
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="grade_id"
+                                            htmlFor="classroom_id"
                                             value="Classroom Name"
                                         />
                                         <SelectInput

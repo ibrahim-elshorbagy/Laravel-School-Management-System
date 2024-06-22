@@ -624,7 +624,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
 
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="grade_id"
+                                            htmlFor="classroom_id"
                                             value="Classroom Name"
                                         />
                                         <SelectInput
@@ -735,7 +735,6 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                     </div>
                 </div>
             </div>
-            
         </AuthenticatedLayout>
     );
 }

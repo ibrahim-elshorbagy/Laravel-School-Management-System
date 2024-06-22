@@ -17,6 +17,7 @@ import { PiInvoiceFill } from "react-icons/pi";
 import { GrTransaction } from "react-icons/gr";
 import { FaTableList } from "react-icons/fa6";
 import { PiSubtitlesLight } from "react-icons/pi";
+import { PiExamFill } from "react-icons/pi";
 
 export default function Sidebar() {
 
@@ -302,7 +303,9 @@ export default function Sidebar() {
                         <SidebarIconLink
                             className={`block text-2xl`}
                             href={route("student-attendances.index")}
-                            active={route().current("student-attendances.index")}
+                            active={route().current(
+                                "student-attendances.index"
+                            )}
                         >
                             <FaTableList />
                         </SidebarIconLink>
@@ -310,12 +313,14 @@ export default function Sidebar() {
                         <SidebarLink
                             className={` ${!open && "scale-0"}`}
                             href={route("student-attendances.index")}
-                            active={route().current("student-attendances.index")}
+                            active={route().current(
+                                "student-attendances.index"
+                            )}
                         >
                             Attendance
                         </SidebarLink>
                     </li>
-                    
+
                     {/* ======== */}
                     <li className={` flex items-center gap-x-4  p-2 `}>
                         <SidebarIconLink
@@ -351,6 +356,25 @@ export default function Sidebar() {
                             active={route().current("subject.index")}
                         >
                             Subjects
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("exam.index")}
+                            active={route().current("exam.index")}
+                        >
+                            <PiExamFill />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("exam.index")}
+                            active={route().current("exam.index")}
+                        >
+                            Exams
                         </SidebarLink>
                     </li>
                     {/* ======== */}

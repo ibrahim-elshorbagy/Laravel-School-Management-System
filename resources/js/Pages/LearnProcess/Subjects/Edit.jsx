@@ -7,12 +7,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 
-export default function Create({ auth, levels, grades, teachers, subject }) {
+export default function Create({ auth, levels, grades, teachers, subject ,specializations}) {
     const { data, setData, post, errors, reset } = useForm({
         name: subject.name || "",
         level_id: subject.level_id||"",
         grade_id: subject.grade_id||"",
-        teacher_id: subject.teacher_id||"",
+        teacher_id: subject.teacher_id || "",
+        specialization_id: subject.specialization_id || "",
         _method: "PUT",
     });
 
@@ -64,30 +65,6 @@ export default function Create({ auth, levels, grades, teachers, subject }) {
                                 <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
                                 <span className="m-4">Subject Info</span>
                                 <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="subject_name"
-                                    value="Subject Name"
-                                />
-
-                                <TextInput
-                                    id="subject_name"
-                                    type="text"
-                                    name="name"
-                                    value={data.name}
-                                    className="block w-full mt-1"
-                                    isFocused={true}
-                                    onChange={(e) =>
-                                        setData("name", e.target.value)
-                                    }
-                                />
-
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
@@ -180,6 +157,41 @@ export default function Create({ auth, levels, grades, teachers, subject }) {
                                 </SelectInput>
                                 <InputError
                                     message={errors.teacher_id}
+                                    className="mt-2"
+                                />
+                            </div>
+
+                            {/* Specialization */}
+                            <div className="mt-4">
+                                <InputLabel
+                                    htmlFor="specialization_id"
+                                    value="Specialization"
+                                />
+                                <SelectInput
+                                    name="specialization_id"
+                                    className="block w-full mt-1"
+                                    value={data.specialization_id}
+                                    onChange={(e) =>
+                                        setData(
+                                            "specialization_id",
+                                            e.target.value
+                                        )
+                                    }
+                                >
+                                    <option value="">
+                                        Select Specialization
+                                    </option>
+                                    {specializations.map((specialization) => (
+                                        <option
+                                            value={specialization.id}
+                                            key={specialization.id}
+                                        >
+                                            {specialization.name}
+                                        </option>
+                                    ))}
+                                </SelectInput>
+                                <InputError
+                                    message={errors.specialization_id}
                                     className="mt-2"
                                 />
                             </div>

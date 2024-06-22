@@ -36,7 +36,7 @@ export default function Create({ auth, specializations, teacher, levels }) {
                 </div>
             }
         >
-            <Head title="Gardian" />
+            <Head title="Teacher" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm gray-800 sm:rounded-lg">
@@ -198,7 +198,7 @@ export default function Create({ auth, specializations, teacher, levels }) {
                                         <SelectInput
                                             name="level"
                                             className="block w-full mt-1"
-                                            value={data.level_id} 
+                                            value={data.level_id}
                                             onChange={(e) =>
                                                 setData(
                                                     "level_id",

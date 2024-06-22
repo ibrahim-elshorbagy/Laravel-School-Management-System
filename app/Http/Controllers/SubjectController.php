@@ -9,6 +9,7 @@ use App\Http\Resources\LevelResource;
 use App\Http\Resources\SubjectResource;
 use App\Models\Grade;
 use App\Models\Level;
+use App\Models\Specialization;
 use App\Models\Teacher;
 
 class SubjectController extends Controller
@@ -18,13 +19,13 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $query = Subject::query()->with('level','grade','teacher');
+        $query = Subject::query()->with('level','grade','teacher','specialization');
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
+    if (request("name")) {
+                $query->where("name", "like", "%" . request("name") . "%");
+            }
 
         $subjects = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
@@ -55,11 +56,14 @@ class SubjectController extends Controller
 
             ];
         });
+        $specializations = Specialization::orderBy('name', 'asc')->get(['id', 'name']);
+
 
         return inertia("LearnProcess/Subjects/Create", [
             'levels' => LevelResource::collection($levels),
             'grades'=> $grades,
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'specializations' => $specializations
         ]);
     }
 
@@ -89,6 +93,7 @@ class SubjectController extends Controller
     {
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
+        $specializations = Specialization::orderBy('name', 'asc')->get(['id', 'name']);
 
 
         $teachers = Teacher::with('specialization','level')->get() //get all teachers
@@ -108,6 +113,7 @@ class SubjectController extends Controller
             'grades'=> $grades,
             'teachers' =>$teachers,
             'subject' => $subject,
+            'specializations' => $specializations
         ]);
     }
 

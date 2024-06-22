@@ -22,7 +22,7 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'specialization_id' => ['required', 'numeric'],
             'grade_id' => ['required', 'numeric'],
             'level_id' => ['required', 'numeric'],
             'teacher_id'=>['required', 'numeric'],

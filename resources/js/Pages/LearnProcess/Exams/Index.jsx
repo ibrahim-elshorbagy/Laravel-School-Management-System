@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Index({ auth, subjects, queryParams = null, success }) {
+export default function Index({ auth, exams, queryParams = null, success }) {
     queryParams = queryParams || {};
 
     const searchFieldChanged = (name, value) => {
@@ -19,7 +19,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
             delete queryParams.page;
         }
 
-        router.get(route("subject.index"), queryParams);
+        router.get(route("exam.index"), queryParams);
     };
 
     const onKeyPress = (name, event) => {
@@ -39,15 +39,15 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("subject.index"), queryParams);
+        router.get(route("exam.index"), queryParams);
     };
 
-    const deleteSubject = (subject) => {
-        if (!window.confirm("Are you sure you want to delete the subjects?")) {
+    const deleteSubject = (exam) => {
+        if (!window.confirm("Are you sure you want to delete the exams?")) {
             return;
         }
 
-        router.delete(route("subject.destroy", subject.id));
+        router.delete(route("exam.destroy", exam.id));
     };
     return (
         <AuthenticatedLayout
@@ -58,7 +58,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                         Subjects
                     </h2>
                     <Link
-                        href={route("subject.create")}
+                        href={route("exam.create")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add new
@@ -95,10 +95,10 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                             </TableHeading>
 
                                             <TableHeading
-                                                // name="name"
-                                                // sort_field={
-                                                //     queryParams.sort_field
-                                                // }
+                                                name="name"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
                                                 sort_direction={
                                                     queryParams.sort_direction
                                                 }
@@ -142,6 +142,18 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                             >
                                                 Grade
                                             </TableHeading>
+                                            <TableHeading
+                                                name="classroom_id"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Classsroom
+                                            </TableHeading>
 
                                             <TableHeading
                                                 name="updated_at"
@@ -182,39 +194,43 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
+                                            <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3 text-right"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {subjects.data.map((subject) => (
+                                        {exams.data.map((exam) => (
                                             <tr
                                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={subject.id}
+                                                key={exam.id}
                                             >
                                                 <td className="px-3 py-2">
-                                                    {subject.id}
+                                                    {exam.id}
                                                 </td>
                                                 <td className="px-3 py-2">
-                                                    {subject.specialization}
+                                                    {exam.name}
                                                 </td>
 
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {subject.teacher}
+                                                    {exam.teacher}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {subject.level}
+                                                    {exam.level}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {subject.grade}
+                                                    {exam.grade}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    {subject.updated_at}
+                                                    {exam.classroom}
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {exam.updated_at}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-nowrap">
                                                     <Link
                                                         href={route(
-                                                            "subject.edit",
-                                                            subject.id
+                                                            "exam.edit",
+                                                            exam.id
                                                         )}
                                                         className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                     >
@@ -222,9 +238,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                                     </Link>
                                                     <button
                                                         onClick={(e) =>
-                                                            deleteSubject(
-                                                                subject
-                                                            )
+                                                            deleteSubject(exam)
                                                         }
                                                         className="mx-1 font-medium text-red-600 dark:text-red-500 hover:underline"
                                                     >
@@ -237,7 +251,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                 </table>
                             </div>
 
-                            <Pagination links={subjects.meta.links} />
+                            <Pagination links={exams.meta.links} />
                         </div>
                     </div>
                 </div>
