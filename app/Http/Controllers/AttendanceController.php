@@ -10,6 +10,7 @@ use App\Models\Grade;
 use App\Models\Level;
 use App\Models\Student;
 use App\Http\Resources\IndexStudentResource;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -40,13 +41,16 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        $students = Student::with('attendance','level', 'grade', 'classroom')
+        $user = Auth::user();
+        $teacherId = $user->teacher->id;
+
+        $students = Student::with('user','attendance','level', 'grade', 'classroom')
         ->where('classroom_id', $id)
         ->get()
         ->map(function ($student) {
             return [
                 'id' => $student->id,
-                'name' => $student->name,
+                'name' => $student->user->name,
                 'level' =>  $student->level->name,
                 'level_id' =>  $student->level->id,
                 'grade' => $student->grade->name,
@@ -63,6 +67,7 @@ class AttendanceController extends Controller
             [
             "students" => $students,
             'taken' => $taken,
+            'teacherId' => $teacherId
         ]);
     }
 

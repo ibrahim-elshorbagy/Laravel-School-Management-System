@@ -17,7 +17,6 @@ export default function Edit({
 }) {
     const { data, setData, post, errors, reset } = useForm({
         email: student.email || "",
-        password: student.password || "",
         name: student.name || "",
         national_id: student.national_id || "",
         gender: student.gender || "",
@@ -55,7 +54,7 @@ export default function Edit({
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Create new Student
+                        Edit Student
                     </h2>
                 </div>
             }
@@ -108,7 +107,7 @@ export default function Edit({
                                             id="password"
                                             type="password"
                                             name="password"
-                                            value={data.password}
+                                            placeholder="Write if you want to change the password"
                                             className="block w-full mt-1"
                                             onChange={(e) =>
                                                 setData(
@@ -499,7 +498,7 @@ export default function Edit({
                                                 value={guardian.id}
                                                 key={guardian.id}
                                             >
-                                                {guardian.name}
+                                                {guardian.user.name}
                                             </option>
                                         ))}
                                     </SelectInput>

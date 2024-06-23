@@ -34,11 +34,11 @@ class ClassroomController extends Controller
 
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        $teachers = Teacher::with('specialization','level')->get()
+        $teachers = Teacher::with('specialization','level','user')->get()
         ->map(function ($teacher) {
             return [
                 'id' => $teacher->id,
-                'name' => $teacher->name,
+                'name' => $teacher->user->name,
                 'specialization' => $teacher->specialization->Name,
                 'specialization_id' => $teacher->specialization_id,
                 'level' => $teacher->level->name,
@@ -83,11 +83,11 @@ class ClassroomController extends Controller
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
 
-        $teachers = Teacher::with('specialization','level')->get() //get all teachers
+        $teachers = Teacher::with('specialization','level','user')->get() //get all teachers
         ->map(function ($teacher) {
             return [
                 'id' => $teacher->id,
-                'name' => $teacher->name,
+                'name' => $teacher->user->name,
                 'specialization' => $teacher->specialization->Name,
                 'specialization_id' => $teacher->specialization_id,
                 'level' => $teacher->level->name,

@@ -19,8 +19,8 @@ class PromotionResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'StudentName' => $this->whenLoaded('StudentName', function () {
-                return $this->StudentName->name;
+            'student' => $this->whenLoaded('student', function () {
+                return $this->student->user->name;
             }),
             'FromLevel' => $this->whenLoaded('FromLevel', function () {
                 return $this->FromLevel->name;
@@ -41,6 +41,9 @@ class PromotionResource extends JsonResource
             'ToClassroom'   => $this->whenLoaded('ToClassroom', function () {
                 return $this->ToClassroom->name;
             }),
+
+            'academic_year' => $this->academic_year,
+            'academic_year_new' => $this->academic_year_new,
         ];
 
     }

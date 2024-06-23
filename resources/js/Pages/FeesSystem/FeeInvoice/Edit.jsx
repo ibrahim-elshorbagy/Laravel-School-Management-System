@@ -38,7 +38,7 @@ export default function Add({ auth, feeInvoice, fees }) {
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Edit {feeInvoice.student.name}'s Invoice
+                        Edit {feeInvoice.student.user.name}'s Invoice
                     </h2>
                 </div>
             }
@@ -49,6 +49,8 @@ export default function Add({ auth, feeInvoice, fees }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
+                            {JSON.stringify(feeInvoice)}
+
                             <form
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
@@ -56,7 +58,7 @@ export default function Add({ auth, feeInvoice, fees }) {
                                 <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
                                     <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
                                     <span className="m-4">
-                                        Edit {feeInvoice.student.name}'s Invoice
+                                        Edit {feeInvoice.student.user.name}'s Invoice
                                     </span>
                                     <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
                                 </div>

@@ -21,7 +21,7 @@ class ProcessingFeeResource extends JsonResource
         return [
             'id' => $this->id,
             'student' => $this->whenLoaded('student', function () {
-                return $this->student->name;
+                return $this->student->user->name;
             }),
             'student_id' => $this->whenLoaded('student', function () {
                 return $this->student->id;

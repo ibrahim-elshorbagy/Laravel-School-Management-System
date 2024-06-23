@@ -97,18 +97,7 @@ export default function Index({ auth, receipt_students, queryParams = null, succ
                                                 ID
                                             </TableHeading>
 
-                                            <TableHeading
-                                                name="student_id"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
+                                            <th>Name</th>
                                             <TableHeading
                                                 name="debit"
                                                 sort_field={

@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\IndexStudentResource;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Classroom;
 use App\Models\Grade;
@@ -28,13 +30,17 @@ class StudentController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
+       if (request("name")) {
+        $query->whereHas('user', function ($q) {
+            $q->where("name", "like", "%" . request("name") . "%");
+        });
         }
         if (request("email")) {
-            $query->where("email", "like", "%" . request("email") . "%");
+            $query->whereHas('user', function ($q) {
+                $q->where("email", "like", "%" . request("email") . "%");
+            });
         }
-        $students = $query->with('level', 'grade', 'classroom')->orderBy($sortField, $sortDirection)
+        $students = $query->with('user','level', 'grade', 'classroom')->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
         return inertia("Student/Index", [
@@ -51,7 +57,9 @@ class StudentController extends Controller
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
         $classrooms = Classroom::orderBy('name','asc')->get(['id','name','grade_id']);
-        $guardians = Guardian::orderBy('name', 'asc')->get(['id', 'name']);
+
+        $guardians = Guardian::with(['user' => function ($q) {$q->select('id', 'name');}])->select('id', 'user_id')->get();
+
 
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
 
@@ -78,14 +86,19 @@ public function store(StoreStudentRequest $request)
 
     $data = $request->validated();
 
-dd($data);
 
     // If guardian_id exists, use it directly
     if ($data['guardian_id']) {
+
+        $user = User::create([  //create a student user
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role' => 'student',
+        ]);
+
         $studentData = [
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'name' => $data['name'],
+
             'national_id' => $data['national_id'],
             'gender' => $data['gender'],
             'date_birth' => $data['date_birth'],
@@ -94,6 +107,8 @@ dd($data);
             'classroom_id' => $data['classroom_id'],
             'academic_year' => $data['academic_year'],
             'guardian_id' => $data['guardian_id'],
+
+            'user_id' => $user->id,
         ];
 
         $image = $data['image'] ?? null;
@@ -107,25 +122,38 @@ dd($data);
 
     } else {
         // If guardian_id doesn't exist, create a new guardian and then assign its ID to the student
+
+        $guardianUser = User::create([  //create a student user
+        'name' => $data['guardian_name'],
+        'email' => $data['guardian_email'],
+        'password' => Hash::make($data['guardian_password']),
+        'role' => 'guardian',
+        ]);
+
         $guardianData = [
-            'email' => $data['guardian_email'],
-            'password' => $data['guardian_password'],
-            'name' => $data['guardian_name'],
             'phone' => $data['guardian_phone'],
             'passport_id' => $data['guardian_passport_id'],
             'job' => $data['guardian_job'],
             'national_id' => $data['guardian_national_id'],
             'address' => $data['guardian_address'],
+
+            'user_id' => $guardianUser->id,
+
         ];
 
         // Create the guardian
         $guardian = Guardian::create($guardianData);
 
         // Now, create the student and assign the guardian's ID to it
+
+        $studentUser = User::create([  //create a student user
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role' => 'student',
+        ]);
+
         $studentData = [
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'name' => $data['name'],
             'national_id' => $data['national_id'],
             'gender' => $data['gender'],
             'date_birth' => $data['date_birth'],
@@ -134,6 +162,9 @@ dd($data);
             'classroom_id' => $data['classroom_id'],
             'academic_year' => $data['academic_year'],
             'guardian_id' => $guardian->id, // Assign guardian's ID
+
+            'user_id' => $studentUser->id,
+
         ];
 
         $image = $data['image'] ?? null;
@@ -167,11 +198,11 @@ dd($data);
         $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
         $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
         $classrooms = Classroom::orderBy('name','asc')->get(['id','name','grade_id']);
-        $guardians = Guardian::orderBy('name', 'asc')->get(['id', 'name']);
+        $guardians = Guardian::with(['user' => function ($q) {$q->select('id', 'name');}])->select('id', 'user_id')->get();
 
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
 
-        $student = $student->load('level', 'grade', 'classroom','guardian');
+        $student = $student->load('user','level', 'grade', 'classroom','guardian');
 
 
         return inertia("Student/Edit",
@@ -194,6 +225,27 @@ dd($data);
     {
 
         $data = $request->validated();
+
+        $user = $student->user;
+
+        $userUpdateData = [
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'role' => 'guardian',
+        ];
+
+        if (!empty($data['password'])) {
+            $userUpdateData['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($userUpdateData);
+
+        unset($data['name']);
+        unset($data['email']);
+        unset($data['password']);
+
+        $data['user_id'] = $user->id;
+
 
         $image = $data['image'] ?? null;
         if($image)

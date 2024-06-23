@@ -20,13 +20,17 @@ class GraduatedController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
+       if (request("name")) {
+        $query->whereHas('user', function ($q) {
+            $q->where("name", "like", "%" . request("name") . "%");
+        });
         }
         if (request("email")) {
-            $query->where("email", "like", "%" . request("email") . "%");
+            $query->whereHas('user', function ($q) {
+                $q->where("email", "like", "%" . request("email") . "%");
+            });
         }
-        $students = $query->with('level', 'grade', 'classroom')->orderBy($sortField, $sortDirection)
+        $students = $query->with('user','level', 'grade', 'classroom')->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
         return inertia("Student/GraduatedStudent/Index", [

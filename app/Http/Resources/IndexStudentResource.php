@@ -20,8 +20,12 @@ class IndexStudentResource extends JsonResource
     {
                 return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
+            'name' => $this->whenLoaded('user', function () {
+                return $this->user->name;
+            }),
+            'email' =>  $this->whenLoaded('user', function () {
+                return $this->user->email;
+            }),
             'level' => $this->whenLoaded('level', function () {
                 return $this->level->name;
             }),
@@ -31,7 +35,7 @@ class IndexStudentResource extends JsonResource
             'classroom' => $this->whenLoaded('classroom', function () {
                 return $this->classroom->name;
             }),
-           
+
             'academic_year' => $this->academic_year,
         ];
     }

@@ -29,7 +29,7 @@ export default function Add({
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Add Received Money To {student.name}
+                        Add Received Money To {student.user.name}
                     </h2>
                 </div>
             }
@@ -46,7 +46,7 @@ export default function Add({
                                 <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
                                     <hr className="flex-1 my-6 border-gray-300 dark:border-gray-700" />
                                     <span className="m-4">
-                                        Add Received Money To {student.name}
+                                        Add Received Money To {student.user.name}
                                     </span>
                                     <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
                                 </div>

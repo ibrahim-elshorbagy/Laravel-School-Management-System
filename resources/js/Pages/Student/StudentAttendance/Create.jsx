@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import React, { useEffect } from "react";
-export default function Attendance({ auth, students, taken }) {
+export default function Attendance({ auth, students, taken, teacherId }) {
     const { data, setData, post, errors } = useForm({
         students: students.map((student) => ({
             id: student.id,
@@ -14,7 +14,7 @@ export default function Attendance({ auth, students, taken }) {
             grade: student.grade,
             classroom: student.classroom,
             classroom_id: student.classroom_id,
-            teacher_id: auth.user.id,
+            teacher_id: teacherId,
             attendance: "",
             date: new Date().toISOString().split("T")[0],
         })),
@@ -28,13 +28,12 @@ export default function Attendance({ auth, students, taken }) {
 
     // UseEffect to update form data based on `taken` only once
     useEffect(() => {
-
         // Create a map of attendance records by student_id for quick lookup
         const attendanceMap = {};
         taken.forEach((entry) => {
             attendanceMap[entry.student_id] = entry.attendence_status === 1; // Convert 1/0 to true/false
         });
-        
+
         // Update form data based on `taken`
         setData((prevData) => ({
             ...prevData,
@@ -43,7 +42,6 @@ export default function Attendance({ auth, students, taken }) {
                 attendance: attendanceMap[student.id] || false, // Set attendance if exists in `taken`
             })),
         }));
-
     }, [taken]); // Run this effect only when `taken` prop changes
 
     const onSubmit = (e) => {

@@ -7,6 +7,8 @@ use App\Http\Requests\StoreGuardianRequest;
 use App\Http\Requests\UpdateGuardianRequest;
 use App\Http\Resources\GuardianResource;
 use App\Models\Nationality;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class GuardianController extends Controller
 {
@@ -19,13 +21,19 @@ class GuardianController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
+
         if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
+        $query->whereHas('user', function ($q) {
+            $q->where("name", "like", "%" . request("name") . "%");
+        });
         }
         if (request("email")) {
-            $query->where("email", "like", "%" . request("email") . "%");
+            $query->whereHas('user', function ($q) {
+                $q->where("email", "like", "%" . request("email") . "%");
+            });
         }
-        $guardians = $query->orderBy($sortField, $sortDirection)
+
+        $guardians = $query->with('user')->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
         return inertia("Student/Guardian/Index", [
@@ -54,6 +62,17 @@ class GuardianController extends Controller
     {
 
         $data = $request->validated();
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 'guardian',
+
+        ]);
+        unset($data['name']);
+        unset($data['password']);
+        unset($data['email']);
+        $data['user_id'] = $user->id;
 
         Guardian::create($data);
 
@@ -77,7 +96,7 @@ class GuardianController extends Controller
         $nationalities = Nationality::orderBy('name', 'asc')->get(['id', 'name']);
         return inertia('Student/Guardian/Edit',[
             'nationalities' => $nationalities,
-            'guardian'=>$guardian
+            'guardian'=>$guardian->load('user')
         ]);
     }
 
@@ -87,6 +106,26 @@ class GuardianController extends Controller
     public function update(UpdateGuardianRequest $request, Guardian $guardian)
     {
         $data = $request->validated();
+
+        $user = $guardian->user;
+
+        $userUpdateData = [
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'role' => 'guardian',
+        ];
+
+        if (!empty($data['password'])) {
+            $userUpdateData['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($userUpdateData);
+
+        unset($data['name']);
+        unset($data['email']);
+        unset($data['password']);
+
+        $data['user_id'] = $user->id;
 
         $guardian->update($data);
 
@@ -99,7 +138,7 @@ class GuardianController extends Controller
      */
     public function destroy(Guardian $guardian)
     {
-        $guardian ->delete();
+        $guardian->user->delete();
         return to_route('guardian.index')->with('success','Guardian deleted successfully');
     }
 }

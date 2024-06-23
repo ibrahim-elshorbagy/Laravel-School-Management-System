@@ -8,9 +8,8 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create({ auth, specializations, teacher, levels }) {
     const { data, setData, post, errors, reset } = useForm({
-        email: teacher.email || "",
-        password: teacher.password || "",
-        name: teacher.name || "",
+        email: teacher.user.email || "",
+        name: teacher.user.name || "",
         address: teacher.address || "",
         specialization_id: teacher.specialization_id || "",
         gender: teacher.gender || "",
@@ -82,6 +81,7 @@ export default function Create({ auth, specializations, teacher, levels }) {
                                         <TextInput
                                             id="password"
                                             type="password"
+                                            placeholder="Write if you want to change the password"
                                             name="password"
                                             value={data.password}
                                             className="block w-full mt-1"

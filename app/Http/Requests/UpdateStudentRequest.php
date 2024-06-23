@@ -22,11 +22,12 @@ class UpdateStudentRequest extends FormRequest
      */
     public function rules(): array
     {
-        $student = $this->route("student");
+        $userId = $this->route("student.user_id");
+
         return [
 
-            'email' => ['email',Rule::unique('students')->ignore($student->id),],
-            'password' => ['required', 'string'],
+            'email' => ['email',Rule::unique('users')->ignore($userId),'required'],
+            'password' => ['nullable', 'string'],
             'name' => ['required', 'string'],
             'national_id' => ['nullable', 'numeric'],
             'gender' => ['required', 'string'],

@@ -20,9 +20,12 @@ class StudentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'password' => $this->password,
-            'email' => $this->email,
+            'email' => $this->whenLoaded('user', function () {
+                return $this->user->email;
+            }),
+            'name' => $this->whenLoaded('user', function () {
+                return $this->user->name;
+            }),
             'gender' => $this->gender,
             'national_id' => $this->national_id,
             'date_birth' => $this->date_birth,

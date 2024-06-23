@@ -10,6 +10,7 @@ use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Level;
 use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 
 class PromotionController extends Controller
 {
@@ -27,9 +28,11 @@ class PromotionController extends Controller
         }
 
 
-        $promotions = $query->with('StudentName','FromLevel', 'FromGrade', 'FromClassroom','ToLevel','ToGrade','ToClassroom')->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
+        $promotions = $query->with(['student', 'FromLevel', 'FromGrade', 'FromClassroom', 'ToLevel', 'ToGrade', 'ToClassroom'])
+        ->orderBy($sortField, $sortDirection)
+        ->paginate(10)
+        ->onEachSide(1);
+
         return inertia("Student/StudentPromotion/Index", [
             "promotions" => PromotionResource::collection($promotions),
             'queryParams' => request()->query() ?: null,

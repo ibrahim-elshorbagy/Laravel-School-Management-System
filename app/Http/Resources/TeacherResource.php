@@ -10,9 +10,6 @@ class TeacherResource extends JsonResource
 {
     public static $wrap = false;
 
-    protected $hidden = [
-        'password',
-    ];
 
     /**
      * Transform the resource into an array.
@@ -23,8 +20,12 @@ class TeacherResource extends JsonResource
     {
         return ([
             'id' => $this->id,
-            'email' => $this->email,
-            'name' => $this->name,
+            'email' => $this->whenLoaded('user', function () {
+                return $this->user->email;
+            }),
+            'name' => $this->whenLoaded('user', function () {
+                return $this->user->name;
+            }),
             'specialization_id' => $this->specialization_id,
             'specialization' => $this->whenLoaded('specialization', function () {
                 return $this->specialization->Name;

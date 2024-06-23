@@ -10,16 +10,15 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create({ auth, nationalities, guardian }) {
     const { data, setData, post, errors, reset } = useForm({
-        email: guardian.email || "",
-        password: guardian.password || "",
+        email: guardian.user.email || "",
+        password: guardian.user.password || "",
+        name: guardian.user.name || "",
 
-        name: guardian.name || "",
         passport_id: guardian.passport_id || "",
         phone: guardian.phone || "",
         job: guardian.job || "",
         national_id: guardian.national_id || "",
         address: guardian.address || "",
-
 
         _method: "PUT",
     });
@@ -45,6 +44,7 @@ export default function Create({ auth, nationalities, guardian }) {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                        {JSON.stringify(guardian)}
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
                                 onSubmit={onSubmit}
@@ -88,7 +88,7 @@ export default function Create({ auth, nationalities, guardian }) {
                                             id="password"
                                             type="password"
                                             name="password"
-                                            value={data.password}
+                                            placeholder="Write if you want to change the password"
                                             className="block w-full mt-1"
                                             onChange={(e) =>
                                                 setData(

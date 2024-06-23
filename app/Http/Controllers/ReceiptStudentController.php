@@ -25,7 +25,7 @@ class ReceiptStudentController extends Controller
 
 
         if (request('name')) {
-            $query->whereHas('student', function ($q) {
+            $query->whereHas('student.user', function ($q) {
                 $q->where('name', 'like', '%' . request('name') . '%');
             });
         }
@@ -51,7 +51,7 @@ class ReceiptStudentController extends Controller
 
         public function show( $id)
     {
-        $student = Student::select('id','name')->where('id',$id)->first();
+        $student = Student::select('id','user_id')->with(['user' => function ($q) {$q->select('id', 'name');}])->where('id',$id)->first();
         return inertia('FeesSystem/Receipt/Add',
         [
             'student' =>$student
@@ -115,7 +115,6 @@ class ReceiptStudentController extends Controller
     public function update(UpdateReceiptStudentRequest $request, ReceiptStudent $receiptStudent)
     {
         $data = $request->validated();
-
 
         $receiptStudent->update($data);
 

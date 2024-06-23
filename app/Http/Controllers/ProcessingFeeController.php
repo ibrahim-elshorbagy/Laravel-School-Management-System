@@ -22,7 +22,7 @@ class ProcessingFeeController extends Controller
         $sortDirection = request("sort_direction", "asc");
 
         if (request('name')) {
-            $query->whereHas('student', function ($q) {
+            $query->whereHas('student.user', function ($q) {
                 $q->where('name', 'like', '%' . request('name') . '%');
             });
         }
@@ -58,7 +58,7 @@ class ProcessingFeeController extends Controller
         //now if the student want to leave the school
         //so we calc the totalBalance to see the amount of money he won't pay
 
-        $student = Student::with('student_fee')->select('id','name')->where('id',$id)->first();
+        $student = Student::select('id','user_id')->with(['user' => function ($q) {$q->select('id', 'name');},'student_fee'])->where('id',$id)->first();
         $data = json_decode($student, true);
 
         $totalDebit = 0;

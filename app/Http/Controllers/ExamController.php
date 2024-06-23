@@ -24,10 +24,11 @@ class ExamController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
+       if (request("name")) {
+        $query->whereHas('user', function ($q) {
+            $q->where("name", "like", "%" . request("name") . "%");
+        });
         }
-
         $exams = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);

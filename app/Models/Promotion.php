@@ -12,20 +12,20 @@ class Promotion extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function StudentName()
+    public function student()
     {
-        return $this->belongsTo(Student::class,'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
-     public function FromLevel()
+    public function FromLevel()
     {
         return $this->belongsTo(Level::class,'from_level');
     }
-     public function FromGrade()
+    public function FromGrade()
     {
         return $this->belongsTo(Grade::class,'from_grade');
     }
-     public function FromClassroom()
+    public function FromClassroom()
     {
         return $this->belongsTo(Classroom::class,'from_classroom');
     }

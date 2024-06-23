@@ -8,6 +8,9 @@ use App\Http\Requests\UpdateTeacherRequest;
 use App\Http\Resources\TeacherResource;
 use App\Models\Level;
 use App\Models\Specialization;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 
 class TeacherController extends Controller
 {
@@ -20,13 +23,18 @@ class TeacherController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
+
         if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
+        $query->whereHas('user', function ($q) {
+            $q->where("name", "like", "%" . request("name") . "%");
+        });
         }
         if (request("email")) {
-            $query->where("email", "like", "%" . request("email") . "%");
+            $query->whereHas('user', function ($q) {
+                $q->where("email", "like", "%" . request("email") . "%");
+            });
         }
-        $teachers = $query->orderBy($sortField, $sortDirection)
+        $teachers = $query->with('user')->orderBy($sortField, $sortDirection)
             ->paginate(10)
             ->onEachSide(1);
         return inertia("Teacher/Index", [
@@ -56,6 +64,17 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $data = $request->validated();
+            $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 'teacher',
+
+        ]);
+        unset($data['name']);
+        unset($data['password']);
+        unset($data['email']);
+        $data['user_id'] = $user->id;
         Teacher::create($data);
 
         return to_route('teacher.index')
@@ -80,7 +99,7 @@ class TeacherController extends Controller
         $specializations = Specialization::orderBy('name', 'asc')->get(['id', 'name']);
         return inertia('Teacher/Edit',[
             'specializations' => $specializations,
-            'teacher'=>$teacher,
+            'teacher'=>$teacher->load('user'),
             'levels' => $levels
 
         ]);
@@ -92,6 +111,25 @@ class TeacherController extends Controller
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
         $data = $request->validated();
+        $user = $teacher->user;
+
+        $userUpdateData = [
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'role' => 'teacher',
+        ];
+
+        if (!empty($data['password'])) {
+            $userUpdateData['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($userUpdateData);
+
+        unset($data['name']);
+        unset($data['email']);
+        unset($data['password']);
+
+        $data['user_id'] = $user->id;
 
         $teacher->update($data);
 
@@ -104,7 +142,7 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        $teacher ->delete();
+        $teacher->user->delete();
         return to_route('teacher.index')->with('success','Teacher deleted successfully');
 
     }

@@ -57,7 +57,7 @@ export default function Index({
             <Head title="Promotions" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto sm:px-6 lg:px-8">
                     {success && (
                         <div className="px-4 py-2 mb-4 text-white rounded bg-emerald-500">
                             {success}
@@ -133,6 +133,18 @@ export default function Index({
                                                 From Classroom
                                             </TableHeading>
                                             <TableHeading
+                                                name="academic_year"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                Academic Year
+                                            </TableHeading>
+                                            <TableHeading
                                                 name="to_level"
                                                 sort_field={
                                                     queryParams.sort_field
@@ -169,6 +181,18 @@ export default function Index({
                                             >
                                                 To Classroom
                                             </TableHeading>
+                                            <TableHeading
+                                                name="academic_year_new"
+                                                sort_field={
+                                                    queryParams.sort_field
+                                                }
+                                                sort_direction={
+                                                    queryParams.sort_direction
+                                                }
+                                                sortChanged={sortChanged}
+                                            >
+                                                New Academic Year
+                                            </TableHeading>
                                             <th className="px-3 py-3 text-center">
                                                 Actions
                                             </th>
@@ -186,7 +210,7 @@ export default function Index({
                                                 </td>
 
                                                 <th className="px-3 py-2 text-gray-100 text-nowrap">
-                                                    {promotion.StudentName}
+                                                    {promotion.student}
                                                 </th>
                                                 <td className="px-3 py-2">
                                                     {promotion.FromLevel}
@@ -198,6 +222,9 @@ export default function Index({
                                                     {promotion.FromClassroom}
                                                 </td>
                                                 <td className="px-3 py-2">
+                                                    {promotion.academic_year}
+                                                </td>
+                                                <td className="px-3 py-2">
                                                     {promotion.ToLevel}
                                                 </td>
                                                 <td className="px-3 py-2">
@@ -205,6 +232,9 @@ export default function Index({
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     {promotion.ToClassroom}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {promotion.academic_year_new}
                                                 </td>
                                                 {/* Edit/Delete Buttons */}
                                                 <td className="px-3 py-2 text-center text-nowrap">

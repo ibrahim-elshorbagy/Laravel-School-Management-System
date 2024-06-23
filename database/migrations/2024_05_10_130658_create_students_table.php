@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            // $table->string('email')->unique();
+            // $table->string('password');
+            // $table->text('name');
+            
             $table->string('gender');
             $table->unsignedBigInteger('national_id')->nullable();
             $table->foreign('national_id')->references('id')->on('nationalities')->nullable();

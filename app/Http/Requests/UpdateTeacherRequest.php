@@ -22,9 +22,9 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function rules(): array
     {
-        $teacher = $this->route("teacher");
+        $userId = $this->route("teacher.user_id");
         return [
-            'email' => ['email',Rule::unique('teachers')->ignore($teacher->id),],
+            'email' => ['required','email',Rule::unique('users')->ignore($userId),],
             'password' => ['string', 'min:8'],
             'name' => ['string'],
             'address' => ['string', 'max:255'],

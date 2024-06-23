@@ -72,7 +72,6 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <div className="overflow-auto">
-
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                     <thead className="text-gray-700 border-b-2 border-gray-500 text-l bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr className="text-nowrap">
@@ -88,30 +87,9 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             >
                                                 ID
                                             </TableHeading>
-                                            <TableHeading
-                                                name="name"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
-                                            <TableHeading
-                                                name="email"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Email
-                                            </TableHeading>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            
                                             <TableHeading
                                                 name="Level"
                                                 sort_field={
@@ -127,9 +105,7 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             <th className="px-3 py-3">
                                                 Specialization
                                             </th>
-                                            <th className="px-3 py-3">
-                                                Gender
-                                            </th>
+
                                             <th className="px-3 py-3">
                                                 Address
                                             </th>
@@ -185,7 +161,6 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -210,9 +185,7 @@ export default function Index({ auth, teachers, queryParams = null, success }) {
                                                 <td className="px-3 py-2">
                                                     {teacher.specialization}
                                                 </td>
-                                                <td className="px-3 py-2">
-                                                    {teacher.gender}
-                                                </td>
+
                                                 <td className="px-3 py-2">
                                                     {teacher.address}
                                                 </td>

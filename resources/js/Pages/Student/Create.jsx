@@ -6,7 +6,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import React, { useState } from "react";
 
-export default function Create({auth,nationalities,levels,grades,classrooms,guardians,}) {
+export default function Create({auth,nationalities,levels,grades,classrooms,guardians}) {
     const { data, setData, post, errors, reset } = useForm({
         guardian_email: " ",
         guardian_password: " ",
@@ -97,7 +97,6 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                     id="guardian_password"
                                     type="password"
                                     name="guardian_password"
-                                    value={data.guardian_password}
                                     className="block w-full mt-1"
                                     onChange={(e) =>
                                         setData(
@@ -278,7 +277,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                         <option value="">Select Guardian</option>
                         {guardians.map((guardian) => (
                             <option value={guardian.id} key={guardian.id}>
-                                {guardian.name}
+                                {guardian.user.name}
                             </option>
                         ))}
                     </SelectInput>
@@ -295,7 +294,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Create new Student
+                        Add new Student
                     </h2>
                 </div>
             }
@@ -305,6 +304,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
+                            {JSON.stringify(guardians)}
                             <form
                                 onSubmit={onSubmit}
                                 className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
@@ -348,7 +348,6 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                                             id="password"
                                             type="password"
                                             name="password"
-                                            value={data.password}
                                             className="block w-full mt-1"
                                             onChange={(e) =>
                                                 setData(
@@ -735,6 +734,7 @@ export default function Create({auth,nationalities,levels,grades,classrooms,guar
                     </div>
                 </div>
             </div>
+
         </AuthenticatedLayout>
     );
 }

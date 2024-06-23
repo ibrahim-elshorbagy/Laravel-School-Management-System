@@ -22,7 +22,7 @@ class StoreStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'guardian_email' => ['nullable', 'email','unique:guardians,email'],
+            'guardian_email' => ['nullable', 'email','unique:users,email'],
             'guardian_password' => ['nullable', 'string'],
             'guardian_name' => ['nullable', 'string'],
             'guardian_phone' => ['nullable', 'numeric'],
@@ -32,7 +32,7 @@ class StoreStudentRequest extends FormRequest
             'guardian_address' => ['nullable', 'string'],
             'guardian_id' => ['nullable', 'numeric'],
 
-            'email' => ['required', 'string', 'unique:students,email'],
+            'email' => ['required', 'string', 'unique:users,email'],
             'password' => ['required', 'string'],
             'name' => ['required', 'string'],
             'national_id' => ['nullable', 'numeric'],

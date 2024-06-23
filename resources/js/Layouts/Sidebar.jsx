@@ -220,6 +220,24 @@ export default function Sidebar() {
                             href={route("promotion.index")}
                             active={route().current("promotion.index")}
                         >
+                            Promotions
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("promotion.index")}
+                            active={route().current("promotion.index")}
+                        >
+                            <MdOutlineSchool />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("graduated.index")}
+                            active={route().current("graduated.index")}
+                        >
                             Graduated
                         </SidebarLink>
                     </li>
@@ -295,7 +313,7 @@ export default function Sidebar() {
                             href={route("processing-fee.index")}
                             active={route().current("processing-fee.index")}
                         >
-                            Processing
+                            Excluding
                         </SidebarLink>
                     </li>
                     {/* ======== */}

@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 
 export default function Create({ auth, levels, grades, teachers, subject ,specializations}) {
     const { data, setData, post, errors, reset } = useForm({
-        name: subject.name || "",
         level_id: subject.level_id||"",
         grade_id: subject.grade_id||"",
         teacher_id: subject.teacher_id || "",

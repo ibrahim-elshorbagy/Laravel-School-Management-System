@@ -5,10 +5,12 @@ namespace Database\Seeders;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Level;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class SchoolSeeder extends Seeder
 {
@@ -22,11 +24,12 @@ class SchoolSeeder extends Seeder
         DB::table('classrooms')->delete();
         DB::table('guardians')->delete();
         DB::table('students')->delete();
+        DB::table('users')->delete(); // Make sure to delete users table if necessary
 
+        // Create levels, grades, and classrooms
         $levels = ['Elementary', 'Middle School', 'High School'];
         foreach ($levels as $key => $levelName) {
             $level = Level::create(['name' => $levelName]);
-
 
             if ($levelName === 'Elementary') {
                 $grades = ['Grade one', 'Grade two', 'Grade three', 'Grade four', 'Grade five', 'Grade six'];
@@ -39,7 +42,6 @@ class SchoolSeeder extends Seeder
             foreach ($grades as $gradeName) {
                 $grade = Grade::create(['name' => $gradeName, 'level_id' => $level->id]);
 
-
                 $classrooms = ['Class A', 'Class B', 'Class C'];
                 foreach ($classrooms as $className) {
                     Classroom::create(['name' => $className, 'grade_id' => $grade->id, 'level_id' => $level->id,'status'=>'active']);
@@ -47,85 +49,108 @@ class SchoolSeeder extends Seeder
             }
         }
 
-        DB::table('guardians')->insert([
-            'email' => 'mohamed@example.com',
-            'password' => bcrypt('password'),
-            'name' => 'Mohamed elshorbagy',
-            'phone' => 0501234567,
-            'job' => 'Teacher',
-            'passport_id' => '123123456',
-            'national_id' => 51,
-            'address' => 'Egypt',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
 
-        DB::table('students')->insert([
-            [
-                'name' => 'Ahmed mohamed',
-                'email' => 'student1@example.com',
+
+        for ($i = 1; $i <= 2; $i++) {
+            $user = User::create([
+                'name' => fake()->name(),
+                'email' => fake()->email(),
                 'password' => bcrypt('password'),
-                'gender' => 'Male',
+                'role'=>'guardian',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            DB::table('guardians')->insert([
+                'user_id' => $user->id,
+                'phone' => '0501234567',
+                'job' => 'Teacher',
+                'passport_id' => '123123456',
                 'national_id' => 51,
-                'date_birth' => '2006-05-10',
-                'level_id' => 1,
-                'grade_id' => 1,
-                'classroom_id' => 1,
-                'guardian_id' => 1,
-                'academic_year' => '2022',
-                'image_path' => '',
+                'address' => 'Egypt',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        for ($i = 1; $i <= 99; $i++) {
+            $user = User::create([
+                'name' => fake()->name(),
+                'email' => fake()->email(),
+                'password' => bcrypt('password'),
+                'role'=>'student',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            DB::table('students')->insert([
+                [
+                    'user_id' => $user->id,
+                    'gender' => ($i % 2 == 0) ? 'Male' : 'Female',
+                    'national_id' => 51,
+                    'date_birth' => Carbon::now()->subYears(10 + $i),
+                    'level_id' => rand(1, 2),
+                    'grade_id' => 1,
+                    'classroom_id' => 1,
+                    'guardian_id' => rand(1, 2),
+                    'academic_year' => '2022',
+                    'image_path' => '',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ],
+            ]);
+        }
+
+        for ($i = 1; $i <= 99; $i++) {
+            $user = User::create([
+                'name' => fake()->name(),
+                'email' => fake()->email(),
+                'password' => bcrypt('password'),
+                'role'=>'teacher',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            DB::table('teachers')->insert([
+                [
+                    'id' => $i,
+                    'user_id' => $user->id,
+                    'specialization_id' => rand(1, 14),
+                    'level_id' => rand(1, 3),
+                    'gender' => ($i % 2 == 0) ? 'Male' : 'Female',
+                    'address' => 'Egypt',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ],
+            ]);
+        }
+
+
+        DB::table('fees')->insert([
+            [
+                'id' => 1,
+                'name' => 'Bus Fees',
+                'amount' => 1000,
+                'level_id' => null,
+                'grade_id' => null,
+                'year' => 2022,
+                'type' => 'puhlic',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Ibrahim mohamed',
-                'email' => 'student2@example.com',
-                'password' => bcrypt('password'),
-                'gender' => 'Female',
-                'national_id' => 51,
-                'date_birth' => '2007-08-15',
+                'id' => 2,
+                'name' => 'School Fees',
+                'amount' => 1000,
                 'level_id' => 1,
                 'grade_id' => 1,
-                'classroom_id' => 1,
-                'guardian_id' => 1,
-                'academic_year' => '2022',
-                'image_path' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Khalid mohamed',
-                'email' => 'student3@example.com',
-                'password' => bcrypt('password'),
-                'gender' => 'Male',
-                'national_id' => 51,
-                'date_birth' => '2008-11-20',
-                'level_id' => 1,
-                'grade_id' => 1,
-                'classroom_id' => 1,
-                'guardian_id' => 1,
-                'academic_year' => '2022',
-                'image_path' => '',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'Belal mohamed',
-                'email' => 'student4@example.com',
-                'password' => bcrypt('password'),
-                'gender' => 'Female',
-                'national_id' => 51,
-                'date_birth' => '2009-03-25',
-                'level_id' => 1,
-                'grade_id' => 1,
-                'classroom_id' => 1,
-                'guardian_id' => 1,
-                'academic_year' => '2022',
-                'image_path' => '',
+                'year' => 2022,
+                'type' => 'specific',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
         ]);
     }
-}
 
+
+}

@@ -94,18 +94,8 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                                 ID
                                             </TableHeading>
 
-                                            <TableHeading
-                                                // name="name"
-                                                // sort_field={
-                                                //     queryParams.sort_field
-                                                // }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
+                                            <th>Name</th>
+
                                             <TableHeading
                                                 name="teacher_id"
                                                 sort_field={

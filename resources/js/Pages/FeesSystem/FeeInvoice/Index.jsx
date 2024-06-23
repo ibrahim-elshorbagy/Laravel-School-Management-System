@@ -96,18 +96,8 @@ export default function Index({ auth, feeInvoices, queryParams = null, success }
                                                 ID
                                             </TableHeading>
 
-                                            <TableHeading
-                                                name="student_id"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
+                                            <th>Name</th>
+
                                             <TableHeading
                                                 name="fee_id"
                                                 sort_field={

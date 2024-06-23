@@ -50,7 +50,6 @@ export default function Create({ auth, levels, grades,teachers }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {JSON.stringify(teachers)}
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <form
                             onSubmit={onSubmit}

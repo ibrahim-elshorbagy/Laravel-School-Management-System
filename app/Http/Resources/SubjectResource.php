@@ -23,8 +23,8 @@ class SubjectResource extends JsonResource
             'grade' => $this->whenLoaded('grade', function () {
                 return $this->grade->name;
             }),
-            'teacher' => $this->whenLoaded('teacher', function () {
-                return $this->teacher->name;
+            'teacher'=>$this->whenLoaded('teacher',function(){
+                return $this->teacher->user->name;
             }),
             'specialization' => $this->whenLoaded('specialization', function () {
                 return $this->specialization->Name;

@@ -25,7 +25,7 @@ class FeeInvoiceController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         if (request('name')) {
-            $query->whereHas('student', function ($q) {
+            $query->whereHas('student.user', function ($q) {
                 $q->where('name', 'like', '%' . request('name') . '%');
             });
         }
@@ -55,7 +55,7 @@ class FeeInvoiceController extends Controller
      */
     public function show($id)
     {
-        $student = Student::select('id','name','level_id','grade_id','classroom_id','academic_year')->findOrFail($id);
+        $student = Student::with(['user' => function ($q) {$q->select('id', 'name');}])->select('id','user_id','level_id','grade_id','classroom_id','academic_year')->findOrFail($id);
 
         $fees = Fee::select('id','name', 'amount','level_id','grade_id', 'type',)
                 ->where('grade_id', $student->grade_id)
@@ -100,10 +100,10 @@ class FeeInvoiceController extends Controller
     public function edit( $id)
     {
         $feeInvoice = FeeInvoice::with([
-            'student' => function ($query) {$query->select('id', 'name');},
+            'student.user' => function ($query) {$query->select('id','name');},
             'fee'
             ])->findOrFail($id);
-                $fees = Fee::select('id','name', 'amount','level_id','grade_id', 'type',)
+                $fees = Fee::select('id','name', 'amount','level_id','grade_id', 'type')
                 ->where('grade_id', $feeInvoice->grade_id)
                 ->orWhere('type', 'public')
                 ->get();

@@ -19,9 +19,12 @@ class GuardianResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'email' => $this->email,
-            'name' => $this->name,
-            'gender' => $this->gender,
+            'email' => $this->whenLoaded('user', function () {
+                    return $this->user->email;
+            }),
+            'name' => $this->whenLoaded('user', function () {
+                    return $this->user->name;
+            }),
             'address' => $this->address,
             'phone' => $this->phone,
             'job' => $this->job,
