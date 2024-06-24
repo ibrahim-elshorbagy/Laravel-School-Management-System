@@ -9,10 +9,12 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use Carbon\Carbon;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\NationalitiesSeeder as SeedersNationalitiesSeeder;
 use Database\Seeders\SchoolSeeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +24,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-         User::factory()->create([
+        User::factory()->create([
             'id'=>1,
             'name' => 'Ibrahim Admin',
             'email' => 'a@a.a',
@@ -31,8 +33,10 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => time()
         ]);
 
+
         $this->call(SeedersNationalitiesSeeder::class);
         $this->call(SpecializationSeeder::class);
+        $this->call(TeacherSeeder::class);
         $this->call(SchoolSeeder::class);
 
 
