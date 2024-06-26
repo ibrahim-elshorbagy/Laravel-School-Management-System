@@ -29,7 +29,7 @@ class ExamResource extends JsonResource
                 return $this->classroom->name;
             }),
             'teacher' => $this->whenLoaded('teacher', function () {
-                return $this->teacher->name;
+                return $this->teacher->user->name;
             }),
             'specialization' => $this->whenLoaded('specialization', function () {
                 return $this->specialization->Name;

@@ -31,4 +31,8 @@ class Exam extends Model
         return $this->belongsTo(Teacher::class);
     }
 
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
+
 }

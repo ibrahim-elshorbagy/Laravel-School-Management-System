@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReceiptStudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
@@ -56,6 +57,7 @@ Route::resource('student-attendances', AttendanceController::class);
 Route::resource('subject',SubjectController::class);
 
 Route::resource('exam',ExamController::class);
+
 });
 
 Route::middleware('auth')->group(function () {

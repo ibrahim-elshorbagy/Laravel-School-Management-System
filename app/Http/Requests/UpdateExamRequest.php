@@ -19,16 +19,30 @@ class UpdateExamRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+     public function rules(): array
     {
         return [
-                'level_id' => ['required', 'numeric'],
-                'grade_id' => ['required', 'numeric'],
-                'teacher_id' => ['required', 'numeric'],
-                'subject_id' => ['required', 'numeric'],
-                'classroom_id' => ['required', 'numeric'],
-                'name' => ['required', 'string'],
+            'name' => ['required', 'string'],
+            'level_id' => ['required', 'numeric'],
+            'grade_id' => ['required', 'numeric'],
+            'classroom_id' => ['required', 'numeric'],
+            'subject_id' => ['required', 'numeric'],
+            'teacher_id' => ['required', 'numeric'],
+            'questions' => ['required', 'array'],
+            'questions.*.question' => ['required', 'string'],
+            'questions.*.answers' => ['required', 'array'],
+            'questions.*.answers.*.text' => ['required', 'string'],
+            'questions.*.answers.*.isCorrect' => ['required', 'boolean'],
+        ];
 
+    }
+    public function messages(): array
+    {
+        return [
+            'questions.*.question.required' => 'Question is required',
+            'questions.*.answers.min' => 'At least one answer is required',
+            'questions.*.answers.max' => 'Maximum 4 answers are allowed',
+            'questions.*.answers.*.text.max' => 'Answer text maximum 255 characters',
         ];
     }
 }
