@@ -53,9 +53,10 @@ This project aims to provide a comprehensive solution for managing various aspec
 - Attendance management page for tracking student attendance.
 
 ### Exams (Work in Progress)
-- Page for managing and scheduling exams.
-- Record exam results and generate reports for students and teachers.
+- Full CRUD Exams System.
 
+
+![exam](Readme_assets/images/exam.png)
 
 ## Technologies Used
 - **Backend** :  Laravel 11
