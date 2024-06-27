@@ -22,8 +22,7 @@ class Teacher extends Model
 
     public function classrooms()
     {
-        return $this->belongsToMany(Classroom::class, 'classroom_teachers');
-
+        return $this->belongsToMany(Classroom::class, 'classroom_teachers', 'teacher_id', 'classroom_id');
     }
 
     public function level()

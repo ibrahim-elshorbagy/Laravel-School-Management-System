@@ -5,7 +5,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import { useState } from "react";
 
-import Sidebar from "@/Layouts/Sidebar";
+import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar";
+import TeacherSidebar from "@/Layouts/Sidebar/TeacherSidebar";
+import GuardianSidebar from "@/Layouts/Sidebar/GuardianSidebar";
+import StudentSidebar from "@/Layouts/Sidebar/StudentSidebar";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -22,7 +25,6 @@ export default function Authenticated({ user, header, children }) {
                                     <ApplicationLogo className="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
                                 </Link>
                             </div>
-
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
@@ -163,8 +165,20 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <div className="flex">
-
-                <Sidebar/>
+                {(() => {
+                    switch (user.role) {
+                        case "admin":
+                            return <AdminSidebar />;
+                        case "teacher":
+                            return <TeacherSidebar />;
+                        case "guardian":
+                            return <GuardianSidebar />;
+                        case "student":
+                            return <StudentSidebar />;
+                        default:
+                            return null;
+                    }
+                })()}
                 <main className="flex-1">{children}</main>
             </div>
         </div>

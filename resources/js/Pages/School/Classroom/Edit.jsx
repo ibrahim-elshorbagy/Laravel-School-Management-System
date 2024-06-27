@@ -1,11 +1,11 @@
+import React, { useState } from "react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
 import MultiSelectInput from "@/Components/MultiSelectInput";
 import TextInput from "@/Components/TextInput";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { useState } from "react";
 
 export default function Create({ auth, classroom, levels, grades, teachers ,SelectedTeachers}) {
     const { data, setData, post, errors, reset } = useForm({
@@ -17,17 +17,13 @@ export default function Create({ auth, classroom, levels, grades, teachers ,Sele
         _method: "PUT",
     });
 
+    const [filteredTeachers, setFilteredTeachers] = useState(teachers);
+
     const onSubmit = (e) => {
         e.preventDefault();
 
         post(route("classroom.update", classroom.id));
     };
-
-        const [filteredTeachers, setFilteredTeachers] = useState(() => {
-            return teachers.filter((teacher) =>
-                SelectedTeachers.includes(teacher.id)
-            );
-        });
 
         const handleLevelChange = (e) => {
             setData("level_id", e.target.value);

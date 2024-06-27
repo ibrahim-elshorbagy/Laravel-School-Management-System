@@ -30,7 +30,7 @@ class StudentController extends Controller
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
-       if (request("name")) {
+        if (request("name")) {
         $query->whereHas('user', function ($q) {
             $q->where("name", "like", "%" . request("name") . "%");
         });
