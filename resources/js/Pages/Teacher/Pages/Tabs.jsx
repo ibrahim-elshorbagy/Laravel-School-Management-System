@@ -1,4 +1,5 @@
 import { Tab } from "@headlessui/react";
+import { Link } from "@inertiajs/react";
 
 export default function Tabs({ students, classroomInfo }) {
 
@@ -60,6 +61,16 @@ export default function Tabs({ students, classroomInfo }) {
                                         </li>
                                     )}
                                 </ul>
+
+                                <Link
+                                    href={route(
+                                        "My-Student-Attendance.show",
+                                        classroom.id
+                                    )}
+                                    className="block mx-1 mt-4 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                >
+                                    Taking Attendance
+                                </Link>
                             </Tab.Panel>
                         ))}
                     </Tab.Panels>

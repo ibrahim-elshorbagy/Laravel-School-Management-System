@@ -46,7 +46,11 @@ export default function Attendance({ auth, students, taken, teacherId }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route("student-attendances.store"));
+        const routeName =
+            auth.user.role === "admin"
+                ? "student-attendances.store"
+                : "My-Student-Attendance.store";
+        post(route(routeName));
     };
 
     const handleAttendanceChange = (studentId, status) => {

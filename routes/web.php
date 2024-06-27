@@ -53,20 +53,26 @@ Route::get('/', function () {
 //----------------------- teacher
 
 Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
+
     Route::get('teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
+    Route::resource('My-Student-Attendance', AttendanceController::class)->except(['index']);
 
 });
 
 //----------------------- guardian
 
 Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
+
     Route::get('guardian/dashboard', [DashboardController::class, 'guardian'])->name('guardian.dashboard');
+
 });
 
 //----------------------- student
 
 Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
+
     Route::get('student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+    
 });
 
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
 import { MdDashboard } from "react-icons/md";
+import { FaTableList } from "react-icons/fa6";
 
 export default function Sidebar() {
 
