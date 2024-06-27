@@ -21,15 +21,60 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\RoleManagerMiddleware;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::redirect('/','/dashboard');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
-Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+//----------------------- /
+Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+        switch ($user->role) {
+            case 'teacher':
+                return redirect()->route('teacher.dashboard');
+            case 'guardian':
+                return redirect()->route('guardian.dashboard');
+            case 'student':
+                return redirect()->route('student.dashboard');
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            default:
+                return redirect('/login');
+        }
+    }
+    return redirect('/login');
+});
+
+
+//----------------------- teacher
+
+Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
+    Route::get('teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
+
+});
+
+//----------------------- guardian
+
+Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
+    Route::get('guardian/dashboard', [DashboardController::class, 'guardian'])->name('guardian.dashboard');
+});
+
+//----------------------- student
+
+Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
+    Route::get('student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+});
+
+
+//----------------------- admin
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+
+Route::get('admin/dashboard',[DashboardController::class,'admin'])->name('admin.dashboard');
 
 Route::get('task/my-task',[TaskController::class,'myTasks'])->name('task.myTasks');
 
@@ -55,8 +100,8 @@ Route::resource('processing-fee', ProcessingFeeController::class);
 Route::resource('student-attendances', AttendanceController::class);
 
 Route::resource('subject',SubjectController::class);
-
 Route::resource('exam',ExamController::class);
+
 
 });
 

@@ -25,67 +25,8 @@ export default function Sidebar() {
 
     return (
         <>
-            {/*
-            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-
-
-                                <NavLink
-                                    href={route("teacher.index")}
-                                    active={route().current("teacher.index")}
-                                >
-                                    Teachers
-                                </NavLink>
-                                <NavLink
-                                    href={route("student.index")}
-                                    active={route().current("student.index")}
-                                >
-                                    Student
-                                </NavLink>
-                                <NavLink
-                                    href={route("guardian.index")}
-                                    active={route().current("guardian.index")}
-                                >
-                                    Guardian
-                                </NavLink>
-                                <NavLink
-                                    href={route("promotion.index")}
-                                    active={route().current("promotion.index")}
-                                >
-                                    Promotion
-                                </NavLink>
-                                <NavLink
-                                    href={route("graduated.index")}
-                                    active={route().current("graduated.index")}
-                                >
-                                    Graduated
-                                </NavLink>
-                                <NavLink
-                                    href={route("fee.index")}
-                                    active={route().current("fee.index")}
-                                >
-                                    Fee
-                                </NavLink>
-                                <NavLink
-                                    href={route("fee-invoice.index")}
-                                    active={route().current(
-                                        "fee-invoice.index"
-                                    )}
-                                >
-                                    Fee Invoice
-                                </NavLink>
-                                <NavLink
-                                    href={route("receipt-student.index")}
-                                    active={route().current(
-                                        "receipt-student.index"
-                                    )}
-                                >
-                                    Received
-                                </NavLink>
-
-                            </div> */}
-
             <div
-                className={`dark:bg-gray-800 dark:border-gray-700 h-screen p-5 pt-8 ${
+                className={`dark:bg-gray-800 dark:border-gray-700 min-h-screen p-5 pt-8 ${
                     open ? "w-72" : "w-20"
                 } duration-300 relative`}
             >
