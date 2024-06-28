@@ -22,11 +22,6 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
         router.get(route("subject.index"), queryParams);
     };
 
-    const onKeyPress = (name, event) => {
-        if (event.key == "Enter") {
-            searchFieldChanged(name, event.target.value);
-        }
-    };
 
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {
@@ -81,19 +76,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr className="text-nowrap">
-                                            <TableHeading
-                                                name="id"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                ID
-                                            </TableHeading>
-
+                                            <th className="px-3 py-3 ">Id</th>
                                             <th>Name</th>
 
                                             <TableHeading
@@ -150,31 +133,7 @@ export default function Index({ auth, subjects, queryParams = null, success }) {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3">
-                                                <TextInput
-                                                    className="w-full min-w-[350px]"
-                                                    placeholder="Subject Name"
-                                                    onSubmit={(e) =>
-                                                        searchFieldChanged(
-                                                            "name",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("name", e)
-                                                    }
-                                                ></TextInput>
-                                            </th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3 text-right"></th>
-                                        </tr>
-                                    </thead>
+
                                     <tbody>
                                         {subjects.data.map((subject) => (
                                             <tr

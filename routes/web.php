@@ -26,6 +26,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\TeacherExamController;
 
 
 
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
     Route::get('teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
     Route::resource('My-Student-Attendance', AttendanceController::class)->except(['index']);
 
+    Route::resource('My-exams', TeacherExamController::class);
+
 });
 
 //----------------------- guardian
@@ -72,7 +75,7 @@ Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
 
     Route::get('student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
-    
+
 });
 
 

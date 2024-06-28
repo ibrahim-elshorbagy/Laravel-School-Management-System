@@ -2,9 +2,39 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects }) => {
+const LevelInfo = ({ setData, data, errors, teacher, classrooms }) => {
+    const [filteredSubjects, setFilteredSubjects] = useState([]);
+    const [filteredClassrooms, setFilteredClassrooms] = useState([]);
+    const [uniqueLevels, setUniqueLevels] = useState([]);
+
+    useEffect(() => {
+        // Filter subjects based on selected grade
+        const filteredSubjects = teacher.subjects.filter(
+            (subject) => subject.grade.id === parseInt(data.grade_id)
+        );
+        setFilteredSubjects(filteredSubjects);
+
+        // Filter classrooms based on selected level and grade
+        const filteredClassrooms = classrooms.filter(
+            (classroom) =>
+                classroom.level_id === parseInt(data.level_id) &&
+                classroom.grade_id === parseInt(data.grade_id)
+        );
+        setFilteredClassrooms(filteredClassrooms);
+
+        // Extract unique levels from teacher's subjects
+        const uniqueLevelsMap = new Map();
+        teacher.subjects.forEach((subject) => {
+            if (!uniqueLevelsMap.has(subject.level.id)) {
+                uniqueLevelsMap.set(subject.level.id, subject.level);
+            }
+        });
+        const uniqueLevels = Array.from(uniqueLevelsMap.values());
+        setUniqueLevels(uniqueLevels);
+    }, [data.grade_id, data.level_id, teacher.subjects, classrooms]);
+
     return (
         <>
             <div className="flex items-center justify-center text-xl font-medium text-gray-700 dark:text-gray-300">
@@ -12,7 +42,6 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                 <span className="m-4">Level Info</span>
                 <hr className="flex-1 -my-6 border-gray-300 dark:border-gray-700" />
             </div>
-
             <div className="grid grid-cols-2 gap-4">
                 {/* Name */}
                 <div className="my-4">
@@ -29,6 +58,21 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                 </div>
             </div>
             <div className="grid grid-cols-3 gap-4 pt-0 md:grid-cols-5">
+                {/* Teacher */}
+                <div className="mt-4">
+                    <InputLabel htmlFor="teacher_id" value="Teacher Name" />
+                    <SelectInput
+                        name="teacher_id"
+                        className="block w-full mt-1"
+                        value={data.teacher_id}
+                        onChange={(e) => setData("teacher_id", e.target.value)}
+                    >
+                        <option value="">Select Teacher</option>
+                        <option value={teacher.id}>{teacher.name}</option>
+                    </SelectInput>
+                    <InputError message={errors.teacher_id} className="mt-2" />
+                </div>
+
                 {/* Level */}
                 <div className="mt-4">
                     <InputLabel htmlFor="level_id" value="Level Name" />
@@ -39,8 +83,8 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                         onChange={(e) => setData("level_id", e.target.value)}
                     >
                         <option value="">Select Level</option>
-                        {levels.map((level) => (
-                            <option value={level.id} key={level.id}>
+                        {uniqueLevels.map((level) => (
+                            <option key={level.id} value={level.id}>
                                 {level.name}
                             </option>
                         ))}
@@ -58,42 +102,16 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                         onChange={(e) => setData("grade_id", e.target.value)}
                     >
                         <option value="">Select Grade</option>
-                        {grades
-                            .filter(
-                                (grade) => grade.level_id === +data.level_id
-                            )
-                            .map((grade) => (
-                                <option value={grade.id} key={grade.id}>
-                                    {grade.name}
-                                </option>
-                            ))}
+                        {teacher.subjects.map((subject) => (
+                            <option
+                                key={subject.grade.id}
+                                value={subject.grade.id}
+                            >
+                                {subject.grade.name}
+                            </option>
+                        ))}
                     </SelectInput>
                     <InputError message={errors.grade_id} className="mt-2" />
-                </div>
-
-                {/* Teacher */}
-                <div className="mt-4">
-                    <InputLabel htmlFor="teacher_id" value="Teacher Name" />
-                    <SelectInput
-                        name="teacher_id"
-                        className="block w-full mt-1"
-                        value={data.teacher_id}
-                        onChange={(e) => setData("teacher_id", e.target.value)}
-                    >
-                        <option value="">Select Teacher</option>
-                        {subjects
-                            .filter(
-                                (subject) =>
-                                    subject.grade_id === +data.grade_id &&
-                                    subject.level_id === +data.level_id
-                            )
-                            .map((subject, index) => (
-                                <option value={subject.teacher_id} key={index}>
-                                    {subject.teacher_name}
-                                </option>
-                            ))}
-                    </SelectInput>
-                    <InputError message={errors.teacher_id} className="mt-2" />
                 </div>
 
                 {/* Teacher's Subjects */}
@@ -106,18 +124,11 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                         onChange={(e) => setData("subject_id", e.target.value)}
                     >
                         <option value="">Select Subject</option>
-                        {subjects
-                            .filter(
-                                (subject) =>
-                                    subject.teacher_id === +data.teacher_id &&
-                                    subject.grade_id === +data.grade_id &&
-                                    subject.level_id === +data.level_id
-                            )
-                            .map((subject) => (
-                                <option value={subject.id} key={subject.id}>
-                                    {subject.subject_name}
-                                </option>
-                            ))}
+                        {filteredSubjects.map((subject) => (
+                            <option key={subject.id} value={subject.id}>
+                                {subject.specialization.Name}
+                            </option>
+                        ))}
                     </SelectInput>
                     <InputError message={errors.subject_id} className="mt-2" />
                 </div>
@@ -134,20 +145,11 @@ const LevelInfo = ({ setData, data, errors, levels, grades, classrooms, subjects
                         }
                     >
                         <option value="">Select Classroom</option>
-                        {classrooms
-                            .filter(
-                                (classroom) =>
-                                    classroom.grade_id === +data.grade_id
-                            )
-                            .filter(
-                                (classroom) =>
-                                    classroom.level_id === +data.level_id
-                            )
-                            .map((classroom) => (
-                                <option value={classroom.id} key={classroom.id}>
-                                    {classroom.name}
-                                </option>
-                            ))}
+                        {filteredClassrooms.map((classroom) => (
+                            <option key={classroom.id} value={classroom.id}>
+                                {classroom.name}
+                            </option>
+                        ))}
                     </SelectInput>
                     <InputError
                         message={errors.classroom_id}

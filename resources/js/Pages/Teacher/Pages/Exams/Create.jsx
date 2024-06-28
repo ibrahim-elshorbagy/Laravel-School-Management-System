@@ -9,7 +9,7 @@
     import Question from "./Partials/Question";
     import LevelInfo from "./Partials/LevelInfo";
 
-        export default function Create({ auth, levels, grades, classrooms, subjects }) {
+        export default function Create({ auth, teacher, classrooms }) {
         const { data, setData, post, errors, reset } = useForm({
             name: "",
             level_id: "",
@@ -23,7 +23,7 @@
         // SubmitForm
         const onSubmit = (e) => {
             e.preventDefault();
-            post(route("exam.store"));
+            post(route("My-exams.store"));
         };
 
         const addQuestion = () => {
@@ -54,11 +54,7 @@
                         className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                     >
                                 {/* Level Info */}
-                {JSON.stringify(levels)}
-                {JSON.stringify(grades)}
-                {JSON.stringify(classrooms)}
-                {JSON.stringify(subjects)}
-                    <LevelInfo setData={setData} data={data} errors={errors} levels={levels} grades={grades} classrooms={classrooms} subjects={subjects}/>
+                    <LevelInfo setData={setData} data={data} errors={errors} teacher={teacher}  classrooms={classrooms} />
 
                     {/* Questions */}
 

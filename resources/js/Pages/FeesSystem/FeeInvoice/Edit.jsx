@@ -49,7 +49,6 @@ export default function Add({ auth, feeInvoice, fees }) {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
-                            {JSON.stringify(feeInvoice)}
 
                             <form
                                 onSubmit={onSubmit}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
 import { MdDashboard } from "react-icons/md";
-import { FaTableList } from "react-icons/fa6";
+import { PiExamFill } from "react-icons/pi";
 
 export default function Sidebar() {
 
@@ -57,6 +57,26 @@ export default function Sidebar() {
                             Dashboard
                         </SidebarLink>
                     </li>
+                    {/* ======== */}
+
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("My-exams.index")}
+                            active={route().current("My-exams.index")}
+                        >
+                            <PiExamFill />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("My-exams.index")}
+                            active={route().current("My-exams.index")}
+                        >
+                            Exams
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
                 </ul>
             </div>
         </>

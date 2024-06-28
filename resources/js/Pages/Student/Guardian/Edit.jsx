@@ -44,7 +44,6 @@ export default function Create({ auth, nationalities, guardian }) {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                        {JSON.stringify(guardian)}
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
                                 onSubmit={onSubmit}

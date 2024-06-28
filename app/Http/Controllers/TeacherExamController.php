@@ -9,22 +9,22 @@ use App\Http\Resources\ExamResource;
 use App\Http\Resources\IndexStudentResource;
 use App\Models\Answer;
 use App\Models\Classroom;
-use App\Models\Grade;
-use App\Models\Level;
 use App\Models\Question;
-use App\Models\Student;
-use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 
-class ExamController extends Controller
+class TeacherExamController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $query = Exam::query()->with('level','grade','classroom','teacher.user','subject');
+        $teacher_id = Auth::user()->teacher->id;
+
+        $query = Exam::query()->with('level','grade','classroom','teacher.user','subject')->where('teacher_id', $teacher_id);
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
+
 
         $exams = $query->orderBy($sortField, $sortDirection)
             ->paginate(10)
@@ -36,39 +36,25 @@ class ExamController extends Controller
         ]);
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
-        $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
+        //teacher -> subjects ->( specialization , grade , level)
+        $teacher = Auth::user()->teacher()->with('subjects.specialization','subjects.grade', 'subjects.level')->first()->toArray();;
+        $teacher['name']=Auth::user()->name;
         $classrooms = Classroom::orderBy('name','asc')->get(['id','name','grade_id','level_id']);
 
-
-        $subjects = Subject::with('grade', 'level', 'teacher.user','specialization')->get()
-        ->map(function ($subject) {
-            return [
-                'id' => $subject->id,
-                'grade_id' => $subject->grade->id,
-                'level_id' => $subject->level->id,
-                'teacher_id' => $subject->teacher->id,
-                'teacher_name' => $subject->teacher->user->name,
-                'subject_name' => $subject->specialization->Name,
-                'subject_id' => $subject->specialization->id,
-
-            ];
-        });
-
-        return inertia("LearnProcess/Exams/Create",
+        return inertia("Teacher/Pages/Exams/Create",
     [
-        'levels' => $levels,
-        'grades' => $grades,
+        'teacher' => $teacher,
         'classrooms' => $classrooms,
-        'subjects' => $subjects,
     ]);
 
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -102,7 +88,7 @@ class ExamController extends Controller
         }
     }
 
-        return to_route('exam.index')
+        return to_route('My-exams.index')
             ->with('success', 'Exam Added Successfully ');
 
     }
@@ -118,43 +104,33 @@ class ExamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Exam $exam)
+    public function edit($id)
     {
-        $levels = Level::orderBy('name', 'asc')->get(['id', 'name']);
-        $grades = Grade::orderBy('name','asc')->get(['id','name','level_id']);
-        $classrooms = Classroom::orderBy('name','asc')->get(['id','name','grade_id','level_id']);
+        $exam = Exam::find($id)->load('questions.answers')->toArray();
+        $teacher = Auth::user()->teacher()
+            ->with('subjects.specialization', 'subjects.grade', 'subjects.level')
+            ->first();
 
-        $subjects = Subject::with('grade', 'level', 'teacher.user','specialization')->get()
-        ->map(function ($subject) {
-            return [
-                'id' => $subject->id,
-                'grade_id' => $subject->grade->id,
-                'level_id' => $subject->level->id,
-                'teacher_id' => $subject->teacher->id,
-                'teacher_name' => $subject->teacher->user->name,
-                'subject_name' => $subject->specialization->Name,
-                'subject_id' => $subject->specialization->id,
-            ];
-        });
+        $teacher->name = Auth::user()->name;
 
-        $exam->load('questions.answers');
+        $classrooms = Classroom::orderBy('name', 'asc')->get(['id', 'name', 'grade_id', 'level_id']);
 
-        return inertia("LearnProcess/Exams/Edit",
-    [
-        'levels' => $levels,
-        'grades' => $grades,
-        'classrooms' => $classrooms,
-        'subjects' => $subjects,
-        'exam' => $exam,
-    ]);
+        return inertia('Teacher/Pages/Exams/Edit', [
+            'teacher' => $teacher,
+            'classrooms' => $classrooms,
+            'exam' => $exam,
+        ]);
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateExamRequest $request, Exam $exam)
+    public function update(UpdateExamRequest $request,$id)
     {
+
+        $exam = Exam::find($id)->load('questions.answers');
+
         $data = $request->validated();
 
 
@@ -198,16 +174,18 @@ class ExamController extends Controller
         // Delete questions not in the request
         $exam->questions()->whereNotIn('id', $questionIds)->delete();
 
-        return redirect()->route('exam.index')->with('success', 'Exam updated successfully');
+        return redirect()->route('My-exams.index')->with('success', 'Exam updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Exam $exam)
+    public function destroy($id)
     {
+        $exam = Exam::find($id)->load('questions.answers');
+
         $exam->delete();
-        return to_route('exam.index')->with('success','Exam deleted successfully');
+        return to_route('My-exams.index')->with('success','Exam deleted successfully');
 
     }
 }

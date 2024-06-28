@@ -18,15 +18,13 @@ export default function Index({ auth, exams, queryParams = null, success }) {
         if (name === "name") {
             delete queryParams.page;
         }
-
-        router.get(route("exam.index"), queryParams);
+        const routeName =
+            auth.user.role === "admin"
+                ? "exam.index"
+                : "My-exams.index";
+        router.get(route(routeName), queryParams);
     };
 
-    const onKeyPress = (name, event) => {
-        if (event.key == "Enter") {
-            searchFieldChanged(name, event.target.value);
-        }
-    };
 
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {
@@ -39,15 +37,19 @@ export default function Index({ auth, exams, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("exam.index"), queryParams);
+        const routeName =
+            auth.user.role === "admin" ? "exam.index" : "My-exams.index";
+        router.get(route(routeName), queryParams);
     };
 
     const deleteSubject = (exam) => {
         if (!window.confirm("Are you sure you want to delete the exams?")) {
             return;
         }
+        const routeName =
+            auth.user.role === "admin" ? "exam.destroy" : "My-exams.destroy";
 
-        router.delete(route("exam.destroy", exam.id));
+        router.delete(route(routeName, exam.id));
     };
     return (
         <AuthenticatedLayout
@@ -58,7 +60,9 @@ export default function Index({ auth, exams, queryParams = null, success }) {
                         Subjects
                     </h2>
                     <Link
-                        href={route("exam.create")}
+                        href={
+                            auth.user.role === "admin" ? route("exam.create"): auth.user.role === "teacher" ? route("My-exams.create"): null
+                        }
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add new
@@ -81,31 +85,8 @@ export default function Index({ auth, exams, queryParams = null, success }) {
                                 <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr className="text-nowrap">
-                                            <TableHeading
-                                                name="id"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                ID
-                                            </TableHeading>
-
-                                            <TableHeading
-                                                name="name"
-                                                sort_field={
-                                                    queryParams.sort_field
-                                                }
-                                                sort_direction={
-                                                    queryParams.sort_direction
-                                                }
-                                                sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
+                                            <th className="px-3 py-3 ">Id</th>
+                                            <th>Name</th>
                                             <TableHeading
                                                 name="teacher_id"
                                                 sort_field={
@@ -172,32 +153,7 @@ export default function Index({ auth, exams, queryParams = null, success }) {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <thead className="text-xs text-gray-700 uppercase border-b-2 border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3">
-                                                <TextInput
-                                                    className="w-full min-w-[350px]"
-                                                    placeholder="Subject Name"
-                                                    onSubmit={(e) =>
-                                                        searchFieldChanged(
-                                                            "name",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("name", e)
-                                                    }
-                                                ></TextInput>
-                                            </th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3 text-right"></th>
-                                        </tr>
-                                    </thead>
+
                                     <tbody>
                                         {exams.data.map((exam) => (
                                             <tr
@@ -228,10 +184,18 @@ export default function Index({ auth, exams, queryParams = null, success }) {
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-nowrap">
                                                     <Link
-                                                        href={route(
-                                                            "exam.edit",
-                                                            exam.id
-                                                        )}
+                                                        href={
+                                                            auth.user.role ===
+                                                            "admin"
+                                                                ? route(
+                                                                    "exam.edit",
+                                                                    exam.id
+                                                                )
+                                                                : route(
+                                                                    "My-exams.edit",
+                                                                    exam.id
+                                                                )
+                                                        }
                                                         className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                     >
                                                         Edit

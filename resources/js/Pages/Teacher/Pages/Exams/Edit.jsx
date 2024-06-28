@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import Question from "./Partials/Question";
 import LevelInfo from "./Partials/LevelInfo";
 
-export default function Create({ auth, levels, grades, classrooms, subjects, exam }) {
+export default function Create({ auth, teacher, exam, classrooms }) {
     const { data, setData, post, errors } = useForm({
         _method: "PUT",
         name: exam.name || "",
@@ -31,9 +31,8 @@ export default function Create({ auth, levels, grades, classrooms, subjects, exa
     // SubmitForm
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route("exam.update", exam.id));
+        post(route("My-exams.update", exam.id));
     };
-
 
     return (
         <AuthenticatedLayout
@@ -49,6 +48,9 @@ export default function Create({ auth, levels, grades, classrooms, subjects, exa
             <Head title="Exams" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {JSON.stringify(exam)}
+                    {JSON.stringify(classrooms)}
+                    {JSON.stringify(teacher)}
                     <div className="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                         <div className="bg-white shadow dark:bg-gray-800 sm:rounded-lg">
                             <form
@@ -60,10 +62,9 @@ export default function Create({ auth, levels, grades, classrooms, subjects, exa
                                     setData={setData}
                                     data={data}
                                     errors={errors}
-                                    levels={levels}
-                                    grades={grades}
+                                    teacher={teacher}
                                     classrooms={classrooms}
-                                    subjects={subjects}
+                                    exam={exam}
                                 />
 
                                 {/* Questions */}
@@ -72,12 +73,11 @@ export default function Create({ auth, levels, grades, classrooms, subjects, exa
                                     setData={setData}
                                     data={data}
                                     errors={errors}
-
                                 />
 
                                 <div className="mt-4 text-right">
                                     <Link
-                                        href={route("exam.index")}
+                                        href={route("My-exams.index")}
                                         className="px-3 py-1 mr-2 text-gray-800 transition-all bg-gray-100 rounded shadow hover:bg-gray-200"
                                     >
                                         Cancel
