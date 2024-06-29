@@ -9,6 +9,7 @@ use App\Http\Resources\ExamResource;
 use App\Http\Resources\IndexStudentResource;
 use App\Models\Answer;
 use App\Models\Classroom;
+use App\Models\ExamResult;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,13 +94,7 @@ class TeacherExamController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Exam $exam)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -187,5 +182,20 @@ class TeacherExamController extends Controller
         $exam->delete();
         return to_route('My-exams.index')->with('success','Exam deleted successfully');
 
+    }
+
+        /**
+     * Display the specified resource.
+     */
+    public function show( $id)
+    {
+
+        $results = ExamResult::where('exam_id', $id)->with([
+        'student' => function ($q) {$q->select('id','user_id');},
+        'student.user' => function ($q) {$q->select('id', 'name');}
+        ])->get()->toArray();;
+        return inertia('Teacher/Pages/Exams/Students/Show', [
+            'results' => $results,
+        ]);
     }
 }

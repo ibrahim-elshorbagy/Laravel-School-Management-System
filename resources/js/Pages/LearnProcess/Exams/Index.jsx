@@ -57,11 +57,15 @@ export default function Index({ auth, exams, queryParams = null, success }) {
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                        Subjects
+                        Exams
                     </h2>
                     <Link
                         href={
-                            auth.user.role === "admin" ? route("exam.create"): auth.user.role === "teacher" ? route("My-exams.create"): null
+                            auth.user.role === "admin"
+                                ? route("exam.create")
+                                : auth.user.role === "teacher"
+                                ? route("My-exams.create")
+                                : null
                         }
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
@@ -183,20 +187,33 @@ export default function Index({ auth, exams, queryParams = null, success }) {
                                                     {exam.updated_at}
                                                 </td>
                                                 <td className="px-3 py-2 text-center text-nowrap">
+
+                                                {auth.user.role==="teacher" && <Link
+                                                        href={
+                                                            route(
+                                                                "My-exams.show",
+                                                                exam.id
+                                                            )
+                                                        }
+                                                        className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                                    >
+                                                        Show Degrees
+                                                    </Link>}
+
                                                     <Link
                                                         href={
                                                             auth.user.role ===
                                                             "admin"
                                                                 ? route(
-                                                                    "exam.edit",
-                                                                    exam.id
-                                                                )
+                                                                      "exam.edit",
+                                                                      exam.id
+                                                                  )
                                                                 : route(
-                                                                    "My-exams.edit",
-                                                                    exam.id
-                                                                )
+                                                                      "My-exams.edit",
+                                                                      exam.id
+                                                                  )
                                                         }
-                                                        className="mx-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                                        className="mx-1 font-medium text-emerald-600 dark:text-emerald-500 hover:underline"
                                                     >
                                                         Edit
                                                     </Link>
