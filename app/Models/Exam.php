@@ -35,4 +35,8 @@ class Exam extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function examResult()
+    {
+        return $this->hasOne(ExamResult::class);
+    }
 }

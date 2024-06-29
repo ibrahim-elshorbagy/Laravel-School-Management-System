@@ -51,8 +51,28 @@ export default function Sidebar() {
                         Schoola
                     </h1>
                 </div>
+                <ul>
+                    {/* ======== */}
 
-                
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("MyExam.index")}
+                            active={route().current("MyExam.index")}
+                        >
+                            <PiExamFill />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("MyExam.index")}
+                            active={route().current("MyExam.index")}
+                        >
+                            My Exams
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+                </ul>
             </div>
         </>
     );

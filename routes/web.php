@@ -10,6 +10,7 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\MyExamsController;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:student'])->group(function () {
 
     Route::get('student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+    Route::resource('MyExam', MyExamsController::class);
 
 });
 
