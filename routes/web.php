@@ -49,7 +49,7 @@ Route::get('/', function () {
         }
     }
     return redirect('/login');
-});
+})->name('/');
 
 
 //----------------------- teacher
@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
 
     Route::get('guardian/dashboard', [DashboardController::class, 'guardian'])->name('guardian.dashboard');
+    Route::get('guardian/MyChildren', [DashboardController::class, 'MyChildren'])->name('guardian.MyChildren');
 
 });
 
