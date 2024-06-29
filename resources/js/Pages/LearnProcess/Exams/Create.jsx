@@ -54,10 +54,6 @@
                         className="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg"
                     >
                                 {/* Level Info */}
-                {JSON.stringify(levels)}
-                {JSON.stringify(grades)}
-                {JSON.stringify(classrooms)}
-                {JSON.stringify(subjects)}
                     <LevelInfo setData={setData} data={data} errors={errors} levels={levels} grades={grades} classrooms={classrooms} subjects={subjects}/>
 
                     {/* Questions */}

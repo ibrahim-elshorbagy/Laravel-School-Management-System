@@ -1,6 +1,7 @@
 import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import Dropdown from "@/Components/Dropdown";
 
 export default function Index({ auth, MyChildren }) {
     return (
@@ -30,6 +31,7 @@ export default function Index({ auth, MyChildren }) {
                                             <th className="px-3 py-2 ">Grade</th>
                                             <th className="px-3 py-2 ">Classroom</th>
                                             <th className="px-3 py-2 ">Year</th>
+                                            <th className="px-3 py-2 text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,6 +57,42 @@ export default function Index({ auth, MyChildren }) {
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     {child.academic_year}
+                                                </td>
+                                                <td className="px-3 py-2 text-center text-nowrap">
+                                                    <Dropdown>
+                                                        <Dropdown.Trigger>
+                                                            <span className="inline-flex rounded-md">
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+                                                                >
+                                                                    Operations
+                                                                    <svg
+                                                                        className="ms-2 -me-0.5 h-4 w-4"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 20 20"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path
+                                                                            fillRule="evenodd"
+                                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                                            clipRule="evenodd"
+                                                                        />
+                                                                    </svg>
+                                                                </button>
+                                                            </span>
+                                                        </Dropdown.Trigger>
+                                                        <Dropdown.Content>
+                                                            <Dropdown.Link
+                                                                href={route(
+                                                                    "guardian.MyChildren.ShowExams",
+                                                                    child.id
+                                                                )}
+                                                            >
+                                                                Show degrees
+                                                            </Dropdown.Link>
+                                                        </Dropdown.Content>
+                                                    </Dropdown>
                                                 </td>
                                             </tr>
                                         ))}

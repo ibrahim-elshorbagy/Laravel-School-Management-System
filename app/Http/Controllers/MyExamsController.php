@@ -6,6 +6,7 @@ use App\Http\Resources\ExamResource;
 use App\Models\Exam;
 use App\Models\ExamResult;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MyExamsController extends Controller
 {
@@ -14,8 +15,13 @@ class MyExamsController extends Controller
      */
     public function index()
     {
+        $StudentId = Auth::user()->student->id;
+
         $userClassroom_id = auth()->user()->student->classroom_id;
-        $query = Exam::query()->where('classroom_id', $userClassroom_id)->with('level','grade','examResult');
+        $query = Exam::query()->where('classroom_id', $userClassroom_id)->with(['level','grade','examResult' => function($query) use ($StudentId){
+            $query->where('student_id', $StudentId);
+        }]);
+
         $sortField = request("sort_field", 'created_at');
         $sortDirection = request("sort_direction", "desc");
 
@@ -47,7 +53,7 @@ class MyExamsController extends Controller
                             ->first();
 
     if ($examResult) {
-        return redirect()->route('MyExam.index')->with(['danger', "Exam already attended."]);
+        return redirect()->route('MyExam.index')->with('danger', "Exam already attended.");
     }
 
     $exam = Exam::with(['questions.answers' => function($q) {

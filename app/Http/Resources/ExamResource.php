@@ -35,7 +35,7 @@ class ExamResource extends JsonResource
                 return $this->specialization->Name;
             }),
             'examResult' => $this->whenLoaded('examResult', function () {
-                return $this->examResult->degree;
+                return $this->examResult ? $this->examResult->degree : null ;
             }),
             'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
             'updated_at' => (new Carbon($this->updated_at))->format('Y-m-d'),

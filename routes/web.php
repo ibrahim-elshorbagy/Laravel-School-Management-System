@@ -9,6 +9,7 @@ use App\Http\Controllers\FeeInvoiceController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\GuardianMyChildrenController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MyExamsController;
 use App\Http\Controllers\ProcessingFeeController;
@@ -16,7 +17,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReceiptStudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
@@ -67,8 +67,9 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
 
-    Route::get('guardian/dashboard', [DashboardController::class, 'guardian'])->name('guardian.dashboard');
-    Route::get('guardian/MyChildren', [DashboardController::class, 'MyChildren'])->name('guardian.MyChildren');
+    Route::get('guardian/dashboard', [GuardianMyChildrenController::class, 'guardian'])->name('guardian.dashboard');
+    Route::get('guardian/MyChildren', [GuardianMyChildrenController::class, 'MyChildren'])->name('guardian.MyChildren');
+    Route::get('guardian/MyChildren/{id}/ShowExams', [GuardianMyChildrenController::class, 'ShowExams'])->name('guardian.MyChildren.ShowExams');
 
 });
 

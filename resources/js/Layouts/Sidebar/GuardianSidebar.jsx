@@ -5,6 +5,7 @@ import { Link } from "@inertiajs/react";
 import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
 import { FaUserAlt } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 
 
 export default function Sidebar() {
@@ -40,6 +41,23 @@ export default function Sidebar() {
                     </h1>
                 </div>
                 <ul>
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("guardian.dashboard")}
+                            active={route().current("guardian.dashboard")}
+                        >
+                            <MdDashboard />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("guardian.dashboard")}
+                            active={route().current("guardian.dashboard")}
+                        >
+                            Dashboard
+                        </SidebarLink>
+                    </li>
                     {/* ======== */}
 
                     <li className={` flex items-center gap-x-4  p-2 `}>

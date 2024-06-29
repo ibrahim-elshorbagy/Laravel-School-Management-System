@@ -46,31 +46,7 @@ class DashboardController extends Controller
 
     }
 
-    public function guardian()
-    {
-        $guardianId = auth()->user()->guardian->id;
-
-        $query = Student::query();
-        $MyChildren = $query->with('user','level', 'grade', 'classroom')->where('guardian_id', $guardianId)
-            ->paginate(9)
-            ->onEachSide(1);
-        return inertia('Student/Guardian/Dashboard',[
-            "MyChildren" => MyChildrenResource::collection($MyChildren),
-        ]);
-    }
-
-    public function MyChildren(){
-        $guardianId = auth()->user()->guardian->id;
-
-        $query = Student::query();
-        $MyChildren = $query->with('user','level', 'grade', 'classroom')->where('guardian_id', $guardianId)
-            ->paginate(10)
-            ->onEachSide(1);
-        return inertia('Student/Guardian/MyChildren/Index',[
-            "MyChildren" => MyChildrenResource::collection($MyChildren),
-        ]);
-
-    }
+   
 
     public function student()
     {
