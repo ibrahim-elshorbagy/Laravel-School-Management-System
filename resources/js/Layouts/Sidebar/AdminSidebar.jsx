@@ -11,13 +11,12 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
-import { CiMoneyCheck1 } from "react-icons/ci";
-import { FaFileInvoice } from "react-icons/fa6";
-import { PiInvoiceFill } from "react-icons/pi";
-import { GrTransaction } from "react-icons/gr";
 import { FaTableList } from "react-icons/fa6";
 import { PiSubtitlesLight } from "react-icons/pi";
 import { PiExamFill } from "react-icons/pi";
+import { ImUserTie } from "react-icons/im";
+
+import { MdManageAccounts } from "react-icons/md";
 
 export default function Sidebar() {
 
@@ -135,7 +134,7 @@ export default function Sidebar() {
                             href={route("guardian.index")}
                             active={route().current("guardian.index")}
                         >
-                            <FaUserTie />
+                            <ImUserTie />
                         </SidebarIconLink>
 
                         <SidebarLink
@@ -259,6 +258,25 @@ export default function Sidebar() {
                             active={route().current("exam.index")}
                         >
                             Exams
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("accountant.index")}
+                            active={route().current("accountant.index")}
+                        >
+                            <FaUserTie />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("accountant.index")}
+                            active={route().current("accountant.index")}
+                        >
+                            Accountant
                         </SidebarLink>
                     </li>
                     {/* ======== */}

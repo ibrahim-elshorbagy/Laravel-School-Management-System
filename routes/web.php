@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\AccountantDashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassroomController;
@@ -128,6 +129,7 @@ Route::resource('student-attendances', AttendanceController::class);
 Route::resource('subject',SubjectController::class);
 Route::resource('exam',ExamController::class);
 
+Route::resource('accountant',AccountantController::class);
 
 });
 
