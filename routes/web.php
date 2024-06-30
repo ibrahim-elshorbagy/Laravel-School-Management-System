@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantDashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
@@ -44,6 +45,8 @@ Route::get('/', function () {
                 return redirect()->route('student.dashboard');
             case 'admin':
                 return redirect()->route('admin.dashboard');
+            case 'accountant':
+                return redirect()->route('accountant.dashboard');
             default:
                 return redirect('/login');
         }
@@ -71,6 +74,19 @@ Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
     Route::get('guardian/MyChildren', [GuardianMyChildrenController::class, 'MyChildren'])->name('guardian.MyChildren');
     Route::get('guardian/MyChildren/{id}/ShowExams', [GuardianMyChildrenController::class, 'ShowExams'])->name('guardian.MyChildren.ShowExams');
 
+});
+
+//----------------------- accountant
+
+Route::middleware(['auth', 'verified', 'role:accountant'])->group(function () {
+
+    Route::get('accountant/dashboard', [AccountantDashboardController::class, 'accountant'])->name('accountant.dashboard');
+    Route::get('accountant/students', [AccountantDashboardController::class, 'students'])->name('accountant.students');
+
+    Route::resource('fee',FeeController::class);
+    Route::resource('fee-invoice',FeeInvoiceController::class);
+    Route::resource('receipt-student',ReceiptStudentController::class);
+    Route::resource('processing-fee', ProcessingFeeController::class);
 });
 
 //----------------------- student
@@ -105,10 +121,7 @@ Route::resource('student', StudentController::class);
 Route::resource('promotion',PromotionController::class);
 Route::resource('graduated',GraduatedController::class);
 
-Route::resource('fee',FeeController::class);
-Route::resource('fee-invoice',FeeInvoiceController::class);
-Route::resource('receipt-student',ReceiptStudentController::class);
-Route::resource('processing-fee', ProcessingFeeController::class);
+
 
 Route::resource('student-attendances', AttendanceController::class);
 

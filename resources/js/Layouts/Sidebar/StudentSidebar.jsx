@@ -1,22 +1,8 @@
 import { BsArrowRightShort } from "react-icons/bs";
 import { SiArkecosystem } from "react-icons/si";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
 import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
-import { MdOutlineSchool } from "react-icons/md";
-import { FaLevelUpAlt } from "react-icons/fa";
-import { FaSchool } from "react-icons/fa";
-import { SiGoogleclassroom } from "react-icons/si";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { FaUserAlt } from "react-icons/fa";
-import { FaUserTie } from "react-icons/fa";
-import { CiMoneyCheck1 } from "react-icons/ci";
-import { FaFileInvoice } from "react-icons/fa6";
-import { PiInvoiceFill } from "react-icons/pi";
-import { GrTransaction } from "react-icons/gr";
-import { FaTableList } from "react-icons/fa6";
-import { PiSubtitlesLight } from "react-icons/pi";
 import { PiExamFill } from "react-icons/pi";
 
 export default function Sidebar() {

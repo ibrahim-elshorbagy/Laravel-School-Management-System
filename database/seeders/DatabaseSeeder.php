@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accountant;
 use App\Models\Grade;
 use App\Models\Guardian;
 use App\Models\Project;
@@ -77,6 +78,17 @@ class DatabaseSeeder extends Seeder
                 'guardian_id' => rand(1, 2),
                 'academic_year' => '2022',
                 'image_path' => '',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ]);
+
+          Accountant::insert([
+            [
+                'user_id' => 1,
+                'level_id' => 3,
+                'phone' =>"010963255",
+                'address' => 'Egypt',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

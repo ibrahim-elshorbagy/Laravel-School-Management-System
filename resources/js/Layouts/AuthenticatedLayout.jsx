@@ -9,6 +9,8 @@ import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar";
 import TeacherSidebar from "@/Layouts/Sidebar/TeacherSidebar";
 import GuardianSidebar from "@/Layouts/Sidebar/GuardianSidebar";
 import StudentSidebar from "@/Layouts/Sidebar/StudentSidebar";
+import AccountantSidebar from "@/Layouts/Sidebar/AccountantSidebar";
+
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -175,6 +177,8 @@ export default function Authenticated({ user, header, children }) {
                             return <GuardianSidebar />;
                         case "student":
                             return <StudentSidebar />;
+                        case "accountant":
+                            return <AccountantSidebar />;
                         default:
                             return null;
                     }
