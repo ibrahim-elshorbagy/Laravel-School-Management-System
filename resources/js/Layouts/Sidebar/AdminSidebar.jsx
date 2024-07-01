@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "@inertiajs/react";
 import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
+import { GrUserManager } from "react-icons/gr";
 
 import { FaLevelUpAlt } from "react-icons/fa";
 import { FaSchool } from "react-icons/fa";
@@ -106,7 +107,6 @@ export default function Sidebar() {
                         </SidebarLink>
                     </li>
 
-
                     <li className={` flex items-center gap-x-4  p-2 `}>
                         <SidebarIconLink
                             className={`block text-2xl`}
@@ -158,6 +158,29 @@ export default function Sidebar() {
                             active={route().current("accountant.index")}
                         >
                             Accountant
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("student-services-managers.index")}
+                            active={route().current(
+                                "student-services-managers.index"
+                            )}
+                        >
+                            <GrUserManager />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("student-services-managers.index")}
+                            active={route().current(
+                                "student-services-managers.index"
+                            )}
+                        >
+                            Student Services Manager
                         </SidebarLink>
                     </li>
                     {/* ======== */}

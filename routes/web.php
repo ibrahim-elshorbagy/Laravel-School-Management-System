@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReceiptStudentController;
+use App\Http\Controllers\StudentServicesManagerController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -121,22 +122,16 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::get('admin/dashboard',[DashboardController::class,'admin'])->name('admin.dashboard');
 
+    Route::resource('grade', GradeController::class);
+    Route::resource('level', LevelController::class);
+    Route::resource('classroom', ClassroomController::class);
 
+    Route::resource('exam',ExamController::class);
 
-Route::resource('user',UserController::class);
+    Route::resource('teacher',TeacherController::class);
+    Route::resource('accountant',AccountantController::class);
+    Route::resource('student-services-managers', StudentServicesManagerController::class);
 
-
-Route::resource('grade', GradeController::class);
-Route::resource('level', LevelController::class);
-Route::resource('classroom', ClassroomController::class);
-
-Route::resource('teacher',TeacherController::class);
-
-
-
-Route::resource('exam',ExamController::class);
-
-Route::resource('accountant',AccountantController::class);
 
 });
 

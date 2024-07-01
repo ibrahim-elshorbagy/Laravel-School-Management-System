@@ -262,54 +262,64 @@ export default function Index({ auth, students, queryParams = null, success }) {
                                                             </span>
                                                         </Dropdown.Trigger>
                                                         <Dropdown.Content>
-                                                            <Dropdown.Link
-                                                                href={route(
-                                                                    "student.edit",
-                                                                    student.id
-                                                                )}
-                                                            >
-                                                                Edit
-                                                            </Dropdown.Link>
-                                                            <Dropdown.Link
-                                                                href={route(
-                                                                    "fee-invoice.show",
-                                                                    student.id
-                                                                )}
-                                                            >
-                                                                Add Invoice
-                                                            </Dropdown.Link>
-                                                            <Dropdown.Link
-                                                                href={route(
-                                                                    "receipt-student.show",
-                                                                    student.id
-                                                                )}
-                                                            >
-                                                                Add Received
-                                                                Money
-                                                            </Dropdown.Link>
-                                                            <Dropdown.Link
-                                                                href={route(
-                                                                    "processing-fee.show",
-                                                                    student.id
-                                                                )}
-                                                            >
-                                                                Exclude Money
-                                                            </Dropdown.Link>
-
-                                                            <Dropdown className="mt-2">
-                                                                <button
-                                                                    onClick={(
-                                                                        e
-                                                                    ) =>
-                                                                        deleteStudent(
-                                                                            student
-                                                                        )
-                                                                    }
-                                                                    className="block w-full px-4 py-2 text-sm leading-5 text-red-700 transition duration-150 ease-in-out text-start dark:text-red-300 hover:bg-red-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-red-800"
+                                                            {auth.user.role ===
+                                                                "StudentServicesManager" && (
+                                                                <Dropdown.Link
+                                                                    href={route(
+                                                                        "student.edit",
+                                                                        student.id
+                                                                    )}
                                                                 >
-                                                                    Delete
-                                                                </button>
-                                                            </Dropdown>
+                                                                    Edit
+                                                                </Dropdown.Link>
+                                                            )}
+                                                            {auth.user.role ===
+                                                                "accountant" && (
+                                                                <>
+                                                                    <Dropdown.Link
+                                                                        href={route(
+                                                                            "fee-invoice.show",
+                                                                            student.id
+                                                                        )}
+                                                                    >
+                                                                        Add
+                                                                        Invoice
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown.Link
+                                                                        href={route(
+                                                                            "receipt-student.show",
+                                                                            student.id
+                                                                        )}
+                                                                    >
+                                                                        Add
+                                                                        Received
+                                                                        Money
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown.Link
+                                                                        href={route(
+                                                                            "processing-fee.show",
+                                                                            student.id
+                                                                        )}
+                                                                    >
+                                                                        Exclude
+                                                                        Money
+                                                                    </Dropdown.Link>
+                                                                    <Dropdown className="mt-2">
+                                                                        <button
+                                                                            onClick={(
+                                                                                e
+                                                                            ) =>
+                                                                                deleteStudent(
+                                                                                    student
+                                                                                )
+                                                                            }
+                                                                            className="block w-full px-4 py-2 text-sm leading-5 text-red-700 transition duration-150 ease-in-out text-start dark:text-red-300 hover:bg-red-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-red-800"
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </Dropdown>
+                                                                </>
+                                                            )}
                                                         </Dropdown.Content>
                                                     </Dropdown>
                                                 </td>
