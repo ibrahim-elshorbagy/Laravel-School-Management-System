@@ -102,6 +102,6 @@ class GradeController extends Controller
     {
 
         $grade->delete();
-        return to_route('grade.index')->with('success','Project deleted successfully');
+        return to_route('grade.index')->with('success','Grade deleted successfully');
     }
 }

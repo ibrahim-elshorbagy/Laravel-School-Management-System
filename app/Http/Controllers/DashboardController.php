@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\IndexStudentResource;
 use App\Http\Resources\MyChildrenResource;
-use App\Http\Resources\TaskResource;
 use App\Models\Student;
-use App\Models\Task;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 
@@ -53,5 +51,9 @@ class DashboardController extends Controller
         return inertia('Student/Dashboard');
     }
 
+    public function StudentServicesManager(){
+
+        return inertia('StudentServicesManager/Pages/Dashboard');
+    }
 
 }

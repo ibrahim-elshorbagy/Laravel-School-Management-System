@@ -10,6 +10,8 @@ import TeacherSidebar from "@/Layouts/Sidebar/TeacherSidebar";
 import GuardianSidebar from "@/Layouts/Sidebar/GuardianSidebar";
 import StudentSidebar from "@/Layouts/Sidebar/StudentSidebar";
 import AccountantSidebar from "@/Layouts/Sidebar/AccountantSidebar";
+import StudentServicesManagerSidebar from "@/Layouts/Sidebar/StudentServicesManagerSidebar";
+
 
 
 export default function Authenticated({ user, header, children }) {
@@ -179,6 +181,8 @@ export default function Authenticated({ user, header, children }) {
                             return <StudentSidebar />;
                         case "accountant":
                             return <AccountantSidebar />;
+                        case "StudentServicesManager":
+                            return <StudentServicesManagerSidebar />;
                         default:
                             return null;
                     }

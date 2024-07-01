@@ -5,8 +5,9 @@ namespace Database\Seeders;
 use App\Models\Accountant;
 use App\Models\Grade;
 use App\Models\Guardian;
-use App\Models\Project;
+
 use App\Models\Student;
+use App\Models\StudentServicesManager;
 use App\Models\Teacher;
 use App\Models\User;
 use Carbon\Carbon;
@@ -83,7 +84,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-          Accountant::insert([
+        Accountant::insert([
             [
                 'user_id' => 1,
                 'level_id' => 3,
@@ -94,11 +95,16 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        StudentServicesManager::insert([
+            [
+                'user_id' => 1,
+                'phone' =>"010963255",
+                'address' => 'Egypt',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ]);
 
-        // Project::factory()
-        //     ->count(30)
-        //     ->hasTasks(30)
-        //     ->create();
 
 
 

@@ -16,12 +16,11 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MyExamsController;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
+
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReceiptStudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleManagerMiddleware;
@@ -48,6 +47,8 @@ Route::get('/', function () {
                 return redirect()->route('admin.dashboard');
             case 'accountant':
                 return redirect()->route('accountant.dashboard');
+            case 'StudentServicesManager':
+                return redirect()->route('StudentServicesManager.dashboard');
             default:
                 return redirect('/login');
         }
@@ -75,6 +76,20 @@ Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
     Route::get('guardian/MyChildren', [GuardianMyChildrenController::class, 'MyChildren'])->name('guardian.MyChildren');
     Route::get('guardian/MyChildren/{id}/ShowExams', [GuardianMyChildrenController::class, 'ShowExams'])->name('guardian.MyChildren.ShowExams');
 
+});
+
+//----------------------- StudentServicesManager
+
+Route::middleware(['auth', 'verified', 'role:StudentServicesManager'])->group(function () {
+
+    Route::get('StudentServicesManager/dashboard', [DashboardController::class, 'StudentServicesManager'])->name('StudentServicesManager.dashboard');
+
+    Route::resource('student', StudentController::class);
+    Route::resource('promotion',PromotionController::class);
+    Route::resource('graduated',GraduatedController::class);
+    Route::resource('guardian', GuardianController::class);
+    Route::resource('student-attendances', AttendanceController::class);
+    Route::resource('subject',SubjectController::class);
 });
 
 //----------------------- accountant
@@ -106,27 +121,19 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::get('admin/dashboard',[DashboardController::class,'admin'])->name('admin.dashboard');
 
-Route::get('task/my-task',[TaskController::class,'myTasks'])->name('task.myTasks');
 
-Route::resource('project',ProjectController::class);
-Route::resource('task',TaskController::class);
+
 Route::resource('user',UserController::class);
 
 
 Route::resource('grade', GradeController::class);
 Route::resource('level', LevelController::class);
 Route::resource('classroom', ClassroomController::class);
-Route::resource('guardian', GuardianController::class);
+
 Route::resource('teacher',TeacherController::class);
-Route::resource('student', StudentController::class);
-Route::resource('promotion',PromotionController::class);
-Route::resource('graduated',GraduatedController::class);
 
 
 
-Route::resource('student-attendances', AttendanceController::class);
-
-Route::resource('subject',SubjectController::class);
 Route::resource('exam',ExamController::class);
 
 Route::resource('accountant',AccountantController::class);
