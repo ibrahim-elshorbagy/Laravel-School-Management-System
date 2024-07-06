@@ -19,7 +19,7 @@ class FeeInvoiceController extends Controller
      */
     public function index()
     {
-        $query = FeeInvoice::query()->with('level', 'grade', 'student', 'fee');
+        $query = FeeInvoice::query()->with(['level','grade','student.user' => function ($query) {$query->select('id', 'name');},'fee']);
 
         $sortFileds = request('sort_field', 'id');
         $sortDirection = request('sort_direction', 'desc');
@@ -35,7 +35,7 @@ class FeeInvoiceController extends Controller
         return inertia('FeesSystem/FeeInvoice/Index', [
             'feeInvoices' => FeeInvoiceResource::collection($feeInvoices),
             'queryParams' => request()->query() ?: null,
-            'success' => session('success')
+            'success' => session('success'),
         ]);
     }
     /**

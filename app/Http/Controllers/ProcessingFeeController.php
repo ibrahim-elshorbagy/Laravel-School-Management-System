@@ -93,7 +93,7 @@ class ProcessingFeeController extends Controller
             'student_id'=>$data['student_id'],
             'credit'=>$data['amount'],
             'debit'=>0,
-            'type'=>'ProcessingFee',
+            'type'=>'Excluding',
         ];
         StudentFee::create($StudentFee);
 
@@ -132,7 +132,7 @@ class ProcessingFeeController extends Controller
             'student_id'=>$data['student_id'],
             'credit'=>$data['amount'],
             'debit'=>0,
-            'type'=>'ProcessingFee',
+            'type'=>'Excluding',
         ];
 
         $StudentFee->update($StudentFeeData);

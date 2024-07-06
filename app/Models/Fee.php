@@ -19,4 +19,9 @@ class Fee extends Model
    {
        return $this->belongsTo(Grade::class);
    }
+   
+   public function feeInvoices()
+    {
+        return $this->hasMany(FeeInvoice::class);
+    }
 }

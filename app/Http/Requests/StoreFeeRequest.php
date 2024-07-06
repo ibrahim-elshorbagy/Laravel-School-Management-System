@@ -29,8 +29,8 @@ class StoreFeeRequest extends FormRequest
             'grade_id' => ['nullable', 'numeric',
             Rule::unique('fees')->where(function($query){
             $query->where('year',$this->year)->where('grade_id',$this->grade_id);})
-             ],
-            'year' => ['nullable'],
+            ],
+            'year' => ['required'],
             'type'=>['required','string']
         ];
     }

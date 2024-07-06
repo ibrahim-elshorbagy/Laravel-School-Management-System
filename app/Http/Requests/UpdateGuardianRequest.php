@@ -23,7 +23,8 @@ class UpdateGuardianRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route("teacher.user_id");
+        $userId = $this->route("guardian.user_id");
+
         return [
                 'email' => ['required','email',Rule::unique('users')->ignore($userId),],
                 'password' => ['nullable', 'min:8'],
