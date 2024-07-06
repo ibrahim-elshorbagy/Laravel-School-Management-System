@@ -9,6 +9,7 @@ import { CiMoneyCheck1 } from "react-icons/ci";
 import { PiInvoiceFill } from "react-icons/pi";
 import { GrTransaction } from "react-icons/gr";
 import { FaFileInvoice } from "react-icons/fa6";
+import { IoMdSettings } from "react-icons/io";
 
 export default function Sidebar() {
 
@@ -152,6 +153,24 @@ export default function Sidebar() {
                             active={route().current("processing-fee.index")}
                         >
                             Excluding
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("payment-methods")}
+                            active={route().current("payment-methods")}
+                        >
+                            <IoMdSettings />
+                        </SidebarIconLink>
+
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("payment-methods")}
+                            active={route().current("payment-methods")}
+                        >
+                            Payments Settings
                         </SidebarLink>
                     </li>
                     {/* ======== */}

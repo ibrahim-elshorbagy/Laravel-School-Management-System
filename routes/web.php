@@ -14,6 +14,7 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\GuardianMyChildrenController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MyExamsController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\ProfileController;
 
@@ -104,6 +105,12 @@ Route::middleware(['auth', 'verified', 'role:accountant'])->group(function () {
     Route::resource('fee-invoice',FeeInvoiceController::class);
     Route::resource('receipt-student',ReceiptStudentController::class);
     Route::resource('processing-fee', ProcessingFeeController::class);
+
+    Route::get('payment-settings',[PaymentMethodController::class,'methods'])->name('payment-methods');
+    Route::post('payment-settings-config', [PaymentMethodController::class, 'store'])->name('payment-methods.store');
+    Route::post('payment-settings-config', [PaymentMethodController::class, 'store'])->name('payment-methods.store');
+    Route::post('payment',[PaymentMethodController::class,'pay'])->name('pay');
+
 });
 
 //----------------------- student
