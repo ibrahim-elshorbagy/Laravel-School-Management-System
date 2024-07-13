@@ -14,6 +14,7 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\GuardianMyChildrenController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\MyExamsController;
+use App\Http\Controllers\Pay;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\ProfileController;
 
@@ -76,6 +77,8 @@ Route::middleware(['auth', 'verified', 'role:guardian'])->group(function () {
     Route::get('guardian/dashboard', [GuardianMyChildrenController::class, 'guardian'])->name('guardian.dashboard');
     Route::get('guardian/MyChildren', [GuardianMyChildrenController::class, 'MyChildren'])->name('guardian.MyChildren');
     Route::get('guardian/MyChildren/{id}/ShowExams', [GuardianMyChildrenController::class, 'ShowExams'])->name('guardian.MyChildren.ShowExams');
+    Route::get('guardian/MyChildren/Payments', [GuardianMyChildrenController::class, 'MyChildrenPayments'])->name('guardian.MyChildrenPayments');
+
 
 });
 
@@ -104,6 +107,10 @@ Route::middleware(['auth', 'verified', 'role:accountant'])->group(function () {
     Route::resource('fee-invoice',FeeInvoiceController::class);
     Route::resource('receipt-student',ReceiptStudentController::class);
     Route::resource('processing-fee', ProcessingFeeController::class);
+
+    Route::get('payment-settings',[Pay::class,'methods'])->name('payment-methods');
+    Route::post('payment',[Pay::class,'pay'])->name('pay');
+
 });
 
 //----------------------- student

@@ -58,7 +58,7 @@ class FeeController extends Controller
         {
             $data['level_id'] = null;
             $data['grade_id'] = null;
-            $data['year'] = null;
+            // $data['year'] = null;
         }
         Fee::create($data);
         return to_route('fee.index')

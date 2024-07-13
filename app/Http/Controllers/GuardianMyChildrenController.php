@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ExamResource;
 use App\Http\Resources\MyChildExamsResource;
+use App\Http\Resources\MyChildrenPaymentsResource;
 use App\Http\Resources\MyChildrenResource;
 use App\Models\Exam;
 use App\Models\ExamResult;
@@ -53,5 +54,18 @@ class GuardianMyChildrenController extends Controller
         'student_id' => $id,
     ]);
 }
+
+    public function MyChildrenPayments(){
+            $guardianId = auth()->user()->guardian->id;
+
+            $query = Student::query();
+            $MyChildren = $query->with('user','student_fee','feeInvoices', )->where('guardian_id', $guardianId)
+                ->paginate(10)
+                ->onEachSide(1);
+            return inertia('Student/Guardian/MyChildren/PaymentIndex',[
+                "MyChildren" => MyChildrenPaymentsResource::collection($MyChildren),
+            ]);
+
+        }
 
 }

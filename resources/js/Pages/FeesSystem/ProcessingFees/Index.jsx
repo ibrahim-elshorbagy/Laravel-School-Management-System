@@ -60,7 +60,7 @@ export default function Index({ auth, processing_fees, queryParams = null, succe
                         Processing Fees
                     </h2>
                     <Link
-                        href={route("student.index")}
+                        href={route("accountant.students")}
                         className="px-3 py-1 text-white transition-all rounded shadow bg-emerald-500 hover:bg-emerald-600"
                     >
                         Add Processing

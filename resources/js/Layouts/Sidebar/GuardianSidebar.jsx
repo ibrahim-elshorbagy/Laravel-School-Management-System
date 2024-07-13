@@ -6,6 +6,7 @@ import SidebarLink from "@/Components/SidebarLink";
 import SidebarIconLink from "@/Components/SidebarIconLink";
 import { FaUserAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { MdPayment } from "react-icons/md";
 
 
 export default function Sidebar() {
@@ -74,6 +75,28 @@ export default function Sidebar() {
                             active={route().current("guardian.MyChildren")}
                         >
                             My Children
+                        </SidebarLink>
+                    </li>
+                    {/* ======== */}
+
+                    <li className={` flex items-center gap-x-4  p-2 `}>
+                        <SidebarIconLink
+                            className={`block text-2xl`}
+                            href={route("guardian.MyChildrenPayments")}
+                            active={route().current(
+                                "guardian.MyChildrenPayments"
+                            )}
+                        >
+                            <MdPayment />
+                        </SidebarIconLink>
+                        <SidebarLink
+                            className={` ${!open && "scale-0"}`}
+                            href={route("guardian.MyChildrenPayments")}
+                            active={route().current(
+                                "guardian.MyChildrenPayments"
+                            )}
+                        >
+                            My Children Payments
                         </SidebarLink>
                     </li>
                     {/* ======== */}

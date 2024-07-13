@@ -17,7 +17,6 @@ class FeeInvoiceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'invoice_date' => $this->invoice_date,
             'fee' => $this->whenLoaded('fee', function () {
                 return $this->fee->name;
             }),
@@ -28,10 +27,12 @@ class FeeInvoiceResource extends JsonResource
                 return $this->grade->name;
             }),
             'student' => $this->whenLoaded('student', function () {
-                return $this->student->name;
-            }),
+                return $this->student->user->name;
+           }),
             'amount' => $this->amount,
             'description' => $this->description,
+            'type' => $this->type,
+
             // 'created_at' => $this->created_at,
             'updated_at' =>  (new Carbon($this->updated_at))->format('Y-m-d'),
         ];
