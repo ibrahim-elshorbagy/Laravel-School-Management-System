@@ -37,7 +37,24 @@ This project aims to provide a comprehensive solution for managing various aspec
 ![promotions](Readme_assets/images/graduated.jpeg)
 
 
-### Fees System
+
+### Teachers
+- **CRUD operations** for managing teacher profiles.
+- Attendance management page for tracking student attendance.
+
+### Exams 
+- Comprehensive module for creating, managing, and grading exams.
+
+- Personalized dashboard for managing students and their exams.
+
+- grades automatically associated with students.
+
+
+
+
+![exam](Readme_assets/images/exam.png)
+
+### Full Fees System
 - Flexible fee management system:
   - Define and manage fees specific to grades or as general fees (e.g., bus fees).
   - **CRUD operations** for managing fee specifications.
@@ -47,16 +64,13 @@ This project aims to provide a comprehensive solution for managing various aspec
 
 ![fee_add](Readme_assets/images/fee_add.jpeg)
 
+### Full Accountant System
 
-### Teachers
-- **CRUD operations** for managing teacher profiles.
-- Attendance management page for tracking student attendance.
+- Flexible Fee Management System: Define and manage fees specific to grades or as - general fees (e.g., bus fees).
+- CRUD Operations: Easily create, read, update, and delete fee specifications.
+- Invoice Management: Generate and manage fee invoices for individual students.
 
-### Exams (Work in Progress)
-- Full CRUD Exams System.
-
-
-![exam](Readme_assets/images/exam.png)
+![Fee System](Readme_assets/images/Fee_System.png)
 
 ## Technologies Used
 - **Backend** :  Laravel 11
